@@ -1,0 +1,88 @@
+<div class="container">
+  <div class="login-section">
+    <h1 class="center">
+      <div class="logo">
+        <span class="logo-title">IssueTracker</span>
+        <span class="logo-underline"></span>
+      </div>
+    </h1>
+    <mat-card class="header">
+      <mat-tab-group mat-stretch-tabs animationDuration="0ms" (selectedTabChange)="tabClick($event)"
+        [selectedIndex]="selectedTab">
+        <mat-tab label="Login">
+          <ng-template matTabContent>
+            <div class="tab-wrapper">
+              <form [formGroup]='loginForm' (ngSubmit)='onLogin()'>
+                <mat-form-field appearance="fill" class="w-100">
+                  <mat-label>Email</mat-label>
+                  <input type="text" matInput formControlName="email" />
+                  <mat-error *ngIf="loginForm.get('email').invalid">
+                    {{getEmailErrorMessage()}}
+                  </mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="w-100">
+                  <mat-label>Password</mat-label>
+                  <input matInput [type]="hide ? 'password' : 'text'" formControlName="password" />
+                  <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                    [attr.aria-pressed]="hide">
+                    <mat-icon>{{
+                    hide ? "visibility_off" : "visibility"
+                  }}</mat-icon>
+                  </button>
+                </mat-form-field>
+                <div class="buttons bottom-margin">
+                  <button [disabled]="loginForm.touched && loginForm.invalid" mat-raised-button color="primary"
+                    class="w-100" type="submit">
+                    Login
+                  </button>
+                </div>
+                <div class="w-100 bottom-margin">
+                  <button mat-raised-button class="w-100" type="button" (click)="googleLogin()">
+                    <img src="/src/assets/images/google-colored.svg" class="google-signin" />
+                    Google Sign-in
+                  </button>
+                </div>
+              </form>
+            </div>
+          </ng-template>
+        </mat-tab>
+        <mat-tab label="Register">
+          <ng-template matTabContent>
+            <div class="tab-wrapper">
+              <form [formGroup]='signupForm' (ngSubmit)='onRegister()'>
+                <mat-form-field appearance="fill" class="w-100">
+                  <mat-label>Full Name</mat-label>
+                  <input type="text" matInput formControlName="fullName" />
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="w-100">
+                  <mat-label>Email</mat-label>
+                  <input type="text" matInput formControlName="email" />
+                  <mat-error *ngIf="signupForm.get('email').invalid">
+                    {{getEmailSignupErrorMessage()}}
+                  </mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="w-100">
+                  <mat-label>Password</mat-label>
+                  <input matInput [type]="hide ? 'password' : 'text'" formControlName="password" />
+                  <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                    [attr.aria-pressed]="hide">
+                    <mat-icon>
+                      {{
+                        hide ? "visibility_off" : "visibility"
+                      }}
+                    </mat-icon>
+                  </button>
+                </mat-form-field>
+                <div class="buttons bottom-margin">
+                  <button mat-raised-button color="primary" class="w-100" type="submit">
+                    Register
+                  </button>
+                </div>
+              </form>
+            </div>
+          </ng-template>
+        </mat-tab>
+      </mat-tab-group>
+    </mat-card>
+  </div>
+</div>
