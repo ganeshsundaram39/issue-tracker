@@ -17,5 +17,12 @@
       "es2017",
       "dom"
     ]
+  },
+  "rules": {
+    "quotemark": [
+      true,
+      "single",
+      "avoid-escape"
+    ]
   }
 }
