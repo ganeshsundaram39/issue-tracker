@@ -4,7 +4,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.1);
+  background-color: rgb(21, 32, 43);
 }
 
 .login-section {
@@ -41,6 +41,7 @@
 }
 .logo-title {
   font-weight: 500;
+  color: #fff;
 }
 .logo-underline {
   border: 2px solid #1ba94c;

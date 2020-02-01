@@ -4,23 +4,20 @@ import { RouterModule, Routes } from '@angular/router';
 
 
 const appRoutes: Routes = [
-  // { path: 'crisis-center', component: CrisisListComponent },
-  // { path: 'hero/:id', component: HeroDetailComponent },
-  // {
-  //   path: 'heroes',
-  //   component: HeroListComponent,
-  //   data: { title: 'Heroes List' }
-  // },
   {
     path: 'auth',
     loadChildren: './authentication/authentication.module#AuthenticationModule'
+  },
+  {
+    path: 'issues',
+    loadChildren: './issues/issues.module#IssuesModule'
   },
   {
     path: '',
     redirectTo: '/auth/login',
     pathMatch: 'full'
   },
-  // { path: '**', component: PageNotFoundComponent }
+  { path: '**', loadChildren: './pagenotfound/pagenotfound.module#PageNotFoundModule' }
 ];
 
 
