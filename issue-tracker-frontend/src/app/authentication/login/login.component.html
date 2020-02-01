@@ -29,6 +29,9 @@
                     hide ? "visibility_off" : "visibility"
                   }}</mat-icon>
                   </button>
+                  <mat-error *ngIf="loginForm.get('password').invalid">
+                    {{getPasswordErrorMessage()}}
+                  </mat-error>
                 </mat-form-field>
                 <div class="buttons bottom-margin">
                   <button [disabled]="loginForm.touched && loginForm.invalid" mat-raised-button color="primary"
