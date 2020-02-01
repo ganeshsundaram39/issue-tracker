@@ -17,7 +17,11 @@
                   <mat-label>Email</mat-label>
                   <input type="text" matInput formControlName="email" />
                   <mat-error *ngIf="loginForm.get('email').invalid">
-                    {{getEmailErrorMessage()}}
+                    {{this.loginForm.get('email').errors.required
+                    ? 'Email is required.'
+                    : this.loginForm.get('email').errors.email
+                    ? 'Not a valid email.'
+                    : ''}}
                   </mat-error>
                 </mat-form-field>
                 <mat-form-field appearance="fill" class="w-100">
@@ -30,19 +34,15 @@
                   }}</mat-icon>
                   </button>
                   <mat-error *ngIf="loginForm.get('password').invalid">
-                    {{getPasswordErrorMessage()}}
+                    {{this.signupForm.get('password').errors.required
+                    ? 'Password is required.'
+                    : ''}}
                   </mat-error>
                 </mat-form-field>
-                <div class="buttons bottom-margin">
+                <div class="buttons top-margin">
                   <button [disabled]="loginForm.touched && loginForm.invalid" mat-raised-button color="primary"
                     class="w-100" type="submit">
                     Login
-                  </button>
-                </div>
-                <div class="w-100 bottom-margin">
-                  <button mat-raised-button class="w-100" type="button" (click)="googleLogin()">
-                    <img src="/src/assets/images/google-colored.svg" class="google-signin" />
-                    Google Sign-in
                   </button>
                 </div>
               </form>
@@ -56,12 +56,22 @@
                 <mat-form-field appearance="fill" class="w-100">
                   <mat-label>Full Name</mat-label>
                   <input type="text" matInput formControlName="fullName" />
+                  <mat-error *ngIf="signupForm.get('fullName').invalid">
+
+                    {{this.signupForm.get('fullName').errors.required
+                        ? 'Full Name is required.'
+                        : ''}}
+                  </mat-error>
                 </mat-form-field>
                 <mat-form-field appearance="fill" class="w-100">
                   <mat-label>Email</mat-label>
                   <input type="text" matInput formControlName="email" />
                   <mat-error *ngIf="signupForm.get('email').invalid">
-                    {{getEmailSignupErrorMessage()}}
+                    {{this.signupForm.get('email').errors.required
+                    ? 'Email is required.'
+                    : this.signupForm.get('email').errors.email
+                    ? 'Not a valid email.'
+                    : ''}}
                   </mat-error>
                 </mat-form-field>
                 <mat-form-field appearance="fill" class="w-100">
@@ -75,9 +85,21 @@
                       }}
                     </mat-icon>
                   </button>
+                  <mat-error *ngIf="signupForm.get('password').invalid">
+                    {{
+                      this.signupForm.get('password').errors.required
+                        ? 'Password is required.'
+                        :this.signupForm.get('password').errors.minlength?
+                          'Password cannot be less than 8 characters.'
+                          : this.signupForm.get('password').errors.pattern
+                            ? 'Password should contain uppercase, lowercase letters, digit and special character.'
+                            : ''
+                    }}
+                  </mat-error>
                 </mat-form-field>
-                <div class="buttons bottom-margin">
-                  <button mat-raised-button color="primary" class="w-100" type="submit">
+                <div class="buttons top-margin">
+                  <button mat-raised-button [disabled]="signupForm.touched && signupForm.invalid" color="primary"
+                    class="w-100" type="submit">
                     Register
                   </button>
                 </div>
