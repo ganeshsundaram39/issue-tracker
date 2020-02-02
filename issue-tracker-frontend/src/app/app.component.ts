@@ -1,15 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, AfterViewChecked } from '@angular/core';
 import { Router, RouterEvent, NavigationStart, NavigationEnd } from '@angular/router';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
-  loading: boolean;
-  constructor(router: Router) {
-    this.loading = false;
-    router.events.subscribe(
+export class AppComponent implements AfterViewChecked {
+  loading = false;
+  constructor(private router: Router, private cdRef: ChangeDetectorRef) {
+  }
+  ngAfterViewChecked() {
+    this.router.events.subscribe(
       (event: RouterEvent): void => {
         if (event instanceof NavigationStart) {
           this.loading = true;
@@ -18,5 +19,6 @@ export class AppComponent {
         }
       }
     );
+    this.cdRef.detectChanges();
   }
 }

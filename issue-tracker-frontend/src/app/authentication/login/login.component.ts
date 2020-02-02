@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from '../authentication.service';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { AuthService } from 'src/app/auth.service';
 
 
 @Component({
@@ -20,7 +21,8 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private authService: AuthenticationService,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private routeGuardService: AuthService
   ) {
   }
 
@@ -45,6 +47,9 @@ export class LoginComponent implements OnInit {
         Validators.required,
       ])
     });
+    if (this.routeGuardService.isUserLoggedIn({})) {
+      this.router.navigate(['/issues']);
+    }
   }
 
   tabClick(tab) {
