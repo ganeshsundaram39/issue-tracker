@@ -1,16 +1,18 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule, Routes, PreloadAllModules } from '@angular/router';
+import { ValidUserGuard } from './valid-user.guard';
 
 
 const appRoutes: Routes = [
   {
     path: 'auth',
-    loadChildren: './authentication/authentication.module#AuthenticationModule'
+    loadChildren: './authentication/authentication.module#AuthenticationModule',
   },
   {
     path: 'issues',
-    loadChildren: './issues/issues.module#IssuesModule'
+    loadChildren: './issues/issues.module#IssuesModule',
+    canActivate: [ValidUserGuard]
   },
   {
     path: '',
@@ -25,7 +27,7 @@ const appRoutes: Routes = [
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes, { preloadingStrategy: PreloadAllModules })
   ],
   declarations: [],
   exports: [RouterModule]
