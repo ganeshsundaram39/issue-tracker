@@ -1,14 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
+export class GlobalService {
+  public showBackdrop = new Subject<boolean>();
 
   constructor(
     private router: Router
   ) { }
+
   isUserLoggedIn({ redirected = false }) {
     const userdata = JSON.parse(localStorage.getItem('userdata'));
     if (userdata && userdata.authToken) {
@@ -19,5 +22,9 @@ export class AuthService {
       }
       return false;
     }
+  }
+  logout() {
+    localStorage.removeItem('userdata');
+    this.router.navigate(['/auth/login']);
   }
 }

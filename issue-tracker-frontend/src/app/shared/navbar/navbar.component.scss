@@ -1,0 +1,33 @@
+.container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+
+  .main {
+    width: 80%;
+    display: flex;
+    flex-wrap: nowrap;
+  }
+}
+
+.main {
+
+  .first-part,
+  .second-part {
+    width: 50%;
+    height: 100%;
+  }
+
+  .second-part {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    .profile-pic {
+      border-radius: 50%;
+      border: 3px outset #3f51b5;
+      cursor: pointer;
+    }
+  }
+
+}

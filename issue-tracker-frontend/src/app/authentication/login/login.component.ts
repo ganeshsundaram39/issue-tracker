@@ -3,13 +3,13 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from '../authentication.service';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { AuthService } from 'src/app/auth.service';
+import { GlobalService } from 'src/app/global.service';
 
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
   hide = true;
@@ -21,8 +21,8 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private authService: AuthenticationService,
-    private _snackBar: MatSnackBar,
-    private routeGuardService: AuthService
+    private snackBar: MatSnackBar,
+    private globalService: GlobalService
   ) {
   }
 
@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit {
         Validators.required,
       ])
     });
-    if (this.routeGuardService.isUserLoggedIn({})) {
+    if (this.globalService.isUserLoggedIn({})) {
       this.router.navigate(['/issues']);
     }
   }
@@ -61,7 +61,7 @@ export class LoginComponent implements OnInit {
   }
 
   openSnackBar(message: string, action: string) {
-    this._snackBar.open(message, action, {
+    this.snackBar.open(message, action, {
       duration: 2000,
     });
   }
