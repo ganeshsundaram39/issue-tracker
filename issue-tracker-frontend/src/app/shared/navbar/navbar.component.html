@@ -1,0 +1,23 @@
+<mat-toolbar color="primary" class="mat-elevation-z8">
+  <mat-toolbar-row>
+    <div class="container">
+      <div class="main">
+        <div class="first-part">
+        </div>
+        <div class="second-part">
+          <img [matMenuTriggerFor]="menu" (menuOpened)="profilePicWasClicked(true)"
+            (menuClosed)="profilePicWasClicked(false)" class="profile-pic"
+            src="https://api.adorable.io/avatars/40/abott@adorable.png" alt="profile-pic">
+          <mat-menu #menu="matMenu" xPosition="before">
+            <button mat-menu-item>
+              <span>Profile</span>
+            </button>
+            <button mat-menu-item>
+              <span (click)="logout()">Log out</span>
+            </button>
+          </mat-menu>
+        </div>
+      </div>
+    </div>
+  </mat-toolbar-row>
+</mat-toolbar>
