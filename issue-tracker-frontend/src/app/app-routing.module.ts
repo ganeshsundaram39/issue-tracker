@@ -5,6 +5,7 @@ import { ValidUserGuard } from './valid-user.guard';
 import { AuthenticationModule } from './authentication/authentication.module';
 import { PageNotFoundModule } from './pagenotfound/pagenotfound.module';
 import { IssuesModule } from './issues/issues.module';
+import { ProfileModule } from './profile/profile.module';
 
 const appRoutes: Routes = [
   {
@@ -14,6 +15,11 @@ const appRoutes: Routes = [
   {
     path: 'issues',
     loadChildren: () => IssuesModule,
+    canActivate: [ValidUserGuard]
+  },
+  {
+    path: 'profile',
+    loadChildren: () => ProfileModule,
     canActivate: [ValidUserGuard]
   },
   {
