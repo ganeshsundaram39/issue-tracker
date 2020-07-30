@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve -o",
-    "update":"ng update @angular/cdk",
+    "update":"ng update @angular/cli --force",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
