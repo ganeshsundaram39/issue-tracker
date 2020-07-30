@@ -130,7 +130,7 @@
   "defaultProject": "issue-tracker-frontend",
   "schematics": {
     "@schematics/angular:component": {
-      "styleext": "scss"
+      "style": "scss"
     }
   }
 }
