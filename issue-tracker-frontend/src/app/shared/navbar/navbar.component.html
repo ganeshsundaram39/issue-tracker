@@ -9,11 +9,14 @@
             (menuClosed)="profilePicWasClicked(false)" class="profile-pic"
             src="https://api.adorable.io/avatars/40/abott@adorable.png" alt="profile-pic">
           <mat-menu #menu="matMenu" xPosition="before">
-            <button mat-menu-item (click)="goToProfile()">
+            <button mat-menu-item (click)="goToRoute('new-issue')">
+              <span>New Issue</span>
+            </button>
+            <button mat-menu-item (click)="goToRoute('profile')">
               <span>Profile</span>
             </button>
-            <button mat-menu-item>
-              <span (click)="logout()">Log out</span>
+            <button mat-menu-item (click)="logout()">
+              <span>Log out</span>
             </button>
           </mat-menu>
         </div>
