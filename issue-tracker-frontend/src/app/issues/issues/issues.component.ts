@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { GlobalService } from 'src/app/global.service';
 
 @Component({
   selector: 'app-issues',
@@ -7,13 +6,11 @@ import { GlobalService } from 'src/app/global.service';
   styleUrls: ['./issues.component.scss']
 })
 export class IssuesComponent implements OnInit {
-  showBackdrop = false;
-  constructor(private globalService: GlobalService) { }
+
+  constructor() { }
 
   ngOnInit() {
-    this.globalService.showBackdrop.subscribe(status => {
-      this.showBackdrop = status;
-    });
+
   }
 
 }

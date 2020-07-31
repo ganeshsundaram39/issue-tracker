@@ -16,8 +16,13 @@ export class NavbarComponent implements OnInit {
   profilePicWasClicked(status) {
     this.globalService.showBackdrop.next(status);
   }
-  goToProfile() {
-    this.router.navigate(['/profile']);
+  goToRoute(routeName) {
+    if (routeName === 'profile') {
+      this.router.navigate(['/profile']);
+    }
+    if (routeName === 'new-issue') {
+      this.router.navigate(['/issues', 'new']);
+    }
   }
   logout() {
     this.globalService.logout();

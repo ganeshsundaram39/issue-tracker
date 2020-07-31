@@ -6,15 +6,15 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu';
 import { BackdropComponent } from './backdrop/backdrop.component';
 
-
+import { WrapperComponent } from './wrapper/wrapper.component'
 
 @NgModule({
-  declarations: [NavbarComponent, BackdropComponent],
+  declarations: [NavbarComponent, BackdropComponent, WrapperComponent],
   imports: [
     CommonModule,
     MatToolbarModule,
     MatMenuModule,
   ],
-  exports: [NavbarComponent, BackdropComponent]
+  exports: [WrapperComponent]
 })
 export class SharedModule { }
