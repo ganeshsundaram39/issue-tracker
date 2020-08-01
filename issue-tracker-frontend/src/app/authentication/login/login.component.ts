@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from '../authentication.service';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { GlobalService } from 'src/app/global.service';
 
 
@@ -19,10 +18,9 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private globalService: GlobalService,
     private route: ActivatedRoute,
     private authService: AuthenticationService,
-    private snackBar: MatSnackBar,
-    private globalService: GlobalService
   ) {
   }
 
@@ -60,29 +58,25 @@ export class LoginComponent implements OnInit {
     this.router.navigate(['../register'], { relativeTo: this.route });
   }
 
-  openSnackBar(message: string, action: string) {
-    this.snackBar.open(message, action, {
-      duration: 2000,
-    });
-  }
+
 
   onRegister() {
     this.authService.signup(this.signupForm.value).subscribe(
       (response: any) => {
         console.log(response);
         if (response.error) {
-          this.openSnackBar(response.message, 'Error');
+          this.globalService.openSnackBar(response.message, "Error");
         } else {
-          this.openSnackBar('Registered..!!', 'Success');
+          this.globalService.openSnackBar("Registered..!!", "Success");
           this.router.navigate(['/auth/login']);
         }
       },
       error => {
         if (error && error.error) {
-          this.openSnackBar(error.error.message, 'Error');
+          this.globalService.openSnackBar(error.error.message, 'Error');
         } else {
           console.log(error);
-          this.openSnackBar('Something went wrong..!!', 'Error');
+          this.globalService.openSnackBar('Something went wrong..!!', 'Error');
         }
       }
     );
@@ -93,7 +87,7 @@ export class LoginComponent implements OnInit {
       (response: any) => {
         console.log(response);
         if (response.error) {
-          this.openSnackBar(response.message, 'Error');
+          this.globalService.openSnackBar(response.message, 'Error');
         } else {
           if (response.message === 'Login Successful' && response.data) {
             localStorage.setItem('userdata', JSON.stringify({ ...response.data }));
@@ -104,9 +98,9 @@ export class LoginComponent implements OnInit {
       error => {
         console.log(error);
         if (error && error.error) {
-          this.openSnackBar(error.error.message, 'Error');
+          this.globalService.openSnackBar(error.error.message, 'Error');
         } else {
-          this.openSnackBar('Something went wrong..!!', 'Error');
+          this.globalService.openSnackBar('Something went wrong..!!', 'Error');
         }
       }
     );
