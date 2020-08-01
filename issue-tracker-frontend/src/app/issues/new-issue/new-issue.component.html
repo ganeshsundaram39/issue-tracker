@@ -1,6 +1,42 @@
 <div class="new-issue-container">
-    <mat-card>
+    <mat-card class="mat-elevation-z8">
         <h2>New Issue</h2>
+
+      <div class="new-issue-form-wrapper">
+
+        <div class="first">
+          <img src="../../../assets/images/bug_fixing.svg" alt="bug fixing">
+
+      </div>
+
+        <div class="second">
+
+          <form [formGroup]='newIssueForm' (ngSubmit)='onNewIssue()'>
+            <mat-form-field appearance="fill" class="w-100 mb-2">
+              <mat-label>Enter Title</mat-label>
+              <input type="text" matInput formControlName="title" />
+              <mat-error *ngIf="newIssueForm.get('title').invalid">
+                {{this.newIssueForm.get('title').errors.required
+                                  ? 'Title is required.'
+                                  : ''}}
+              </mat-error>
+            </mat-form-field>
+            <angular-editor formControlName="description" [config]="editorConfig"></angular-editor>
+              <mat-error *ngIf="newIssueForm.get('description').invalid">
+                {{this.newIssueForm.get('description').errors.required
+                                                ? 'Description is required.'
+                                                : ''}}
+              </mat-error>
+            <div class="buttons top-margin">
+              <button class="w-100" [disabled]="newIssueForm && newIssueForm.touched && newIssueForm.invalid" mat-raised-button
+                color="primary" type="submit">
+                Create Issue
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
 
     </mat-card>
 </div>

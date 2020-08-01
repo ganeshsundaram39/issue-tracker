@@ -8,7 +8,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTabsModule } from '@angular/material/tabs';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 
 const routes: Routes = [
@@ -33,7 +32,6 @@ const routes: Routes = [
     MatCardModule,
     MatInputModule,
     MatIconModule,
-    MatSnackBarModule,
     MatButtonModule,
     MatTabsModule,
     ReactiveFormsModule
