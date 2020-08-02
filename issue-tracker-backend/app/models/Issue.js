@@ -12,6 +12,9 @@ const Issue = new Schema({
   description: {
     type: String
   },
+  imagePaths: {
+    type: String
+  },
   issueGenerationTime: {
     type: Date,
     default: time.now()

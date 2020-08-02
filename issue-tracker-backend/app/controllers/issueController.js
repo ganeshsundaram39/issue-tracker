@@ -18,11 +18,14 @@ let createIssueFunction = (req, res) => {
     return new Promise((resolve, reject) => {
 
       console.log(req.body)
+      console.log(req.files)
+        const url = req.protocol + "://" + req.get("host");
       let newIssue = new IssueModel({
         issueId: shortid.generate(),
         title: req.body.title,
-        description: req.body.description
-      })
+        description: req.body.description,
+        imagePaths: req.files && req.files.length ? req.files.map(f=>`${url}/images/${f.filename}`).join(','):'',
+      });
       newIssue.save((err, newIssue) => {
         if (err) {
           console.log(err)

@@ -8,8 +8,17 @@ import { environment } from 'src/environments/environment';
 export class IssueService {
 
   private baseUrl = environment.url + environment.version + 'issues';
+
   constructor(private http: HttpClient) { }
+
   createIssue(createIssueObject) {
-    return this.http.post(this.baseUrl + "/create", createIssueObject);
+    const postData = new FormData();
+    postData.append("title", createIssueObject.title);
+    postData.append("content", createIssueObject.description);
+    const files = createIssueObject.images;
+    for (let i = 0; i < files.length; i++) {
+      postData.append("images[]", files[i][0], files[i][0]['name']);
+    }
+    return this.http.post(this.baseUrl + "/create", postData);
   }
 }

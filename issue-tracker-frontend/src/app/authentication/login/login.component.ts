@@ -63,7 +63,7 @@ export class LoginComponent implements OnInit {
   onRegister() {
     this.authService.signup(this.signupForm.value).subscribe(
       (response: any) => {
-        console.log(response);
+        console.log({response});
         if (response.error) {
           this.globalService.openSnackBar(response.message, "Error");
         } else {
@@ -72,10 +72,10 @@ export class LoginComponent implements OnInit {
         }
       },
       error => {
-        if (error && error.error) {
+        console.log({error});
+        if (error && error.error && error.error.message) {
           this.globalService.openSnackBar(error.error.message, 'Error');
         } else {
-          console.log(error);
           this.globalService.openSnackBar('Something went wrong..!!', 'Error');
         }
       }
@@ -85,7 +85,7 @@ export class LoginComponent implements OnInit {
   onLogin() {
     this.authService.login(this.loginForm.value).subscribe(
       (response: any) => {
-        console.log(response);
+        console.log({response});
         if (response.error) {
           this.globalService.openSnackBar(response.message, 'Error');
         } else {
@@ -96,8 +96,8 @@ export class LoginComponent implements OnInit {
         }
       },
       error => {
-        console.log(error);
-        if (error && error.error) {
+        console.log({error});
+        if (error && error.error && error.error.message) {
           this.globalService.openSnackBar(error.error.message, 'Error');
         } else {
           this.globalService.openSnackBar('Something went wrong..!!', 'Error');

@@ -25,6 +25,7 @@ app.use(globalErrorMiddleware.globalErrorHandler);
 
 app.use(express.static(path.join(__dirname, 'client')));
 
+app.use("/images", express.static(path.join("public/images")));
 
 const modelsPath = './app/models';
 const controllersPath = './app/controllers';

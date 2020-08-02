@@ -4,6 +4,9 @@ import { AngularEditorConfig } from '@kolkov/angular-editor';
 import {IssueService} from '../issue.service'
 import { Router } from '@angular/router';
 import { GlobalService } from 'src/app/global.service';
+import { mimeType } from "./mime-type.validator";
+
+
 @Component({
   selector: "app-new-issue",
   templateUrl: "./new-issue.component.html",
@@ -11,11 +14,12 @@ import { GlobalService } from 'src/app/global.service';
 })
 export class NewIssueComponent implements OnInit {
   newIssueForm: FormGroup;
+  imagePreview=[];
   editorConfig: AngularEditorConfig = {
     editable: true,
     spellcheck: true,
-    height: "auto",
-    minHeight: "200",
+    height: "200px",
+    minHeight: "200px",
     maxHeight: "auto",
     width: "100%",
     minWidth: "0",
@@ -49,7 +53,8 @@ export class NewIssueComponent implements OnInit {
     ],
     sanitize: true,
     toolbarPosition: "bottom",
-    toolbarHiddenButtons: [["bold", "italic"], ["fontSize"]],
+    toolbarHiddenButtons: [["bold", "italic"], ["fontSize", 'insertImage',
+      'insertVideo',]],
   };
 
   constructor(
@@ -68,12 +73,21 @@ export class NewIssueComponent implements OnInit {
         Validators.required,
         Validators.maxLength(255),
       ]),
+      images: new FormControl(null, {
+        validators: [Validators.required],
+      })
     });
   }
   onNewIssue = () => {
+
+    if (this.newIssueForm.untouched) {
+      this.globalService.openSnackBar('Please fill the form..!!', "Error");
+      return;
+    }
+    console.log(this.newIssueForm)
     this.issueServer.createIssue(this.newIssueForm.value).subscribe(
       (response: any) => {
-        console.log(response);
+        console.log({response});
         if (response.error) {
           this.globalService.openSnackBar(response.message, "Error");
         } else {
@@ -83,8 +97,8 @@ export class NewIssueComponent implements OnInit {
         }
       },
       (error) => {
-        console.log(error);
-        if (error && error.error) {
+        console.log({error});
+        if (error && error.error && error.error.message) {
           this.globalService.openSnackBar(error.error.message, "Error");
         } else {
           this.globalService.openSnackBar("Something went wrong..!!", "Error");
@@ -92,4 +106,18 @@ export class NewIssueComponent implements OnInit {
       }
     );
   };
+  files=[]
+  onImagePicked(event: Event) {
+    const files = (event.target as HTMLInputElement).files;
+    this.files.push(files)
+    this.newIssueForm.patchValue({ images: this.files  });
+    this.newIssueForm.get("images").updateValueAndValidity();
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.imagePreview.push(reader.result as string);
+    };
+    for (let i = 0; i < files.length; i++) {
+      reader.readAsDataURL(files[i]);
+    }
+  }
 }
