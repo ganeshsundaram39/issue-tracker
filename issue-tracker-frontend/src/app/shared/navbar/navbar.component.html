@@ -2,12 +2,16 @@
   <mat-toolbar-row>
     <div class="container">
       <div class="main">
-        <div class="first-part">
-        </div>
+        <div class="first-part"></div>
         <div class="second-part">
-          <img [matMenuTriggerFor]="menu" (menuOpened)="profilePicWasClicked(true)"
-            (menuClosed)="profilePicWasClicked(false)" class="profile-pic"
-            src="https://api.adorable.io/avatars/40/abott@adorable.png" alt="profile-pic">
+          <img
+            [matMenuTriggerFor]="menu"
+            (menuOpened)="profilePicWasClicked(true)"
+            (menuClosed)="profilePicWasClicked(false)"
+            class="profile-pic"
+            src="https://api.adorable.io/avatars/40/abott@adorable.png"
+            alt="profile-pic"
+          />
           <mat-menu #menu="matMenu" xPosition="before">
             <button mat-menu-item (click)="goToRoute('new-issue')">
               <span>New Issue</span>

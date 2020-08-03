@@ -1,11 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { AngularEditorConfig } from '@kolkov/angular-editor';
-import {IssueService} from '../issue.service'
-import { Router } from '@angular/router';
-import { GlobalService } from 'src/app/global.service';
-import { mimeType } from "./mime-type.validator";
-
+import { Component, OnInit } from "@angular/core"
+import { FormGroup, FormControl, Validators } from "@angular/forms"
+import { AngularEditorConfig } from "@kolkov/angular-editor"
+import { IssueService } from "../issue.service"
+import { Router } from "@angular/router"
+import { GlobalService } from "src/app/global.service"
 
 @Component({
   selector: "app-new-issue",
@@ -13,8 +11,8 @@ import { mimeType } from "./mime-type.validator";
   styleUrls: ["./new-issue.component.scss"],
 })
 export class NewIssueComponent implements OnInit {
-  newIssueForm: FormGroup;
-  imagePreview=[];
+  newIssueForm: FormGroup
+  imagePreview = []
   editorConfig: AngularEditorConfig = {
     editable: true,
     spellcheck: true,
@@ -53,9 +51,11 @@ export class NewIssueComponent implements OnInit {
     ],
     sanitize: true,
     toolbarPosition: "bottom",
-    toolbarHiddenButtons: [["bold", "italic"], ["fontSize", 'insertImage',
-      'insertVideo',]],
-  };
+    toolbarHiddenButtons: [
+      ["bold", "italic"],
+      ["fontSize", "insertImage", "insertVideo"],
+    ],
+  }
 
   constructor(
     private issueServer: IssueService,
@@ -75,49 +75,49 @@ export class NewIssueComponent implements OnInit {
       ]),
       images: new FormControl(null, {
         validators: [Validators.required],
-      })
-    });
+      }),
+    })
   }
   onNewIssue = () => {
-
     if (this.newIssueForm.untouched) {
-      this.globalService.openSnackBar('Please fill the form..!!', "Error");
-      return;
+      this.globalService.openSnackBar("Please fill the form..!!", "Error")
+      return
     }
     console.log(this.newIssueForm)
     this.issueServer.createIssue(this.newIssueForm.value).subscribe(
       (response: any) => {
-        console.log({response});
+        console.log({ response })
         if (response.error) {
-          this.globalService.openSnackBar(response.message, "Error");
+          this.globalService.openSnackBar(response.message, "Error")
         } else {
           if (response.status === 200) {
-            this.router.navigate(["/issues/list"]);
+            this.router.navigate(["/issues/list"])
           }
         }
       },
       (error) => {
-        console.log({error});
+        console.log({ error })
         if (error && error.error && error.error.message) {
-          this.globalService.openSnackBar(error.error.message, "Error");
+          this.globalService.openSnackBar(error.error.message, "Error")
         } else {
-          this.globalService.openSnackBar("Something went wrong..!!", "Error");
+          this.globalService.openSnackBar("Something went wrong..!!", "Error")
         }
       }
-    );
-  };
-  files=[]
-  onImagePicked(event: Event) {
-    const files = (event.target as HTMLInputElement).files;
-    this.files.push(files)
-    this.newIssueForm.patchValue({ images: this.files  });
-    this.newIssueForm.get("images").updateValueAndValidity();
-    const reader = new FileReader();
-    reader.onload = () => {
-      this.imagePreview.push(reader.result as string);
-    };
-    for (let i = 0; i < files.length; i++) {
-      reader.readAsDataURL(files[i]);
+    )
+  }
+  files = []
+   onImagePicked(event: Event) {
+    const files = (event.target as HTMLInputElement).files
+    this.files=[...this.files,...Array.from(files)]
+    this.newIssueForm.patchValue({ images: this.files })
+    this.newIssueForm.get("images").updateValueAndValidity()
+
+     for (let i = 0; i < files.length; i++) {
+       const reader = new FileReader()
+       reader.onload = () => {
+         this.imagePreview.push(reader.result as string)
+       }
+      reader.readAsDataURL(files[i])
     }
   }
 }

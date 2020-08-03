@@ -1,26 +1,20 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { PageNotFoundComponent } from './pagenotfound.component';
+import { NgModule } from "@angular/core"
+import { CommonModule } from "@angular/common"
+import { PageNotFoundComponent } from "./pagenotfound.component"
 
-import { RouterModule, Routes } from '@angular/router';
-import { MatButtonModule } from '@angular/material/button';
+import { RouterModule, Routes } from "@angular/router"
+import { MatButtonModule } from "@angular/material/button"
 
 const routes: Routes = [
   {
-    path: '',
-    pathMatch: 'full',
-    component: PageNotFoundComponent
-  }
-];
+    path: "",
+    pathMatch: "full",
+    component: PageNotFoundComponent,
+  },
+]
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule.forChild(routes),
-    MatButtonModule
-  ],
-  declarations: [
-    PageNotFoundComponent
-  ]
+  imports: [CommonModule, RouterModule.forChild(routes), MatButtonModule],
+  declarations: [PageNotFoundComponent],
 })
-export class PageNotFoundModule { }
+export class PageNotFoundModule {}
