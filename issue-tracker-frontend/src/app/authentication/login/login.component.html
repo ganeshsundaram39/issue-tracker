@@ -7,41 +7,63 @@
       </div>
     </h1>
     <mat-card class="header">
-      <mat-tab-group mat-stretch-tabs animationDuration="0ms" (selectedTabChange)="tabClick($event)"
-        [selectedIndex]="selectedTab">
+      <mat-tab-group
+        mat-stretch-tabs
+        animationDuration="0ms"
+        (selectedTabChange)="tabClick($event)"
+        [selectedIndex]="selectedTab"
+      >
         <mat-tab label="Login">
           <ng-template matTabContent>
             <div class="tab-wrapper">
-              <form [formGroup]='loginForm' (ngSubmit)='onLogin()'>
+              <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
                 <mat-form-field appearance="fill" class="w-100">
                   <mat-label>Email</mat-label>
                   <input type="text" matInput formControlName="email" />
                   <mat-error *ngIf="loginForm.get('email').invalid">
-                    {{this.loginForm.get('email').errors.required
-                    ? 'Email is required.'
-                    : this.loginForm.get('email').errors.email
-                    ? 'Not a valid email.'
-                    : ''}}
+                    {{
+                      this.loginForm.get("email").errors.required
+                        ? "Email is required."
+                        : this.loginForm.get("email").errors.email
+                        ? "Not a valid email."
+                        : ""
+                    }}
                   </mat-error>
                 </mat-form-field>
                 <mat-form-field appearance="fill" class="w-100">
                   <mat-label>Password</mat-label>
-                  <input matInput [type]="hide ? 'password' : 'text'" formControlName="password" />
-                  <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
-                    [attr.aria-pressed]="hide">
+                  <input
+                    matInput
+                    [type]="hide ? 'password' : 'text'"
+                    formControlName="password"
+                  />
+                  <button
+                    mat-icon-button
+                    matSuffix
+                    (click)="hide = !hide"
+                    [attr.aria-label]="'Hide password'"
+                    [attr.aria-pressed]="hide"
+                  >
                     <mat-icon>{{
-                    hide ? "visibility_off" : "visibility"
-                  }}</mat-icon>
+                      hide ? "visibility_off" : "visibility"
+                    }}</mat-icon>
                   </button>
                   <mat-error *ngIf="loginForm.get('password').invalid">
-                    {{this.signupForm.get('password').errors.required
-                    ? 'Password is required.'
-                    : ''}}
+                    {{
+                      this.signupForm.get("password").errors.required
+                        ? "Password is required."
+                        : ""
+                    }}
                   </mat-error>
                 </mat-form-field>
                 <div class="buttons top-margin">
-                  <button [disabled]="loginForm.touched && loginForm.invalid" mat-raised-button color="primary"
-                    class="w-100" type="submit">
+                  <button
+                    [disabled]="loginForm.touched && loginForm.invalid"
+                    mat-raised-button
+                    color="primary"
+                    class="w-100"
+                    type="submit"
+                  >
                     Login
                   </button>
                 </div>
@@ -52,54 +74,69 @@
         <mat-tab label="Register">
           <ng-template matTabContent>
             <div class="tab-wrapper">
-              <form [formGroup]='signupForm' (ngSubmit)='onRegister()'>
+              <form [formGroup]="signupForm" (ngSubmit)="onRegister()">
                 <mat-form-field appearance="fill" class="w-100">
                   <mat-label>Full Name</mat-label>
                   <input type="text" matInput formControlName="fullName" />
                   <mat-error *ngIf="signupForm.get('fullName').invalid">
-
-                    {{this.signupForm.get('fullName').errors.required
-                        ? 'Full Name is required.'
-                        : ''}}
+                    {{
+                      this.signupForm.get("fullName").errors.required
+                        ? "Full Name is required."
+                        : ""
+                    }}
                   </mat-error>
                 </mat-form-field>
                 <mat-form-field appearance="fill" class="w-100">
                   <mat-label>Email</mat-label>
                   <input type="text" matInput formControlName="email" />
                   <mat-error *ngIf="signupForm.get('email').invalid">
-                    {{this.signupForm.get('email').errors.required
-                    ? 'Email is required.'
-                    : this.signupForm.get('email').errors.email
-                    ? 'Not a valid email.'
-                    : ''}}
+                    {{
+                      this.signupForm.get("email").errors.required
+                        ? "Email is required."
+                        : this.signupForm.get("email").errors.email
+                        ? "Not a valid email."
+                        : ""
+                    }}
                   </mat-error>
                 </mat-form-field>
                 <mat-form-field appearance="fill" class="w-100">
                   <mat-label>Password</mat-label>
-                  <input matInput [type]="hide ? 'password' : 'text'" formControlName="password" />
-                  <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
-                    [attr.aria-pressed]="hide">
+                  <input
+                    matInput
+                    [type]="hide ? 'password' : 'text'"
+                    formControlName="password"
+                  />
+                  <button
+                    mat-icon-button
+                    matSuffix
+                    (click)="hide = !hide"
+                    [attr.aria-label]="'Hide password'"
+                    [attr.aria-pressed]="hide"
+                  >
                     <mat-icon>
-                      {{
-                        hide ? "visibility_off" : "visibility"
-                      }}
+                      {{ hide ? "visibility_off" : "visibility" }}
                     </mat-icon>
                   </button>
                   <mat-error *ngIf="signupForm.get('password').invalid">
                     {{
-                      this.signupForm.get('password').errors.required
-                        ? 'Password is required.'
-                        :this.signupForm.get('password').errors.minlength?
-                          'Password cannot be less than 8 characters.'
-                          : this.signupForm.get('password').errors.pattern
-                            ? 'Password should contain uppercase, lowercase letters, digit and special character.'
-                            : ''
+                      this.signupForm.get("password").errors.required
+                        ? "Password is required."
+                        : this.signupForm.get("password").errors.minlength
+                        ? "Password cannot be less than 8 characters."
+                        : this.signupForm.get("password").errors.pattern
+                        ? "Password should contain uppercase, lowercase letters, digit and special character."
+                        : ""
                     }}
                   </mat-error>
                 </mat-form-field>
                 <div class="buttons top-margin">
-                  <button mat-raised-button [disabled]="signupForm.touched && signupForm.invalid" color="primary"
-                    class="w-100" type="submit">
+                  <button
+                    mat-raised-button
+                    [disabled]="signupForm.touched && signupForm.invalid"
+                    color="primary"
+                    class="w-100"
+                    type="submit"
+                  >
                     Register
                   </button>
                 </div>

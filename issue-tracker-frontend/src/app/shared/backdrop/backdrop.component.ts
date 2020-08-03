@@ -1,15 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core"
 
 @Component({
-  selector: 'app-backdrop',
-  templateUrl: './backdrop.component.html',
-  styleUrls: ['./backdrop.component.scss']
+  selector: "app-backdrop",
+  templateUrl: "./backdrop.component.html",
+  styleUrls: ["./backdrop.component.scss"],
 })
 export class BackdropComponent implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

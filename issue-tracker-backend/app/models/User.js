@@ -1,34 +1,33 @@
-'use strict'
+"use strict"
 /**
  * Module Dependencies
  */
-const mongoose = require('mongoose'),
-  Schema = mongoose.Schema;
+const mongoose = require("mongoose"),
+  Schema = mongoose.Schema
 
 let userSchema = new Schema({
   userId: {
     type: String,
-    default: '',
+    default: "",
     index: true,
-    unique: true
+    unique: true,
   },
   fullName: {
     type: String,
-    default: ''
+    default: "",
   },
   email: {
     type: String,
-    default: ''
+    default: "",
   },
   password: {
     type: String,
-    default: 'lasd;lfkjlk'
+    default: "lasd;lfkjlk",
   },
   createdOn: {
     type: Date,
-    default: ""
-  }
+    default: "",
+  },
 })
 
-
-mongoose.model('User', userSchema);
+mongoose.model("User", userSchema)

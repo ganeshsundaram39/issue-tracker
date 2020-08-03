@@ -1,21 +1,21 @@
-const mongoose = require('mongoose')
+const mongoose = require("mongoose")
 const Schema = mongoose.Schema
-const time = require('../libs/timeLib')
+const time = require("../libs/timeLib")
 
 const Auth = new Schema({
   userId: {
-    type: String
+    type: String,
   },
   authToken: {
-    type: String
+    type: String,
   },
   tokenSecret: {
-    type: String
+    type: String,
   },
   tokenGenerationTime: {
     type: Date,
-    default: time.now()
-  }
+    default: time.now(),
+  },
 })
 
-module.exports = mongoose.model('Auth', Auth)
+module.exports = mongoose.model("Auth", Auth)

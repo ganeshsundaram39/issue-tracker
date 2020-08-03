@@ -4,9 +4,9 @@
 
 export const environment = {
   production: false,
-  url: 'http://localhost:3000/api/',
-  version: 'v1/'
-};
+  url: "http://localhost:3000/api/",
+  version: "v1/",
+}
 
 /*
  * For easier debugging in development mode, you can import the following file

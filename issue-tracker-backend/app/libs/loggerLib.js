@@ -1,6 +1,6 @@
-'use strict'
-const logger = require('pino')()
-const moment = require('moment')
+"use strict"
+const logger = require("pino")()
+const moment = require("moment")
 
 // myErrorFunction is a definition of how the errors will be formatted in our system
 let captureError = (errorMessage, errorOrigin, errorLevel) => {
@@ -10,7 +10,7 @@ let captureError = (errorMessage, errorOrigin, errorLevel) => {
     timestamp: currentTime,
     errorMessage: errorMessage,
     errorOrigin: errorOrigin,
-    errorLevel: errorLevel
+    errorLevel: errorLevel,
   }
 
   logger.error(errorResponse)
@@ -24,7 +24,7 @@ let captureInfo = (message, origin, importance) => {
     timestamp: currentTime,
     message: message,
     origin: origin,
-    level: importance
+    level: importance,
   }
 
   logger.info(infoMessage)
@@ -33,5 +33,5 @@ let captureInfo = (message, origin, importance) => {
 
 module.exports = {
   error: captureError,
-  info: captureInfo
+  info: captureInfo,
 }

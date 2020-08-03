@@ -3,9 +3,12 @@
   "version": "0.0.0",
   "scripts": {
     "client": "cd issue-tracker-frontend && npm start",
-    "server": "cd issue-tracker-backend && npm start"
+    "server": "cd issue-tracker-backend && npm start",
+    "format": "prettier --write ."
   },
   "private": true,
   "dependencies": {},
-  "devDependencies": {}
+  "devDependencies": {
+    "prettier": "2.0.5"
+  }
 }

@@ -1,24 +1,24 @@
-const mongoose = require('mongoose')
+const mongoose = require("mongoose")
 const Schema = mongoose.Schema
-const time = require('../libs/timeLib')
+const time = require("../libs/timeLib")
 
 const Issue = new Schema({
   issueId: {
-    type: String
+    type: String,
   },
   title: {
-    type: String
+    type: String,
   },
   description: {
-    type: String
+    type: String,
   },
   imagePaths: {
-    type: String
+    type: String,
   },
   issueGenerationTime: {
     type: Date,
-    default: time.now()
-  }
+    default: time.now(),
+  },
 })
 
-module.exports = mongoose.model('Issue', Issue)
+module.exports = mongoose.model("Issue", Issue)
