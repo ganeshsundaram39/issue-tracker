@@ -12,12 +12,10 @@
           <mat-form-field appearance="fill" class="w-100 mb-2">
             <mat-label>Enter Title</mat-label>
             <input type="text" matInput formControlName="title" />
-            <mat-error
-              *ngIf="
+            <mat-error *ngIf="
                 newIssueForm.get('title').touched &&
                 newIssueForm.get('title').invalid
-              "
-            >
+              ">
               {{
                 this.newIssueForm.get("title").errors.required
                   ? "Title is required."
@@ -25,15 +23,9 @@
               }}
             </mat-error>
           </mat-form-field>
-          <angular-editor
-            formControlName="description"
-            [config]="editorConfig"
-          ></angular-editor>
+          <angular-editor formControlName="description" [config]="editorConfig"></angular-editor>
 
-
-
-          <mat-error
-            [ngStyle]="{
+          <mat-error [ngStyle]="{
               visibility:
                 newIssueForm.get('description').touched &&
                 newIssueForm.get('description').invalid
@@ -41,8 +33,7 @@
                   : 'hidden',
               'font-size': '10.5px',
               'margin-left': '10px'
-            }"
-          >
+            }">
             {{
               this.newIssueForm.get("description") &&
               this.newIssueForm.get("description").errors &&
@@ -51,39 +42,32 @@
                 : "No issue"
             }}
           </mat-error>
-
+          <hr>
           <div class="screenshots">
-            <button
-              mat-stroked-button
-              type="button"
-              (click)="filePicker.click()"
-            >
+            <button mat-raised-button color="primary" type="button" (click)="filePicker.click()">
               Attach Screenshots
             </button>
-            <input
-              type="file"
-              multiple
-              accept="image/*"
-              #filePicker
-              (change)="onImagePicked($event)"
-            />
+            <input type="file" multiple accept="image/*" #filePicker (change)="onImagePicked($event)" />
           </div>
           <div class="image-preview" *ngIf="imagePreview && imagePreview.length">
-            <ng-container *ngFor="let file of imagePreview">
+            <div class="image-wrapper" *ngFor="let file of imagePreview; let i = index" (click)="removeScreenshot(i)">
               <img [src]="file" />
-            </ng-container>
+              <div class="remove-image">
+                <mat-icon aria-hidden="false" aria-label="remove screenshot">remove_circle_outline</mat-icon>
+              </div>
+            </div>
           </div>
-
+          <hr>
+          <div style="    margin: 15px 0;">
+            <button mat-raised-button color="primary" type="button">
+              Assign To?
+            </button>
+          </div>
+          <hr>
           <div class="buttons top-margin">
-            <button
-              class="w-100"
-              [disabled]="
+            <button class="w-100" [disabled]="
                 newIssueForm && newIssueForm.touched && newIssueForm.invalid
-              "
-              mat-raised-button
-              color="primary"
-              type="submit"
-            >
+              " mat-raised-button color="primary" type="submit">
               Create Issue
             </button>
           </div>

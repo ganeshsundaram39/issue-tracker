@@ -106,18 +106,26 @@ export class NewIssueComponent implements OnInit {
     )
   }
   files = []
-   onImagePicked(event: Event) {
+  onImagePicked(event: Event) {
     const files = (event.target as HTMLInputElement).files
-    this.files=[...this.files,...Array.from(files)]
+    this.files = [...this.files, ...Array.from(files)]
     this.newIssueForm.patchValue({ images: this.files })
     this.newIssueForm.get("images").updateValueAndValidity()
 
-     for (let i = 0; i < files.length; i++) {
-       const reader = new FileReader()
-       reader.onload = () => {
-         this.imagePreview.push(reader.result as string)
-       }
+    for (let i = 0; i < files.length; i++) {
+      const reader = new FileReader()
+      reader.onload = () => {
+        this.imagePreview.push(reader.result as string)
+      }
       reader.readAsDataURL(files[i])
     }
+  }
+
+  removeScreenshot(index) {
+    this.files = [...this.files.filter((_, i) => i !== index)]
+
+    this.newIssueForm.patchValue({ images: this.files })
+
+    this.imagePreview = [...this.imagePreview.filter((_, i) => i !== index)]
   }
 }

@@ -10,6 +10,7 @@ import { MatInputModule } from "@angular/material/input"
 import { ReactiveFormsModule } from "@angular/forms"
 import { AngularEditorModule } from "@kolkov/angular-editor"
 import { MatButtonModule } from "@angular/material/button"
+import { MatIconModule } from '@angular/material/icon';
 
 const routes: Routes = [
   {
@@ -36,7 +37,8 @@ const routes: Routes = [
     ReactiveFormsModule,
     AngularEditorModule,
     MatButtonModule,
+    MatIconModule,
   ],
   declarations: [IssuesComponent, NewIssueComponent, IssueListComponent],
 })
-export class IssuesModule {}
+export class IssuesModule { }
