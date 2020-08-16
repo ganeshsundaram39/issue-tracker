@@ -61,4 +61,30 @@ module.exports.setRouter = (app) => {
 
         }
     */
+
+  app.post(
+    `${baseUrl}/get`,
+    issueController.getIssuesFunction
+  )
+
+  /**
+   * @apiGroup issues
+   * @apiVersion  1.0.0
+   * @api {post} /api/v1/issues/get api for getting all issues.
+   *
+   * @apiSuccess {object} myResponse shows error status, message, http status code, result.
+   *
+   * @apiSuccessExample {object} Success-Response:
+       {
+          "error": false,
+          "message": "Issue retrieved successfully",
+          "status": 200,
+          "data": [ {
+              "description": "User not able to login.",
+              "title": "Login page not functional",
+              "issueId": "E9zxTYA8"
+              }
+            ]
+        }
+  */
 }

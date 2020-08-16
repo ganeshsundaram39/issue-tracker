@@ -1,18 +1,15 @@
 const mongoose = require("mongoose")
 const shortid = require("shortid")
-const time = require("./../libs/timeLib")
-const passwordLib = require("./../libs/generatePasswordLib")
 const response = require("./../libs/responseLib")
 const logger = require("./../libs/loggerLib")
-const validateInput = require("../libs/paramsValidationLib")
-const check = require("../libs/checkLib")
 
 /* Models */
 const IssueModel = mongoose.model("Issue")
 
 // start user signup function
 
-let createIssueFunction = (req, res) => {
+const createIssueFunction = (req, res) => {
+
   const createIssue = () => {
     return new Promise((resolve, reject) => {
       const url = req.protocol + "://" + req.get("host")
@@ -56,6 +53,41 @@ let createIssueFunction = (req, res) => {
     })
 } // end user signup function
 
+const getIssuesFunction = (req, res) => {
+
+  const getIssues = () => {
+    return new Promise((resolve, reject) => {
+      IssueModel.find((err, allIssues) => {
+        if (err) {
+          logger.error(err.message, "issueController: getIssues", 10)
+          let apiResponse = response.generate(
+            true,
+            "Failed to get all Issues",
+            500,
+            null
+          )
+          reject(apiResponse)
+        } else {
+          let allIssuesObj = allIssues.toObject()
+          resolve(allIssuesObj)
+        }
+      })
+    });
+  }
+  getIssues().then(result => {
+    console.log({ result })
+    let apiResponse = response.generate(false, "Issues retrieved successfully.", 200, result)
+    res.send(apiResponse)
+  }).catch(err => {
+    console.log({ err });
+    res.status(err.status)
+    res.send(err)
+  })
+
+}
+
+
 module.exports = {
-  createIssueFunction: createIssueFunction,
+  createIssueFunction,
+  getIssuesFunction
 } // end exports
