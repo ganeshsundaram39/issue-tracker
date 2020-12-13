@@ -20,4 +20,8 @@ export class IssueService {
     }
     return this.http.post(this.baseUrl + "/create", postData)
   }
+  allIssue() {
+    return this.http.get(this.baseUrl);
+  }
+
 }
