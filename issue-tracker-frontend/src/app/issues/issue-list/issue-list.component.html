@@ -1,0 +1,48 @@
+<div class="issue-list-container">
+    <mat-card class="mat-elevation-z8">
+      <h2>Issues</h2>
+
+      <div class="issue-list-form-wrapper">
+
+        <div class="example-container mat-elevation-z8">
+            <div class="example-loading-shade"
+                 *ngIf="isLoadingResults || noIssueFound">
+              <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+              <div class="example-rate-limit-reached" *ngIf="noIssueFound">
+                No Issues Found!
+              </div>
+            </div>
+
+            <div class="example-table-container">
+
+              <table mat-table [dataSource]="data" class="example-table"
+                     matSort matSortActive="created" matSortDisableClear matSortDirection="desc">
+
+
+                <!-- Title Column -->
+                <ng-container matColumnDef="title">
+                  <th mat-header-cell *matHeaderCellDef>Title</th>
+                  <td mat-cell *matCellDef="let row">{{row.title}}</td>
+                </ng-container>
+
+
+
+                <!-- issueGenerationTime Column -->
+                <ng-container matColumnDef="issueGenerationTime">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+                    Created
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{row.issueGenerationTime | date}}</td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              </table>
+            </div>
+
+            <mat-paginator [length]="resultsLength" [pageSize]="30"></mat-paginator>
+          </div>
+
+      </div>
+    </mat-card>
+  </div>

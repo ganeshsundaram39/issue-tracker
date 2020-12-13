@@ -65,10 +65,14 @@
           </div>
           <hr>
           <div class="buttons top-margin">
-            <button class="w-100" [disabled]="
+            <button class="w-50" [disabled]="
                 newIssueForm && newIssueForm.touched && newIssueForm.invalid
               " mat-raised-button color="primary" type="submit">
               Create Issue
+            </button>
+            <button style="margin-left: 4%;
+             width: 46%;" mat-raised-button routerLink="/issues">
+              Cancel
             </button>
           </div>
         </form>

@@ -14,4 +14,11 @@ export class AuthenticationService {
   login(loginObj) {
     return this.http.post(this.baseUrl + "/login", loginObj)
   }
+  getUserData(){
+   var userData = localStorage.getItem('userdata');
+    if(userData){
+        userData = JSON.parse(userData);
+    }
+    return userData;
+  }
 }

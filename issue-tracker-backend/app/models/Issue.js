@@ -21,4 +21,4 @@ const Issue = new Schema({
   },
 })
 
-module.exports = mongoose.model("Issue", Issue)
+mongoose.model("Issue", Issue)

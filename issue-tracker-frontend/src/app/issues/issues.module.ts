@@ -11,6 +11,9 @@ import { ReactiveFormsModule } from "@angular/forms"
 import { AngularEditorModule } from "@kolkov/angular-editor"
 import { MatButtonModule } from "@angular/material/button"
 import { MatIconModule } from '@angular/material/icon';
+import { MatTableModule } from '@angular/material/table';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 const routes: Routes = [
   {
@@ -38,6 +41,9 @@ const routes: Routes = [
     AngularEditorModule,
     MatButtonModule,
     MatIconModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatProgressSpinnerModule
   ],
   declarations: [IssuesComponent, NewIssueComponent, IssueListComponent],
 })

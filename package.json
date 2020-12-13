@@ -2,8 +2,8 @@
   "name": "issue-tracker",
   "version": "0.0.0",
   "scripts": {
-    "client": "cd issue-tracker-frontend && npm start",
-    "server": "cd issue-tracker-backend && npm start",
+    "client": "cd issue-tracker-frontend && yarn start",
+    "server": "cd issue-tracker-backend && yarn start",
     "format": "prettier --write ."
   },
   "private": true,

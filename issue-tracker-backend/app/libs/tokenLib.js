@@ -23,7 +23,7 @@ let generateToken = (data, cb) => {
   }
 } // end generate token
 
-let verifyClaim = (token, secretKey, cb) => {
+let verifyClaim = (token, cb) => {
   // verify a token symmetric
   jwt.verify(token, secretKey, function (err, decoded) {
     if (err) {

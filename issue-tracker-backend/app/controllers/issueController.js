@@ -57,19 +57,20 @@ const getIssuesFunction = (req, res) => {
 
   const getIssues = () => {
     return new Promise((resolve, reject) => {
-      IssueModel.find((err, allIssues) => {
+      IssueModel.find({}).lean().exec((err, allIssues) => {
         if (err) {
           logger.error(err.message, "issueController: getIssues", 10)
           let apiResponse = response.generate(
             true,
             "Failed to get all Issues",
             500,
-            null
+            err
           )
           reject(apiResponse)
         } else {
-          let allIssuesObj = allIssues.toObject()
-          resolve(allIssuesObj)
+          resolve(
+            allIssues
+          )
         }
       })
     });
