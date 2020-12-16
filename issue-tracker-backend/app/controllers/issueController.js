@@ -57,7 +57,7 @@ const getIssuesFunction = (req, res) => {
 
   const getIssues = () => {
     return new Promise((resolve, reject) => {
-      IssueModel.find({}).lean().exec((err, allIssues) => {
+      IssueModel.find({},{"__v":0,"_id":0}).lean().exec((err, allIssues) => {
         if (err) {
           logger.error(err.message, "issueController: getIssues", 10)
           let apiResponse = response.generate(
