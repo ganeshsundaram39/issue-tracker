@@ -6,9 +6,7 @@ const appConfig = require("./../../config/appConfig")
 module.exports.setRouter = (app) => {
   let baseUrl = `${appConfig.apiVersion}/users`
 
-
   app.post(`${baseUrl}/signup`, userController.signUpFunction)
-
 
   app.post(`${baseUrl}/login`, userController.loginFunction)
   app.post(`${baseUrl}/logout`, userController.logout)

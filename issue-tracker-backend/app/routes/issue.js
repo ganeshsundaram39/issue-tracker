@@ -29,8 +29,6 @@ const storage = multer.diskStorage({
 module.exports.setRouter = (app) => {
   let baseUrl = `${appConfig.apiVersion}/issues`
 
-
-
   app.post(
     `${baseUrl}/create`,
     authorizeMiddleware,
@@ -38,11 +36,5 @@ module.exports.setRouter = (app) => {
     issueController.createIssueFunction
   )
 
-  app.get(
-    `${baseUrl}`,
-    authorizeMiddleware,
-    issueController.getIssuesFunction
-  )
-
-
+  app.get(`${baseUrl}`, authorizeMiddleware, issueController.getIssuesFunction)
 }

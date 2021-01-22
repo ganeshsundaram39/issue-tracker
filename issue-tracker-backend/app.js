@@ -12,8 +12,7 @@ const globalErrorMiddleware = require("./app/middlewares/appErrorHandler")
 const mongoose = require("mongoose")
 const morgan = require("morgan")
 
-const cors = require('cors');
-
+const cors = require("cors")
 
 app.use(cors())
 
@@ -32,9 +31,6 @@ app.use("/images", express.static(path.join("public/images")))
 
 const modelsPath = "./app/models"
 const routesPath = "./app/routes"
-
-
-
 
 //Bootstrap models
 fs.readdirSync(modelsPath).forEach(function (file) {

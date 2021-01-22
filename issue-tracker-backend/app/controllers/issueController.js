@@ -9,7 +9,6 @@ const IssueModel = mongoose.model("Issue")
 // start user signup function
 
 const createIssueFunction = (req, res) => {
-
   const createIssue = () => {
     return new Promise((resolve, reject) => {
       const url = req.protocol + "://" + req.get("host")
@@ -54,41 +53,45 @@ const createIssueFunction = (req, res) => {
 } // end user signup function
 
 const getIssuesFunction = (req, res) => {
-
   const getIssues = () => {
     return new Promise((resolve, reject) => {
-      IssueModel.find({},{"__v":0,"_id":0}).lean().exec((err, allIssues) => {
-        if (err) {
-          logger.error(err.message, "issueController: getIssues", 10)
-          let apiResponse = response.generate(
-            true,
-            "Failed to get all Issues",
-            500,
-            err
-          )
-          reject(apiResponse)
-        } else {
-          resolve(
-            allIssues
-          )
-        }
-      })
-    });
+      IssueModel.find({}, { __v: 0, _id: 0 })
+        .lean()
+        .exec((err, allIssues) => {
+          if (err) {
+            logger.error(err.message, "issueController: getIssues", 10)
+            let apiResponse = response.generate(
+              true,
+              "Failed to get all Issues",
+              500,
+              err
+            )
+            reject(apiResponse)
+          } else {
+            resolve(allIssues)
+          }
+        })
+    })
   }
-  getIssues().then(result => {
-    console.log({ result })
-    let apiResponse = response.generate(false, "Issues retrieved successfully.", 200, result)
-    res.send(apiResponse)
-  }).catch(err => {
-    console.log({ err });
-    res.status(err.status)
-    res.send(err)
-  })
-
+  getIssues()
+    .then((result) => {
+      console.log({ result })
+      let apiResponse = response.generate(
+        false,
+        "Issues retrieved successfully.",
+        200,
+        result
+      )
+      res.send(apiResponse)
+    })
+    .catch((err) => {
+      console.log({ err })
+      res.status(err.status)
+      res.send(err)
+    })
 }
-
 
 module.exports = {
   createIssueFunction,
-  getIssuesFunction
+  getIssuesFunction,
 } // end exports
