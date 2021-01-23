@@ -1,5 +1,4 @@
 import React, { useState } from "react"
-import { makeStyles } from "@material-ui/core/styles"
 import Card from "@material-ui/core/Card"
 import "./auth.scss"
 import Tabs from "@material-ui/core/Tabs"
@@ -9,19 +8,10 @@ import Signup from "./signup/signup"
 import { Route, Redirect, Switch } from "react-router-dom"
 
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    minWidth: 275,
-    height: "100%",
-    padding: "6%",
-  }
-}))
 
 
-function Auth(props) {
-  const classes = useStyles()
 
-
+const Auth = (props) => {
 
   const { match, history } = props;
   const { params } = match;
@@ -37,15 +27,12 @@ function Auth(props) {
     signup: 1
   };
 
-  const [selectedTab, setSelectedTab] = useState(indexToTabName[page]);
+  const [selectedTab, setSelectedTab] = useState(indexToTabName?.[page] ? indexToTabName?.[page] : 0);
 
   const handleChange = (event, newValue) => {
     history.push(`/auth/${tabNameToIndex[newValue]}`);
     setSelectedTab(newValue);
   };
-
-
-
 
   return (
     <div className="auth">
@@ -56,7 +43,7 @@ function Auth(props) {
             <span className="logo-underline"></span>
           </div>
         </h1>
-        <Card className={classes.root}>
+        <Card className="card-style">
           <Tabs
             value={selectedTab}
             onChange={handleChange}
@@ -79,4 +66,4 @@ function Auth(props) {
     </div>
   )
 }
-export default Auth
+export default React.memo(Auth)
