@@ -4,18 +4,21 @@ import "./index.css"
 import App from "./app/app"
 import { Provider } from "react-redux"
 import { store } from "./state/store/store"
-import { SnackbarProvider } from 'notistack';
+import { SnackbarProvider } from "notistack"
 // import * as serviceWorkerRegistration from "./serviceWorkerRegistration"
 // import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-    <SnackbarProvider maxSnack={3}   anchorOrigin={{
-      vertical: 'top',
-      horizontal: 'right',
-    }}>
-      <App />
+      <SnackbarProvider
+        maxSnack={3}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
+      >
+        <App />
       </SnackbarProvider>
     </Provider>
   </React.StrictMode>,

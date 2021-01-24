@@ -43,7 +43,7 @@ const authReducer = (state = initialState, action) => {
 
     case RESET_AUTH:
       return {
-      ...initialState
+        ...initialState,
       }
     default:
       return state

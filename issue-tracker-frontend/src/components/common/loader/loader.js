@@ -8,7 +8,11 @@ import "./loader.scss"
 function Loader(props) {
   return (
     <div className="loader">
-      <CircularProgress size={props.size} thickness={props.thickness} style={{ 'color': 'white' }} />
+      <CircularProgress
+        size={props.size}
+        thickness={props.thickness}
+        style={{ color: "white" }}
+      />
     </div>
   )
 }

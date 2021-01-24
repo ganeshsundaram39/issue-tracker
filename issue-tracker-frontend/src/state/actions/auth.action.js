@@ -8,7 +8,8 @@ import {
 
 const axios = require("axios")
 
-const baseUrl = process.env.REACT_APP_API_URL + process.env.REACT_APP_API_VERSION +"users"
+const baseUrl =
+  process.env.REACT_APP_API_URL + process.env.REACT_APP_API_VERSION + "users"
 
 export const onLogin = ({ formData }) => (dispatch) => {
   dispatch({ type: ON_LOGIN })
@@ -17,13 +18,13 @@ export const onLogin = ({ formData }) => (dispatch) => {
       ...formData,
     })
     .then(function (response) {
-      console.log({response:response?.data})
-      dispatch({ type: ON_LOGIN_RESPONSE ,payload:response?.data })
+      console.log({ response: response?.data })
+      dispatch({ type: ON_LOGIN_RESPONSE, payload: response?.data })
     })
     .catch(function (error) {
-      console.log({error:error?.response?.data})
+      console.log({ error: error?.response?.data })
 
-      dispatch({ type: ON_LOGIN_RESPONSE ,payload:error?.response?.data})
+      dispatch({ type: ON_LOGIN_RESPONSE, payload: error?.response?.data })
     })
 }
 
@@ -34,12 +35,12 @@ export const onRegister = ({ formData }) => (dispatch) => {
       ...formData,
     })
     .then(function (response) {
-      console.log({response:response?.data})
-      dispatch({ type: ON_REGISTER_RESPONSE ,payload:response?.data})
+      console.log({ response: response?.data })
+      dispatch({ type: ON_REGISTER_RESPONSE, payload: response?.data })
     })
     .catch(function (error) {
-      console.log({error:error?.response?.data})
-      dispatch({ type: ON_REGISTER_RESPONSE ,payload:error?.response?.data })
+      console.log({ error: error?.response?.data })
+      dispatch({ type: ON_REGISTER_RESPONSE, payload: error?.response?.data })
     })
 }
 

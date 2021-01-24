@@ -41,7 +41,11 @@ class ErrorBoundary extends React.Component {
           }}
         >
           <h1 style={{ color: "red" }}>Oops, something went wrong :(</h1>
-          <Button variant="contained" color="primary" onClick={this.handleClick}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={this.handleClick}
+          >
             Reload
           </Button>
         </div>

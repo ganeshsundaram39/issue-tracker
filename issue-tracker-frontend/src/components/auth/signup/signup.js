@@ -8,8 +8,8 @@ import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
 import { RemoveRedEye } from "@material-ui/icons"
 import { onRegister } from "../../../state/actions/auth.action"
-import { useSelector, useDispatch } from 'react-redux'
-import { useSnackbar } from 'notistack';
+import { useSelector, useDispatch } from "react-redux"
+import { useSnackbar } from "notistack"
 
 const schema = yup.object().shape({
   username: yup.string().required("Username is required"),
@@ -19,10 +19,10 @@ const schema = yup.object().shape({
 
 const Signup = (props) => {
   const [passwordIsMasked, togglePasswordMask] = useState(true)
-  const loading = useSelector(state => state.auth.onRegister)
-  const registerResponse = useSelector(state => state.auth.registerResponse)
+  const loading = useSelector((state) => state.auth.onRegister)
+  const registerResponse = useSelector((state) => state.auth.registerResponse)
   const dispatch = useDispatch()
-  const { enqueueSnackbar } = useSnackbar();
+  const { enqueueSnackbar } = useSnackbar()
 
   const { register, handleSubmit, errors } = useForm({
     mode: "onBlur",
@@ -31,13 +31,12 @@ const Signup = (props) => {
 
   const onSubmit = (formData) => {
     dispatch(onRegister({ formData }))
-        // if (response.error) {
+    // if (response.error) {
     //   this.globalService.openSnackBar(response.message, "Error")
     // } else {
     //   this.globalService.openSnackBar("Registered..!!", "Success")
     //   this.router.navigate(["/auth/login"])
     // }
-
 
     // if (error && error.error && error.error.message) {
     //   this.globalService.openSnackBar(error.error.message, "Error")
@@ -51,18 +50,15 @@ const Signup = (props) => {
   }, [])
 
   useEffect(() => {
-    if(!loading &&registerResponse){
-      console.log({registerResponse})
-      if(registerResponse?.error &&registerResponse?.message ){
-      enqueueSnackbar(registerResponse?.message,{ variant: 'error'});
-
+    if (!loading && registerResponse) {
+      console.log({ registerResponse })
+      if (registerResponse?.error && registerResponse?.message) {
+        enqueueSnackbar(registerResponse?.message, { variant: "error" })
       } else {
-
-        enqueueSnackbar('Registration Successfull!',{ variant: 'success'});
+        enqueueSnackbar("Registration Successfull!", { variant: "success" })
       }
-
     }
-  }, [loading,registerResponse,enqueueSnackbar])
+  }, [loading, registerResponse, enqueueSnackbar])
   return (
     <form className={"tab-wrapper"} onSubmit={handleSubmit(onSubmit)}>
       <TextField
@@ -106,7 +102,13 @@ const Signup = (props) => {
         variant="filled"
       />
       <div className="buttons top-margin">
-        <Button variant="contained" disabled={loading} type="submit" color="primary" fullWidth>
+        <Button
+          variant="contained"
+          disabled={loading}
+          type="submit"
+          color="primary"
+          fullWidth
+        >
           Signup
         </Button>
       </div>
