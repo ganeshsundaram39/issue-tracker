@@ -5,7 +5,7 @@ import App from "./app/app"
 import { Provider } from "react-redux"
 import { store } from "./state/store/store"
 import { SnackbarProvider } from "notistack"
-// import * as serviceWorkerRegistration from "./serviceWorkerRegistration"
+import * as serviceWorkerRegistration from "./serviceWorkerRegistration"
 // import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
@@ -30,7 +30,7 @@ ReactDOM.render(
 // Learn more about service workers: https://cra.link/PWA
 
 // if (process.env.REACT_APP_ENV === "production") {
-//   serviceWorkerRegistration.register()
+  serviceWorkerRegistration.register()
 // }
 
 // If you want to start measuring performance in your app, pass a function
