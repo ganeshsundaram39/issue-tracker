@@ -5,46 +5,16 @@ import Tabs from "@material-ui/core/Tabs"
 import Tab from "@material-ui/core/Tab"
 import Login from "./login/login"
 import Signup from "./signup/signup"
-import { Route, Redirect, Switch } from "react-router-dom"
+import { Route, Redirect, Switch,useHistory ,useParams} from "react-router-dom"
+import {useDispatch } from 'react-redux'
+
+import { resetAuth } from "../../state/actions/auth.action"
 
 
-
-
-
-const Auth = (props) => {
-
-  const { match, history } = props;
-  const { params } = match;
-  const { page } = params;
-
-  const tabNameToIndex = {
-    0: "login",
-    1: "signup"
-  };
-
-  const indexToTabName = {
-    login: 0,
-    signup: 1
-  };
-
-  const [selectedTab, setSelectedTab] = useState(indexToTabName?.[page] ? indexToTabName?.[page] : 0);
-
-  const handleChange = (event, newValue) => {
-    history.push(`/auth/${tabNameToIndex[newValue]}`);
-    setSelectedTab(newValue);
-  };
-
+const AuthTabs =({selectedTab,handleChange}) => {
   return (
-    <div className="auth">
-      <div className="login-section">
-        <h1 className="center">
-          <div className="logo">
-            <span className="logo-title">IssueTracker</span>
-            <span className="logo-underline"></span>
-          </div>
-        </h1>
-        <Card className="card-style">
-          <Tabs
+    <>
+        <Tabs
             value={selectedTab}
             onChange={handleChange}
             indicatorColor="primary"
@@ -61,9 +31,48 @@ const Auth = (props) => {
             <Route exact path="/auth/signup" component={Signup} />
             <Redirect from="*" to="/auth/login" />
           </Switch>
+    </>
+  )
+}
+
+const Auth = () => {
+  let history = useHistory();
+  let {page} = useParams();
+  const dispatch = useDispatch()
+
+
+  const tabNameToIndex = {
+    0: "login",
+    1: "signup"
+  }
+  const indexToTabName ={
+    login: 0,
+    signup: 1
+  }
+
+  const [selectedTab, setSelectedTab] = useState(indexToTabName?.[page]?indexToTabName?.[page]:0);
+
+  const handleChange= (event, newValue) => {
+    history.push(`/auth/${tabNameToIndex[newValue]}`);
+    setSelectedTab(newValue);
+    dispatch(resetAuth())
+  }
+
+
+  return (
+    <div className="auth">
+      <div className="login-section">
+        <h1 className="center">
+          <div className="logo">
+            <span className="logo-title">IssueTracker</span>
+            <span className="logo-underline"></span>
+          </div>
+        </h1>
+        <Card className="card-style">
+        <AuthTabs selectedTab={selectedTab} handleChange={handleChange}/>
         </Card>
       </div>
     </div>
   )
 }
-export default React.memo(Auth)
+export default Auth

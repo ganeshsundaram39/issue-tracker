@@ -7,15 +7,15 @@ import Loader from "../components/common/loader/loader"
 
 function App() {
   return (
-    <ErrorBoundary>
-      <div className="app">
-        <Router>
+    <div className="app">
+      <Router>
+        <ErrorBoundary>
           <Suspense fallback={<Loader />}>
             <AppRoutes />
           </Suspense>
-        </Router>
-      </div>
-    </ErrorBoundary>
+        </ErrorBoundary>
+      </Router>
+    </div>
   )
 }
 

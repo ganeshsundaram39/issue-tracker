@@ -9,6 +9,7 @@ import * as yup from "yup"
 import { RemoveRedEye } from "@material-ui/icons"
 import { onRegister } from "../../../state/actions/auth.action"
 import { useSelector, useDispatch } from 'react-redux'
+import { useSnackbar } from 'notistack';
 
 const schema = yup.object().shape({
   username: yup.string().required("Username is required"),
@@ -19,7 +20,9 @@ const schema = yup.object().shape({
 const Signup = (props) => {
   const [passwordIsMasked, togglePasswordMask] = useState(true)
   const loading = useSelector(state => state.auth.onRegister)
+  const registerResponse = useSelector(state => state.auth.registerResponse)
   const dispatch = useDispatch()
+  const { enqueueSnackbar } = useSnackbar();
 
   const { register, handleSubmit, errors } = useForm({
     mode: "onBlur",
@@ -27,13 +30,39 @@ const Signup = (props) => {
   })
 
   const onSubmit = (formData) => {
-    console.log({ formData })
     dispatch(onRegister({ formData }))
+        // if (response.error) {
+    //   this.globalService.openSnackBar(response.message, "Error")
+    // } else {
+    //   this.globalService.openSnackBar("Registered..!!", "Success")
+    //   this.router.navigate(["/auth/login"])
+    // }
+
+
+    // if (error && error.error && error.error.message) {
+    //   this.globalService.openSnackBar(error.error.message, "Error")
+    // } else {
+    //   this.globalService.openSnackBar("Something went wrong..!!", "Error")
+    // }
   }
 
   useEffect(() => {
     document.title = "IssueTracker | Signup"
   }, [])
+
+  useEffect(() => {
+    if(!loading &&registerResponse){
+      console.log({registerResponse})
+      if(registerResponse?.error &&registerResponse?.message ){
+      enqueueSnackbar(registerResponse?.message,{ variant: 'error'});
+
+      } else {
+
+        enqueueSnackbar('Registration Successfull!',{ variant: 'success'});
+      }
+
+    }
+  }, [loading,registerResponse,enqueueSnackbar])
   return (
     <form className={"tab-wrapper"} onSubmit={handleSubmit(onSubmit)}>
       <TextField
@@ -85,4 +114,4 @@ const Signup = (props) => {
   )
 }
 
-export default React.memo(Signup)
+export default Signup

@@ -1,28 +1,54 @@
 import React from "react"
+import { withRouter } from "react-router-dom"
+import Button from "@material-ui/core/Button"
 
-export default class ErrorBoundary extends React.Component {
+class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props)
-    this.state = { hasError: false }
+    this.state = {
+      hasError: false,
+      error: null,
+      info: null,
+    }
   }
-
-  static getDerivedStateFromError(error) {
-    // Update state so the next render will show the fallback UI.
-    return { hasError: true }
+  componentDidCatch(error, info) {
+    console.log({
+      hasError: true,
+      error: error,
+      info: info,
+    })
+    this.setState({
+      hasError: true,
+      error: error,
+      info: info,
+    })
   }
-
-  componentDidCatch(error, errorInfo) {
-    // You can also log the error to an error reporting service
-    console.error(error)
-    console.error(errorInfo)
+  handleClick = () => {
+    if (process.env.REACT_APP_ENV === "production") {
+      this.props.history.push("/")
+    }
   }
-
   render() {
     if (this.state.hasError) {
-      // You can render any custom fallback UI
-      return <h1>Something went wrong. Please Reload!</h1>
+      return (
+        <div
+          style={{
+            width: "100vw",
+            height: "100vh",
+            display: "flex",
+            "justify-content": "center",
+            "align-content": "center",
+          }}
+        >
+          <h1 style={{ color: "red" }}>Oops, something went wrong :(</h1>
+          <Button variant="contained" color="primary" onClick={this.handleClick}>
+            Reload
+          </Button>
+        </div>
+      )
     }
-
     return this.props.children
   }
 }
+
+export default withRouter(ErrorBoundary)

@@ -1,10 +1,9 @@
 import {
   ON_LOGIN,
-  ON_LOGIN_SUCCESSFULL,
-  ON_LOGIN_FAILED,
+  ON_LOGIN_RESPONSE,
   ON_REGISTER,
-  ON_REGISTER_SUCCESSFULL,
-  ON_REGISTER_FAILED,
+  ON_REGISTER_RESPONSE,
+  RESET_AUTH,
 } from "../types/types"
 
 const axios = require("axios")
@@ -18,12 +17,13 @@ export const onLogin = ({ formData }) => (dispatch) => {
       ...formData,
     })
     .then(function (response) {
-      console.log({response})
-      dispatch({ type: ON_LOGIN_SUCCESSFULL ,payload:response })
+      console.log({response:response?.data})
+      dispatch({ type: ON_LOGIN_RESPONSE ,payload:response?.data })
     })
     .catch(function (error) {
-      console.log({error})
-      dispatch({ type: ON_LOGIN_FAILED ,payload:error})
+      console.log({error:error?.response?.data})
+
+      dispatch({ type: ON_LOGIN_RESPONSE ,payload:error?.response?.data})
     })
 }
 
@@ -34,69 +34,15 @@ export const onRegister = ({ formData }) => (dispatch) => {
       ...formData,
     })
     .then(function (response) {
-      console.log({response})
-      dispatch({ type: ON_REGISTER_SUCCESSFULL ,payload:response})
+      console.log({response:response?.data})
+      dispatch({ type: ON_REGISTER_RESPONSE ,payload:response?.data})
     })
     .catch(function (error) {
-      console.log({error})
-      dispatch({ type: ON_REGISTER_FAILED ,payload:error })
+      console.log({error:error?.response?.data})
+      dispatch({ type: ON_REGISTER_RESPONSE ,payload:error?.response?.data })
     })
 }
 
-// onRegister() {
-//   this.authService.signup(this.signupForm.value).subscribe(
-//     (response: any) => {
-//       console.log({ response })
-//       if (response.error) {
-//         this.globalService.openSnackBar(response.message, "Error")
-//       } else {
-//         this.globalService.openSnackBar("Registered..!!", "Success")
-//         this.router.navigate(["/auth/login"])
-//       }
-//     },
-//     (error) => {
-//       console.log({ error })
-//       if (error && error.error && error.error.message) {
-//         this.globalService.openSnackBar(error.error.message, "Error")
-//       } else {
-//         this.globalService.openSnackBar("Something went wrong..!!", "Error")
-//       }
-//     }
-//   )
-// }
-
-// onLogin() {
-//   this.authService.login(this.loginForm.value).subscribe(
-//     (response: any) => {
-//       console.log({ response })
-//       if (response.error) {
-//         this.globalService.openSnackBar(response.message, "Error")
-//       } else {
-//         if (response.message === "Login Successful" && response.data) {
-//           localStorage.setItem(
-//             "userdata",
-//             JSON.stringify({ ...response.data })
-//           )
-//           this.router.navigate(["/issues"])
-//         }
-//       }
-//     },
-//     (error) => {
-//       console.log({ error })
-//       if (error && error.error && error.error.message) {
-//         this.globalService.openSnackBar(error.error.message, "Error")
-//       } else {
-//         this.globalService.openSnackBar("Something went wrong..!!", "Error")
-//       }
-//     }
-//   )
-// }
-
-// signup(signupObject) {
-//   return this.http.post(this.baseUrl + "/signup", signupObject)
-// }
-// login(loginObj) {
-//   return this.http.post(this.baseUrl + "/login", loginObj)
-// }
-
-// private baseUrl = environment.url + environment.version + "users"
+export const resetAuth = () => (dispatch) => {
+  dispatch({ type: RESET_AUTH })
+}

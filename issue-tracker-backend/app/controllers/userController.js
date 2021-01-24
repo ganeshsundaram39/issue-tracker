@@ -99,7 +99,7 @@ let signUpFunction = (req, res) => {
             )
             let apiResponse = response.generate(
               true,
-              "User Already Present With this Email",
+              "This email address is already taken ",
               403,
               null
             )

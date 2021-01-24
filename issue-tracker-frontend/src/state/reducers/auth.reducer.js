@@ -1,11 +1,16 @@
-import { ON_LOGIN, ON_LOGIN_SUCCESSFULL, ON_LOGIN_FAILED,ON_REGISTER, ON_REGISTER_SUCCESSFULL, ON_REGISTER_FAILED, } from "../types/types"
+import {
+  ON_LOGIN,
+  ON_LOGIN_RESPONSE,
+  ON_REGISTER,
+  ON_REGISTER_RESPONSE,
+  RESET_AUTH,
+} from "../types/types"
 
 const initialState = {
   onLogin: false,
   onRegister: false,
-  loginResponse: {},
-  registerResponse: {},
-
+  loginResponse: null,
+  registerResponse: null,
 }
 
 const authReducer = (state = initialState, action) => {
@@ -14,35 +19,31 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state,
         onLogin: true,
+        loginResponse: null,
       }
-    case ON_LOGIN_SUCCESSFULL:
+    case ON_LOGIN_RESPONSE:
       return {
         ...state,
         onLogin: false,
         loginResponse: action.payload,
       }
-    case ON_LOGIN_FAILED:
-      return {
-        ...state,
-        onLogin: false,
-        loginResponse: action.payload,
-      }
+
     case ON_REGISTER:
       return {
         ...state,
         onRegister: true,
+        registerResponse: null,
       }
-    case ON_REGISTER_SUCCESSFULL:
+    case ON_REGISTER_RESPONSE:
       return {
         ...state,
         onRegister: false,
         registerResponse: action.payload,
       }
-    case ON_REGISTER_FAILED:
+
+    case RESET_AUTH:
       return {
-        ...state,
-        onRegister: false,
-        registerResponse: action.payload,
+      ...initialState
       }
     default:
       return state

@@ -2,13 +2,19 @@
   "name": "issue-tracker",
   "version": "0.0.0",
   "scripts": {
-    "dev": "cd issue-tracker-frontend && yarn start:dev",
-    "prod": "cd issue-tracker-frontend && yarn start:prod",
+    "client": "cd issue-tracker-frontend && yarn start:dev",
     "server": "cd issue-tracker-backend && yarn start",
+    "dev": "concurrently \"yarn server\" \"yarn client\"",
+    "client:prod": "cd issue-tracker-frontend && yarn start:prod",
+    "client:build": "cd issue-tracker-frontend && yarn build:dev",
+    "client:build:prod": "cd issue-tracker-frontend && yarn build:prod",
     "format": "prettier --write ."
   },
   "private": true,
-  "dependencies": {},
+  "dependencies": {
+    "concurrently": "^5.3.0",
+    "notistack": "^1.0.3"
+  },
   "devDependencies": {
     "prettier": "2.0.5"
   }
