@@ -39,7 +39,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "start:dev": "env-cmd -f ./env/.env.development yarn start",
-    "build:dev": "env-cmd -f ./env/.env.dev yarn build",
+    "build:dev": "env-cmd -f ./env/.env.development yarn build",
     "start:prod": "env-cmd -f ./env/.env.production yarn start",
     "build:prod": "env-cmd -f ./env/.env.production yarn build",
     "test": "react-scripts test",
