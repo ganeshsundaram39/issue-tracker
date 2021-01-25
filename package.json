@@ -8,7 +8,8 @@
     "client:prod": "cd issue-tracker-frontend && yarn start:prod",
     "client:build": "cd issue-tracker-frontend && yarn build:dev",
     "client:build:prod": "cd issue-tracker-frontend && yarn build:prod",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "serve":"serve -s ./issue-tracker-frontend/build"
   },
   "private": true,
   "dependencies": {
