@@ -28,6 +28,26 @@ let userSchema = new Schema({
     type: Date,
     default: "",
   },
+  googleLogin: {
+    type: Boolean,
+    default: false,
+  },
+  githubLogin: {
+    type: Boolean,
+    default: false,
+  },
+  twitterLogin: {
+    type: Boolean,
+    default: false,
+  },
+  facebookLogin: {
+    type: Boolean,
+    default: false,
+  },
+  picture: {
+    type: String,
+    default: "",
+  },
 })
 
 mongoose.model("User", userSchema)

@@ -10,7 +10,9 @@ export default function My404(props) {
       <Button
         variant="contained"
         color="primary"
-        onClick={() => {
+        onClick={(e) => {
+          e.stopPropagation()
+
           console.log(props)
           props.history.push("/issues")
         }}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useCallback } from "react"
 import "./signup.scss"
 import TextField from "@material-ui/core/TextField"
 import Button from "@material-ui/core/Button"
@@ -10,6 +10,8 @@ import { RemoveRedEye } from "@material-ui/icons"
 import { onRegister } from "../../../state/actions/auth.action"
 import { useSelector, useDispatch } from "react-redux"
 import { useSnackbar } from "notistack"
+import { resetAuth } from "../../../state/actions/auth.action"
+// import useCountRenders from "../useCountRenders"
 
 const schema = yup.object().shape({
   username: yup.string().required("Username is required"),
@@ -17,7 +19,7 @@ const schema = yup.object().shape({
   password: yup.string().required("Password is required"),
 })
 
-const Signup = (props) => {
+const Signup = ({ handleChange }) => {
   const [passwordIsMasked, togglePasswordMask] = useState(true)
   const loading = useSelector((state) => state.auth.onRegister)
   const registerResponse = useSelector((state) => state.auth.registerResponse)
@@ -31,18 +33,6 @@ const Signup = (props) => {
 
   const onSubmit = (formData) => {
     dispatch(onRegister({ formData }))
-    // if (response.error) {
-    //   this.globalService.openSnackBar(response.message, "Error")
-    // } else {
-    //   this.globalService.openSnackBar("Registered..!!", "Success")
-    //   this.router.navigate(["/auth/login"])
-    // }
-
-    // if (error && error.error && error.error.message) {
-    //   this.globalService.openSnackBar(error.error.message, "Error")
-    // } else {
-    //   this.globalService.openSnackBar("Something went wrong..!!", "Error")
-    // }
   }
 
   useEffect(() => {
@@ -51,14 +41,24 @@ const Signup = (props) => {
 
   useEffect(() => {
     if (!loading && registerResponse) {
-      console.log({ registerResponse })
       if (registerResponse?.error && registerResponse?.message) {
         enqueueSnackbar(registerResponse?.message, { variant: "error" })
+        dispatch(resetAuth())
       } else {
         enqueueSnackbar("Registration Successfull!", { variant: "success" })
+        handleChange({}, 0)
       }
     }
-  }, [loading, registerResponse, enqueueSnackbar])
+  }, [loading, registerResponse, enqueueSnackbar, dispatch, handleChange])
+  const showPasswordText = useCallback(
+    (e) => {
+      e.stopPropagation()
+      togglePasswordMask((prev) => !prev)
+    },
+    [togglePasswordMask]
+  )
+  // useCountRenders('Signup Component')
+
   return (
     <form className={"tab-wrapper"} onSubmit={handleSubmit(onSubmit)}>
       <TextField
@@ -93,7 +93,7 @@ const Signup = (props) => {
             <InputAdornment position="end">
               <RemoveRedEye
                 style={{ cursor: "pointer" }}
-                onClick={() => togglePasswordMask((prev) => !prev)}
+                onClick={showPasswordText}
               />
             </InputAdornment>
           ),

@@ -1,11 +1,8 @@
-import React, { Component } from "react"
+import React from "react"
+import Wrapper from "../common/wrapper/wrapper"
 
-export default class Issues extends Component {
-  render() {
-    return (
-      <>
-        <header>Issues page</header>
-      </>
-    )
-  }
+const Issues = () => {
+  return <Wrapper pageName={"Issues"}>Issues page</Wrapper>
 }
+
+export default Issues

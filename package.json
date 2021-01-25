@@ -1,22 +1,26 @@
 {
-  "name": "issue-tracker",
-  "version": "0.0.0",
-  "scripts": {
-    "client": "cd issue-tracker-frontend && yarn start:dev",
-    "server": "cd issue-tracker-backend && yarn start",
-    "dev": "concurrently \"yarn server\" \"yarn client\"",
-    "client:prod": "cd issue-tracker-frontend && yarn start:prod",
-    "client:build": "cd issue-tracker-frontend && yarn build:dev",
-    "client:build:prod": "cd issue-tracker-frontend && yarn build:prod",
-    "format": "prettier --write .",
-    "serve":"serve -s ./issue-tracker-frontend/build"
-  },
   "private": true,
+  "workspaces": ["issue-tracker-backend", "issue-tracker-frontend"],
+  "name": "issue-tracker-monorepo",
+  "version": "1.0.0",
+  "main": "./issue-tracker-backend/server.js",
+  "scripts": {
+    "client": " yarn workspace issue-tracker-frontend start:dev",
+    "server": "yarn workspace issue-tracker-backend start:dev",
+    "dev": "sudo systemctl start mongod && concurrently \"yarn server\" \"yarn client\"",
+    "format": "prettier --write .",
+    "serve": "serve -s ./issue-tracker-frontend/build",
+    "start":"cd  issue-tracker-backend && npm install && npm run start",
+    "heroku-postbuild":"NPM_PRODUCTION=false cd issue-tracker-frontend && npm install && npm run build"
+  },
   "dependencies": {
-    "concurrently": "^5.3.0",
-    "notistack": "^1.0.3"
+    "concurrently": "^5.3.0"
   },
   "devDependencies": {
     "prettier": "2.0.5"
+  },
+  "engines": {
+    "node": "10.23.0",
+    "npm":"6.14.8"
   }
 }

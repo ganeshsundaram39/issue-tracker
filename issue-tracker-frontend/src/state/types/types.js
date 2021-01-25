@@ -5,3 +5,7 @@ export const ON_REGISTER = "ON_REGISTER"
 export const ON_REGISTER_RESPONSE = "ON_REGISTER_RESPONSE"
 
 export const RESET_AUTH = "RESET_AUTH"
+
+export const TOGGLE_DRAWER_STATE = "TOGGLE_DRAWER_STATE"
+
+export const RESET_APP = "RESET_APP"

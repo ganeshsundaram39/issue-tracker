@@ -1,11 +1,8 @@
-import React, { Component } from "react"
+import React from "react"
+import Wrapper from "../common/wrapper/wrapper"
 
-export default class Profile extends Component {
-  render() {
-    return (
-      <>
-        <header>Profile page</header>
-      </>
-    )
-  }
+const Profile = (props) => {
+  return <Wrapper pageName={"Profile"}>Profile page</Wrapper>
 }
+
+export default Profile

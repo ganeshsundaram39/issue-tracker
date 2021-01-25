@@ -1,7 +1,7 @@
 const express = require("express")
 const router = express.Router()
 const issueController = require("./../../app/controllers/issueController")
-const appConfig = require("./../../config/appConfig")
+
 const multer = require("multer")
 const { authorizeMiddleware } = require("../middlewares/authorize")
 
@@ -27,7 +27,7 @@ const storage = multer.diskStorage({
 })
 
 module.exports.setRouter = (app) => {
-  let baseUrl = `${appConfig.apiVersion}/issues`
+  let baseUrl = `${process.env.API_VERSION}/issues`
 
   app.post(
     `${baseUrl}/create`,
