@@ -9,12 +9,11 @@
     "client:build": "cd issue-tracker-frontend && yarn build:dev",
     "client:build:prod": "cd issue-tracker-frontend && yarn build:prod",
     "format": "prettier --write .",
-    "serve":"serve -s ./issue-tracker-frontend/build"
+    "serve": "serve -s ./issue-tracker-frontend/build"
   },
   "private": true,
   "dependencies": {
-    "concurrently": "^5.3.0",
-    "notistack": "^1.0.3"
+    "concurrently": "^5.3.0"
   },
   "devDependencies": {
     "prettier": "2.0.5"
