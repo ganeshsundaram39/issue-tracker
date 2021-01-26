@@ -10,6 +10,10 @@ import { RemoveRedEye } from "@material-ui/icons"
 import { onRegister } from "../../../state/actions/auth.action"
 import { useSelector, useDispatch } from "react-redux"
 import { useSnackbar } from "notistack"
+import {
+  useHistory,
+} from "react-router-dom"
+import { resetAuth } from "../../../state/actions/auth.action"
 
 const schema = yup.object().shape({
   username: yup.string().required("Username is required"),
@@ -23,6 +27,7 @@ const Signup = (props) => {
   const registerResponse = useSelector((state) => state.auth.registerResponse)
   const dispatch = useDispatch()
   const { enqueueSnackbar } = useSnackbar()
+  let history = useHistory()
 
   const { register, handleSubmit, errors } = useForm({
     mode: "onBlur",
@@ -31,18 +36,6 @@ const Signup = (props) => {
 
   const onSubmit = (formData) => {
     dispatch(onRegister({ formData }))
-    // if (response.error) {
-    //   this.globalService.openSnackBar(response.message, "Error")
-    // } else {
-    //   this.globalService.openSnackBar("Registered..!!", "Success")
-    //   this.router.navigate(["/auth/login"])
-    // }
-
-    // if (error && error.error && error.error.message) {
-    //   this.globalService.openSnackBar(error.error.message, "Error")
-    // } else {
-    //   this.globalService.openSnackBar("Something went wrong..!!", "Error")
-    // }
   }
 
   useEffect(() => {
@@ -51,11 +44,15 @@ const Signup = (props) => {
 
   useEffect(() => {
     if (!loading && registerResponse) {
-      console.log({ registerResponse })
       if (registerResponse?.error && registerResponse?.message) {
         enqueueSnackbar(registerResponse?.message, { variant: "error" })
+        dispatch(resetAuth())
+
       } else {
         enqueueSnackbar("Registration Successfull!", { variant: "success" })
+        dispatch(resetAuth())
+
+        history.push('/auth/login')
       }
     }
   }, [loading, registerResponse, enqueueSnackbar])

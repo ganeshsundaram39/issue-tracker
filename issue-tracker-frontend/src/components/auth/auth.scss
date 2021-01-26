@@ -4,7 +4,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: rgb(21, 32, 43);
+  background-color: var(--bgColor);
 }
 .card-style {
   min-width: 275px;

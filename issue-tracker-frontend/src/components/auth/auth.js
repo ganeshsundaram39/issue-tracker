@@ -19,6 +19,7 @@ import { resetAuth } from "../../state/actions/auth.action"
 const AuthTabs = ({ selectedTab, handleChange }) => {
   return (
     <>
+
       <Tabs
         value={selectedTab}
         onChange={handleChange}
@@ -44,7 +45,8 @@ const Auth = () => {
   let history = useHistory()
   let { page } = useParams()
   const dispatch = useDispatch()
-
+  let userdata = localStorage.getItem("userdata")
+  if(userdata)userdata=JSON.parse(userdata)
   const tabNameToIndex = {
     0: "login",
     1: "signup",
@@ -65,6 +67,8 @@ const Auth = () => {
   }
 
   return (
+    <>
+     {  userdata?.authToken?<Redirect to="/issues" />:null}
     <div className="auth">
       <div className="login-section">
         <h1 className="center">
@@ -78,6 +82,7 @@ const Auth = () => {
         </Card>
       </div>
     </div>
+    </>
   )
 }
 export default Auth

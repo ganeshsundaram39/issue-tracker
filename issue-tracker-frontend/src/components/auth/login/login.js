@@ -10,6 +10,11 @@ import { RemoveRedEye } from "@material-ui/icons"
 import { onLogin } from "../../../state/actions/auth.action"
 import { useSelector, useDispatch } from "react-redux"
 import { useSnackbar } from "notistack"
+import {
+  useHistory,
+} from "react-router-dom"
+import { resetAuth } from "../../../state/actions/auth.action"
+
 const schema = yup.object().shape({
   email: yup.string().required("Email is required").email("Invalid Email Id"),
   password: yup.string().required("Password is required"),
@@ -17,6 +22,8 @@ const schema = yup.object().shape({
 
 const Login = (props) => {
   const [passwordIsMasked, togglePasswordMask] = useState(true)
+  let history = useHistory()
+
   const { register, handleSubmit, errors } = useForm({
     mode: "onBlur",
     resolver: yupResolver(schema),
@@ -28,24 +35,6 @@ const Login = (props) => {
 
   const onSubmit = (formData) => {
     dispatch(onLogin({ formData }))
-
-    // if (response.error) {
-    //   this.globalService.openSnackBar(response.message, "Error")
-    // } else {
-    //   if (response.message === "Login Successful" && response.data) {
-    //     localStorage.setItem(
-    //       "userdata",
-    //       JSON.stringify({ ...response.data })
-    //     )
-    //     this.router.navigate(["/issues"])
-    //   }
-    // }
-
-    // if (error && error.error && error.error.message) {
-    //   this.globalService.openSnackBar(error.error.message, "Error")
-    // } else {
-    //   this.globalService.openSnackBar("Something went wrong..!!", "Error")
-    // }
   }
 
   useEffect(() => {
@@ -54,12 +43,18 @@ const Login = (props) => {
 
   useEffect(() => {
     if (!loading && loginResponse) {
-      console.log({ loginResponse })
-
       if (loginResponse?.error && loginResponse?.message) {
         enqueueSnackbar(loginResponse?.message, { variant: "error" })
+        dispatch(resetAuth())
+
       } else {
         enqueueSnackbar("Login Successful!", { variant: "success" })
+                localStorage.setItem(
+          "userdata",
+          JSON.stringify({ ...loginResponse?.data })
+        )
+        dispatch(resetAuth())
+        history.push('/issues')
       }
     }
   }, [loading, loginResponse, enqueueSnackbar])

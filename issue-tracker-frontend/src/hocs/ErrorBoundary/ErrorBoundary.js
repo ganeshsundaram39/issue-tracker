@@ -24,9 +24,9 @@ class ErrorBoundary extends React.Component {
     })
   }
   handleClick = () => {
-    if (process.env.REACT_APP_ENV === "production") {
+
       this.props.history.push("/")
-    }
+
   }
   render() {
     if (this.state.hasError) {
@@ -36,17 +36,20 @@ class ErrorBoundary extends React.Component {
             width: "100vw",
             height: "100vh",
             display: "flex",
-            "justify-content": "center",
-            "align-content": "center",
+            justifyContent: "center",
+            "align-items": "center",
+            flexDirection: 'column',
+            'background-color': 'var(--bgColor)'
+
           }}
         >
-          <h1 style={{ color: "red" }}>Oops, something went wrong :(</h1>
+          <h1 style={{ color: "white",marginBottom:'30px' }}>Oops, something went wrong :(</h1>
           <Button
             variant="contained"
             color="primary"
             onClick={this.handleClick}
           >
-            Reload
+            Please Reload
           </Button>
         </div>
       )
