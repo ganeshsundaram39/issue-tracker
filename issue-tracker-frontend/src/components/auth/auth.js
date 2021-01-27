@@ -16,10 +16,10 @@ import { useDispatch } from "react-redux"
 
 import { resetAuth } from "../../state/actions/auth.action"
 
+import AuthenticationImage from "../../assets/images/authentication2.svg"
 const AuthTabs = ({ selectedTab, handleChange }) => {
   return (
     <>
-
       <Tabs
         value={selectedTab}
         onChange={handleChange}
@@ -46,7 +46,7 @@ const Auth = () => {
   let { page } = useParams()
   const dispatch = useDispatch()
   let userdata = localStorage.getItem("userdata")
-  if(userdata)userdata=JSON.parse(userdata)
+  if (userdata) userdata = JSON.parse(userdata)
   const tabNameToIndex = {
     0: "login",
     1: "signup",
@@ -68,20 +68,22 @@ const Auth = () => {
 
   return (
     <>
-     {  userdata?.authToken?<Redirect to="/issues" />:null}
-    <div className="auth">
-      <div className="login-section">
-        <h1 className="center">
-          <div className="logo">
-            <span className="logo-title">IssueTracker</span>
-            <span className="logo-underline"></span>
-          </div>
-        </h1>
-        <Card className="card-style">
-          <AuthTabs selectedTab={selectedTab} handleChange={handleChange} />
-        </Card>
+      {userdata?.authToken ? <Redirect to="/issues" /> : null}
+      <div className="auth">
+        <img src={AuthenticationImage} alt={"Authentication"} />
+
+        <div className="login-section">
+          <h1 className="center">
+            <div className="logo">
+              <span className="logo-title">IssueTracker</span>
+              <span className="logo-underline"></span>
+            </div>
+          </h1>
+          <Card className="card-style">
+            <AuthTabs selectedTab={selectedTab} handleChange={handleChange} />
+          </Card>
+        </div>
       </div>
-    </div>
     </>
   )
 }

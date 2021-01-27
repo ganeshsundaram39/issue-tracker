@@ -55,7 +55,7 @@ const Signup = (props) => {
         history.push('/auth/login')
       }
     }
-  }, [loading, registerResponse, enqueueSnackbar])
+  }, [loading, registerResponse, enqueueSnackbar,dispatch,history])
   return (
     <form className={"tab-wrapper"} onSubmit={handleSubmit(onSubmit)}>
       <TextField

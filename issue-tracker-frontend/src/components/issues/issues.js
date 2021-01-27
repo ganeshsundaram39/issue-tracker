@@ -1,11 +1,13 @@
-import React, { Component } from "react"
+import React from 'react'
+import SearchAppBar from './appbar/appbar'
 
-export default class Issues extends Component {
-  render() {
-    return (
-      <>
-        <header>Issues page</header>
-      </>
-    )
-  }
+const Issues = props => {
+  return (
+    <div>
+     <SearchAppBar/>
+    </div>
+  )
 }
+
+
+export default Issues

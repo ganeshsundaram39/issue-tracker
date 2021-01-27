@@ -3,8 +3,11 @@
   height: 100vh;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
   background-color: var(--bgColor);
+  img{
+    width: 34vw;
+  }
 }
 .card-style {
   min-width: 275px;
