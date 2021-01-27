@@ -57,7 +57,7 @@ const Login = (props) => {
         history.push('/issues')
       }
     }
-  }, [loading, loginResponse, enqueueSnackbar],dispatch,history)
+  }, [loading, loginResponse, enqueueSnackbar,dispatch,history])
 
   return (
     <form className={"tab-wrapper"} onSubmit={handleSubmit(onSubmit)}>
