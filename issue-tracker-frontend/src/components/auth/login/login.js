@@ -10,9 +10,8 @@ import { RemoveRedEye } from "@material-ui/icons"
 import { onLogin } from "../../../state/actions/auth.action"
 import { useSelector, useDispatch } from "react-redux"
 import { useSnackbar } from "notistack"
-import {
-  useHistory,
-} from "react-router-dom"
+
+import { useHistory } from "react-router-dom"
 import { resetAuth } from "../../../state/actions/auth.action"
 // import useCountRenders from "../useCountRenders"
 
@@ -36,9 +35,37 @@ const Login = () => {
   const onSubmit = (formData) => {
     dispatch(onLogin({ formData }))
   }
+  const onGoogleSignInSuccess = (googleUser) => {
+    const token = googleUser.getAuthResponse().id_token;
+    console.log(token);
 
+    // dispatch({
+    //   type: 'login',
+    // });
+  };
+
+  const onGoogleSignInFail = ({error}) => {
+    console.log(error);
+  };
   useEffect(() => {
     document.title = "IssueTracker | Login"
+    // @ts-expect-error
+    const { gapi } = window;
+
+    gapi.load('auth2', () => {
+     gapi.auth2.init({
+        client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
+      });
+
+      gapi.signin2.render('signin-button', {
+        'scope': 'profile email',
+        'height': 50,
+        'longtitle': false,
+        'theme': 'dark',
+        onsuccess: onGoogleSignInSuccess,
+        onfailure: onGoogleSignInFail,
+      });
+    })
   }, [])
 
   useEffect(() => {
@@ -46,18 +73,17 @@ const Login = () => {
       if (loginResponse?.error && loginResponse?.message) {
         enqueueSnackbar(loginResponse?.message, { variant: "error" })
         dispatch(resetAuth())
-
       } else {
         enqueueSnackbar("Login Successful!", { variant: "success" })
-                localStorage.setItem(
+        localStorage.setItem(
           "userdata",
           JSON.stringify({ ...loginResponse?.data })
         )
         dispatch(resetAuth())
-        history.push('/issues')
+        history.push("/issues")
       }
     }
-  }, [loading, loginResponse, enqueueSnackbar,dispatch,history])
+  }, [loading, loginResponse, enqueueSnackbar, dispatch, history])
 
   // useCountRenders('Login Component')
 
@@ -103,6 +129,10 @@ const Login = () => {
         >
           Login
         </Button>
+      </div>
+
+      <div className="buttons top-margin">
+      <div id="signin-button"></div>
       </div>
     </form>
   )
