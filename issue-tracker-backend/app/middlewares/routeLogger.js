@@ -1,4 +1,4 @@
-const appConfig = require("./../../config/appConfig")
+
 
 let requestIpLogger = (req, res, next) => {
   let remoteIp =
@@ -27,7 +27,7 @@ let requestIpLogger = (req, res, next) => {
     res.end()
   } else {
     // enable or disable cors here
-    res.header("Access-Control-Allow-Origin", appConfig.allowedCorsOrigin)
+    res.header("Access-Control-Allow-Origin", process.env.ALLOWED_CORS_ORIGIN)
     res.header(
       "Access-Control-Allow-Methods",
       "GET, PUT, POST, DELETE, OPTIONS"

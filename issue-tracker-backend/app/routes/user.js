@@ -1,10 +1,10 @@
 const express = require("express")
 const router = express.Router()
 const userController = require("./../../app/controllers/userController")
-const appConfig = require("./../../config/appConfig")
+
 
 module.exports.setRouter = (app) => {
-  let baseUrl = `${appConfig.apiVersion}/users`
+  let baseUrl = `${process.env.API_VERSION}/users`
 
   app.post(`${baseUrl}/signup`, userController.signUpFunction)
 

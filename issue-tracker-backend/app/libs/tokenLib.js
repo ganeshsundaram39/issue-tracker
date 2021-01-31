@@ -9,7 +9,7 @@ let generateToken = (data, cb) => {
       iat: Date.now(),
       exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24,
       sub: "authToken",
-      iss: "edChat",
+      iss: "issueTracker",
       data: data,
     }
     let tokenDetails = {

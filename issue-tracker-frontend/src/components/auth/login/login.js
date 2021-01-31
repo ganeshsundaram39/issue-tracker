@@ -14,16 +14,16 @@ import {
   useHistory,
 } from "react-router-dom"
 import { resetAuth } from "../../../state/actions/auth.action"
+// import useCountRenders from "../useCountRenders"
 
 const schema = yup.object().shape({
   email: yup.string().required("Email is required").email("Invalid Email Id"),
   password: yup.string().required("Password is required"),
 })
 
-const Login = (props) => {
+const Login = () => {
   const [passwordIsMasked, togglePasswordMask] = useState(true)
   let history = useHistory()
-
   const { register, handleSubmit, errors } = useForm({
     mode: "onBlur",
     resolver: yupResolver(schema),
@@ -58,6 +58,8 @@ const Login = (props) => {
       }
     }
   }, [loading, loginResponse, enqueueSnackbar,dispatch,history])
+
+  // useCountRenders('Login Component')
 
   return (
     <form className={"tab-wrapper"} onSubmit={handleSubmit(onSubmit)}>

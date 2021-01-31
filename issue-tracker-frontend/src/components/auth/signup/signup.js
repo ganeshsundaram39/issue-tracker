@@ -14,6 +14,7 @@ import {
   useHistory,
 } from "react-router-dom"
 import { resetAuth } from "../../../state/actions/auth.action"
+// import useCountRenders from "../useCountRenders"
 
 const schema = yup.object().shape({
   username: yup.string().required("Username is required"),
@@ -21,7 +22,7 @@ const schema = yup.object().shape({
   password: yup.string().required("Password is required"),
 })
 
-const Signup = (props) => {
+const Signup = () => {
   const [passwordIsMasked, togglePasswordMask] = useState(true)
   const loading = useSelector((state) => state.auth.onRegister)
   const registerResponse = useSelector((state) => state.auth.registerResponse)
@@ -56,6 +57,9 @@ const Signup = (props) => {
       }
     }
   }, [loading, registerResponse, enqueueSnackbar,dispatch,history])
+
+  // useCountRenders('Signup Component')
+
   return (
     <form className={"tab-wrapper"} onSubmit={handleSubmit(onSubmit)}>
       <TextField

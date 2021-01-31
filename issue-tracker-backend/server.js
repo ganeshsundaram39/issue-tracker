@@ -5,12 +5,14 @@ const bodyParser = require("body-parser")
 const fs = require("fs")
 const app = express()
 const http = require("http")
-const appConfig = require("./config/appConfig")
 const logger = require("./app/libs/loggerLib")
 const routeLoggerMiddleware = require("./app/middlewares/routeLogger.js")
 const globalErrorMiddleware = require("./app/middlewares/appErrorHandler")
 const mongoose = require("mongoose")
 const morgan = require("morgan")
+var passport = require('passport');
+var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+
 
 const cors = require("cors")
 
@@ -28,6 +30,20 @@ app.use(globalErrorMiddleware.globalErrorHandler)
 app.use(express.static(path.join(__dirname, "client")))
 
 app.use("/images", express.static(path.join("public/images")))
+
+
+
+passport.use(new GoogleStrategy({
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    callbackURL: "http://www.example.com/auth/google/callback"
+  },
+  function(accessToken, refreshToken, profile, done) {
+       User.findOrCreate({ googleId: profile.id }, function (err, user) {
+         return done(err, user);
+       });
+  }
+));
 
 const modelsPath = "./app/models"
 const routesPath = "./app/routes"
@@ -59,8 +75,8 @@ app.use(globalErrorMiddleware.globalNotFoundHandler)
 
 const server = http.createServer(app)
 // start listening to http server
-console.log(appConfig)
-server.listen(appConfig.port)
+console.log(process.env)
+server.listen(process.env.SERVER_PORT)
 server.on("error", onError)
 server.on("listening", onListening)
 
@@ -117,7 +133,7 @@ function onListening() {
     "serverOnListeningHandler",
     10
   )
-  mongoose.connect(appConfig.db.uri, {
+  mongoose.connect(process.env.MONGODB_URI, {
     useCreateIndex: true,
     useNewUrlParser: true,
     useUnifiedTopology: true,

@@ -5,11 +5,12 @@
   "version": "1.0.0",
   "scripts": {
     "client": " yarn workspace issue-tracker-frontend start:dev",
-    "server": "yarn workspace issue-tracker-backend start",
-    "dev": "sudo systemctl start mongod && concurrently \"yarn server\" \"yarn client\"",
+    "server": "yarn workspace issue-tracker-backend start:dev",
+    "server:prod": "yarn workspace issue-tracker-backend start:prod",
     "client:prod": " yarn workspace issue-tracker-frontend start:prod",
     "client:build": " yarn workspace issue-tracker-frontend build:dev",
     "client:build:prod": " yarn workspace issue-tracker-frontend build:prod",
+    "dev": "sudo systemctl start mongod && concurrently \"yarn server\" \"yarn client\"",
     "format": "prettier --write .",
     "serve": "serve -s ./issue-tracker-frontend/build"
   },
