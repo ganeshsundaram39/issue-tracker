@@ -6,6 +6,7 @@
 ## Angular ##
 # compiled output
 dist/
+build/
 tmp/
 app/**/*.js
 app/**/*.js.map
@@ -99,8 +100,8 @@ jspm_packages/
 # dotenv environment variables file
 .env
 .env.test
-.env.development
-.env.production
+.env.dev
+.env.prod
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
