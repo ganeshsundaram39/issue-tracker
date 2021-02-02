@@ -8,6 +8,7 @@ const validateInput = require("../libs/paramsValidationLib")
 const check = require("../libs/checkLib")
 const token = require("../libs/tokenLib")
 const AuthModel = mongoose.model("Auth")
+const jwt = require("jsonwebtoken")
 
 /* Models */
 const UserModel = mongoose.model("User")
@@ -21,7 +22,7 @@ let signUpFunction = (req, res) => {
         if (!validateInput.Email(req.body.email)) {
           let apiResponse = response.generate(
             true,
-            "Email Does not met the requirement",
+            "Not a valid Email Address!",
             400,
             null
           )
@@ -168,7 +169,7 @@ let loginFunction = (req, res) => {
       } else {
         let apiResponse = response.generate(
           true,
-          '"email" parameter is missing',
+          "Email parameter is missing",
           400,
           null
         )
@@ -215,96 +216,6 @@ let loginFunction = (req, res) => {
     })
   }
 
-  let generateToken = (userDetails) => {
-    console.log("generate token")
-    return new Promise((resolve, reject) => {
-      token.generateToken(userDetails, (err, tokenDetails) => {
-        if (err) {
-          console.log(err)
-          let apiResponse = response.generate(
-            true,
-            "Failed To Generate Token",
-            500,
-            null
-          )
-          reject(apiResponse)
-        } else {
-          tokenDetails.userId = userDetails.userId
-          tokenDetails.userDetails = userDetails
-          resolve(tokenDetails)
-        }
-      })
-    })
-  }
-  let saveToken = (tokenDetails) => {
-    console.log("save token")
-    return new Promise((resolve, reject) => {
-      AuthModel.findOne(
-        { userId: tokenDetails.userId },
-        (err, retrievedTokenDetails) => {
-          if (err) {
-            console.log(err.message, "userController: saveToken", 10)
-            let apiResponse = response.generate(
-              true,
-              "Failed To Generate Token",
-              500,
-              null
-            )
-            reject(apiResponse)
-          } else if (check.isEmpty(retrievedTokenDetails)) {
-            let newAuthToken = new AuthModel({
-              userId: tokenDetails.userId,
-              authToken: tokenDetails.token,
-              tokenSecret: tokenDetails.tokenSecret,
-              tokenGenerationTime: time.now(),
-            })
-            newAuthToken.save((err, newTokenDetails) => {
-              if (err) {
-                console.log(err)
-                logger.error(err.message, "userController: saveToken", 10)
-                let apiResponse = response.generate(
-                  true,
-                  "Failed To Generate Token",
-                  500,
-                  null
-                )
-                reject(apiResponse)
-              } else {
-                let responseBody = {
-                  authToken: newTokenDetails.authToken,
-                  userDetails: tokenDetails.userDetails,
-                }
-                resolve(responseBody)
-              }
-            })
-          } else {
-            retrievedTokenDetails.authToken = tokenDetails.token
-            retrievedTokenDetails.tokenSecret = tokenDetails.tokenSecret
-            retrievedTokenDetails.tokenGenerationTime = time.now()
-            retrievedTokenDetails.save((err, newTokenDetails) => {
-              if (err) {
-                console.log(err)
-                logger.error(err.message, "userController: saveToken", 10)
-                let apiResponse = response.generate(
-                  true,
-                  "Failed To Generate Token",
-                  500,
-                  null
-                )
-                reject(apiResponse)
-              } else {
-                let responseBody = {
-                  authToken: newTokenDetails.authToken,
-                  userDetails: tokenDetails.userDetails,
-                }
-                resolve(responseBody)
-              }
-            })
-          }
-        }
-      )
-    })
-  }
 
   findUser(req, res)
     .then(validatePassword)
@@ -328,12 +239,239 @@ let loginFunction = (req, res) => {
     })
 }
 
-// end of the login function
+let generateToken = (userDetails) => {
+  console.log("generate token")
+  return new Promise((resolve, reject) => {
+    token.generateToken(userDetails, (err, tokenDetails) => {
+      if (err) {
+        console.log(err)
+        let apiResponse = response.generate(
+          true,
+          "Failed To Generate Token",
+          500,
+          null
+        )
+        reject(apiResponse)
+      } else {
+        tokenDetails.userId = userDetails.userId
+        tokenDetails.userDetails = userDetails
+        resolve(tokenDetails)
+      }
+    })
+  })
+}
+let saveToken = (tokenDetails) => {
+  console.log("save token")
+  return new Promise((resolve, reject) => {
+    AuthModel.findOne(
+      { userId: tokenDetails.userId },
+      (err, retrievedTokenDetails) => {
+        if (err) {
+          console.log(err.message, "userController: saveToken", 10)
+          let apiResponse = response.generate(
+            true,
+            "Failed To Generate Token",
+            500,
+            null
+          )
+          reject(apiResponse)
+        } else if (check.isEmpty(retrievedTokenDetails)) {
+          let newAuthToken = new AuthModel({
+            userId: tokenDetails.userId,
+            authToken: tokenDetails.token,
+            tokenSecret: tokenDetails.tokenSecret,
+            tokenGenerationTime: time.now(),
+          })
+          newAuthToken.save((err, newTokenDetails) => {
+            if (err) {
+              console.log(err)
+              logger.error(err.message, "userController: saveToken", 10)
+              let apiResponse = response.generate(
+                true,
+                "Failed To Generate Token",
+                500,
+                null
+              )
+              reject(apiResponse)
+            } else {
+              let responseBody = {
+                authToken: newTokenDetails.authToken,
+                userDetails: tokenDetails.userDetails,
+              }
+              resolve(responseBody)
+            }
+          })
+        } else {
+          retrievedTokenDetails.authToken = tokenDetails.token
+          retrievedTokenDetails.tokenSecret = tokenDetails.tokenSecret
+          retrievedTokenDetails.tokenGenerationTime = time.now()
+          retrievedTokenDetails.save((err, newTokenDetails) => {
+            if (err) {
+              console.log(err)
+              logger.error(err.message, "userController: saveToken", 10)
+              let apiResponse = response.generate(
+                true,
+                "Failed To Generate Token",
+                500,
+                null
+              )
+              reject(apiResponse)
+            } else {
+              let responseBody = {
+                authToken: newTokenDetails.authToken,
+                userDetails: tokenDetails.userDetails,
+              }
+              resolve(responseBody)
+            }
+          })
+        }
+      }
+    )
+  })
+}
 
-let logout = (req, res) => {} // end of the logout function.
+let googleLoginFunction = (req, res) => {
+  try {
+    let token = jwt.decode(req.body.token)
+
+    let findUser = (token) => {
+      console.log("findUser")
+      return new Promise((resolve, reject) => {
+        if (token && token.email) {
+          UserModel.findOne({ email: token.email }, (err, userDetails) => {
+            /* handle the error here if the User is not found */
+            if (err) {
+              console.log(err)
+              logger.error(
+                "Failed To Retrieve User Data",
+                "userController: findUser()",
+                10
+              )
+              /* generate the error message and the api response message here */
+              let apiResponse = response.generate(
+                true,
+                "Email not found!",
+                400,
+                null
+              )
+
+              resolve(apiResponse)
+              /* if Company Details is not found */
+            } else if (check.isEmpty(userDetails)) {
+              /* generate the response and the console error message here */
+              logger.error("No User Found", "userController: findUser()", 7)
+              let apiResponse = response.generate(
+                true,
+                "Email not found!",
+                400,
+                null
+              )
+
+              resolve(apiResponse)
+            } else {
+              /* prepare the message and the api response here */
+              logger.info("User Found", "userController: findUser()", 10)
+              let userObj = userDetails.toObject()
+              delete userObj.password
+              delete userObj._id
+              delete userObj.__v
+              delete userObj.createdOn
+              delete userObj.modifiedOn
+              resolve(
+                response.generate(false, "Email Found!", 200, userObj)
+              )
+            }
+          })
+        } else {
+          let apiResponse = response.generate(
+            true,
+            "Email not found!",
+            400,
+            null
+          )
+          resolve(apiResponse)
+        }
+      })
+    }
+
+    let createUser = (resolved) => {
+      return new Promise((resolve, reject) => {
+        if (resolved && resolved.error) {
+          console.log(token)
+          let newUser = new UserModel({
+            userId: shortid.generate(),
+            fullName: token.name,
+            email: token.email.toLowerCase(),
+            googleLogin: true,
+            password: passwordLib.hashpassword(token.email + token.name),
+            createdOn: time.now(),
+          })
+          newUser.save((err, newUser) => {
+            if (err) {
+              console.log(err)
+              logger.error(err.message, "userController: createUser", 10)
+              let apiResponse = response.generate(
+                true,
+                "Failed to create new User",
+                500,
+                null
+              )
+              reject(apiResponse)
+            } else {
+              let newUserObj = newUser.toObject()
+              delete newUserObj.password
+              delete newUserObj._id
+              delete newUserObj.__v
+              delete newUserObj.createdOn
+              delete newUserObj.modifiedOn
+              resolve(newUserObj)
+            }
+          })
+        } else {
+          if(resolved && resolved.data && resolved.data.googleLogin){
+            delete resolved.data.googleLogin;
+            resolve(resolved.data)
+          } else {
+            let apiResponse = response.generate(true, "Something went wrong!", 400, err)
+            res.status(apiResponse.status)
+            res.send(apiResponse)
+          }
+        }
+      })
+    }
+
+    findUser(token)
+      .then(createUser)
+      .then(generateToken)
+      .then(saveToken)
+      .then((resolve) => {
+        let apiResponse = response.generate(
+          false,
+          "Login Successful",
+          200,
+          resolve
+        )
+        res.status(200)
+        res.send(apiResponse)
+      })
+      .catch((err) => {
+        console.log("errorhandler")
+        console.log(err)
+        res.status(err.status)
+        res.send(err)
+      })
+  } catch (err) {
+    console.log({ err })
+    let apiResponse = response.generate(true, "Something went wrong!", 400, err)
+    res.status(apiResponse.status)
+    res.send(apiResponse)
+  }
+}
+
+// end of the login function
 
 module.exports = {
   signUpFunction: signUpFunction,
   loginFunction: loginFunction,
-  logout: logout,
+  googleLoginFunction: googleLoginFunction,
 } // end exports

@@ -9,5 +9,6 @@ module.exports.setRouter = (app) => {
   app.post(`${baseUrl}/signup`, userController.signUpFunction)
 
   app.post(`${baseUrl}/login`, userController.loginFunction)
-  app.post(`${baseUrl}/logout`, userController.logout)
+  app.post(`${baseUrl}/login/google`, userController.googleLoginFunction)
+
 }

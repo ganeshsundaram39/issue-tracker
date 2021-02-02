@@ -6,8 +6,7 @@ let trim = (x) => {
 }
 let isEmpty = (value) => {
   if (
-    value === null ||
-    value === undefined ||
+    !value ||
     trim(value) === "" ||
     value.length === 0
   ) {

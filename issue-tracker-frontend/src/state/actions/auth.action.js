@@ -28,6 +28,22 @@ export const onLogin = ({ formData }) => (dispatch) => {
     })
 }
 
+export const onGoogleLogin = ({ token }) => (dispatch) => {
+  dispatch({ type: ON_LOGIN })
+  axios
+    .post(baseUrl + "/login/google", {
+      token
+    })
+    .then(function (response) {
+      console.log({ response: response?.data })
+      dispatch({ type: ON_LOGIN_RESPONSE, payload: response?.data })
+    })
+    .catch(function (error) {
+      console.log({ error: error?.response?.data })
+
+      dispatch({ type: ON_LOGIN_RESPONSE, payload: error?.response?.data })
+    })
+}
 export const onRegister = ({ formData }) => (dispatch) => {
   dispatch({ type: ON_REGISTER })
   axios

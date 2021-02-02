@@ -8,8 +8,8 @@ import {
 
 const initialState = {
   onLogin: false,
-  onRegister: false,
   loginResponse: null,
+  onRegister: false,
   registerResponse: null,
 }
 

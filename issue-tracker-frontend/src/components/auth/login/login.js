@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useCallback } from "react"
 import "./login.scss"
 import TextField from "@material-ui/core/TextField"
 import Button from "@material-ui/core/Button"
@@ -7,7 +7,7 @@ import { InputAdornment } from "@material-ui/core"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
 import { RemoveRedEye } from "@material-ui/icons"
-import { onLogin } from "../../../state/actions/auth.action"
+import { onLogin, onGoogleLogin } from "../../../state/actions/auth.action"
 import { useSelector, useDispatch } from "react-redux"
 import { useSnackbar } from "notistack"
 
@@ -35,38 +35,37 @@ const Login = () => {
   const onSubmit = (formData) => {
     dispatch(onLogin({ formData }))
   }
-  const onGoogleSignInSuccess = (googleUser) => {
-    const token = googleUser.getAuthResponse().id_token;
-    console.log(token);
+  const onGoogleSignInSuccess = useCallback((googleUser) => {
+    const token = googleUser.getAuthResponse().id_token
+    console.log(token)
+    dispatch(onGoogleLogin({ token }))
+  },[dispatch])
 
-    // dispatch({
-    //   type: 'login',
-    // });
-  };
-
-  const onGoogleSignInFail = ({error}) => {
-    console.log(error);
-  };
+  const onGoogleSignInFail = useCallback(({ error }) => {
+    console.log(error)
+  },[])
   useEffect(() => {
     document.title = "IssueTracker | Login"
+  }, [])
+  useEffect(() => {
     // @ts-expect-error
-    const { gapi } = window;
+    const { gapi } = window
 
-    gapi.load('auth2', () => {
-     gapi.auth2.init({
+    gapi.load("auth2", () => {
+      gapi.auth2.init({
         client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
-      });
+      })
 
-      gapi.signin2.render('signin-button', {
-        'scope': 'profile email',
-        'height': 50,
-        'longtitle': false,
-        'theme': 'dark',
+      gapi.signin2.render("signin-button", {
+        scope: "profile email",
+        height: 50,
+        longtitle: false,
+        theme: "dark",
         onsuccess: onGoogleSignInSuccess,
         onfailure: onGoogleSignInFail,
-      });
+      })
     })
-  }, [])
+  }, [onGoogleSignInSuccess,onGoogleSignInFail])
 
   useEffect(() => {
     if (!loading && loginResponse) {
@@ -132,7 +131,7 @@ const Login = () => {
       </div>
 
       <div className="buttons top-margin">
-      <div id="signin-button"></div>
+        <div id="signin-button"></div>
       </div>
     </form>
   )
