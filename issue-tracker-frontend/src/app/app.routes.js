@@ -13,7 +13,7 @@ export default function AppRoutes() {
       <Route path="/auth/:page" component={Auth} />
 
       <PrivateRoute exact path="/profile" component={Profile} />
-      <PrivateRoute exact path="/issues" component={Issues} />
+      <PrivateRoute  path="/issues" component={Issues} />
 
       <Redirect from="/" exact to="/issues" />
       <Route path="*" component={My404} />

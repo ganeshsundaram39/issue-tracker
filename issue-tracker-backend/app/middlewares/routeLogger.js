@@ -1,5 +1,3 @@
-
-
 let requestIpLogger = (req, res, next) => {
   let remoteIp =
     req.connection.remoteAddress + "://" + req.connection.remotePort
@@ -41,6 +39,7 @@ let requestIpLogger = (req, res, next) => {
 
     next()
   }
+  // next()
 } // end request ip logger function
 
 module.exports = {

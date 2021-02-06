@@ -8,7 +8,6 @@ const validateInput = require("../libs/paramsValidationLib")
 const check = require("../libs/checkLib")
 const token = require("../libs/tokenLib")
 const AuthModel = mongoose.model("Auth")
-const jwt = require("jsonwebtoken")
 
 /* Models */
 const UserModel = mongoose.model("User")
@@ -155,7 +154,7 @@ let loginFunction = (req, res) => {
             logger.error("No User Found", "userController: findUser()", 7)
             let apiResponse = response.generate(
               true,
-              "No User Details Found",
+              "User not found!",
               404,
               null
             )
@@ -215,7 +214,6 @@ let loginFunction = (req, res) => {
       )
     })
   }
-
 
   findUser(req, res)
     .then(validatePassword)
@@ -330,15 +328,18 @@ let saveToken = (tokenDetails) => {
   })
 }
 
-let googleLoginFunction = (req, res) => {
+let thirdPartyLoginFunction = (req, res) => {
   try {
-    let token = jwt.decode(req.body.token)
+    let userData = req.user._json
 
-    let findUser = (token) => {
+    var responseHTML =
+      '<html><head><title>Main</title></head><body></body><script>res = %value%; window.opener.postMessage(res, "*");window.close();</script></html>'
+
+    let findUser = (userData) => {
       console.log("findUser")
       return new Promise((resolve, reject) => {
-        if (token && token.email) {
-          UserModel.findOne({ email: token.email }, (err, userDetails) => {
+        if (userData && userData.email) {
+          UserModel.findOne({ email: userData.email }, (err, userDetails) => {
             /* handle the error here if the User is not found */
             if (err) {
               console.log(err)
@@ -377,9 +378,7 @@ let googleLoginFunction = (req, res) => {
               delete userObj.__v
               delete userObj.createdOn
               delete userObj.modifiedOn
-              resolve(
-                response.generate(false, "Email Found!", 200, userObj)
-              )
+              resolve(response.generate(false, "Email Found!", 200, userObj))
             }
           })
         } else {
@@ -397,14 +396,31 @@ let googleLoginFunction = (req, res) => {
     let createUser = (resolved) => {
       return new Promise((resolve, reject) => {
         if (resolved && resolved.error) {
-          console.log(token)
+          console.log(userData)
           let newUser = new UserModel({
             userId: shortid.generate(),
-            fullName: token.name,
-            email: token.email.toLowerCase(),
-            googleLogin: true,
-            password: passwordLib.hashpassword(token.email + token.name),
+            fullName: userData.name,
+            email: userData.email
+              ? userData.email.toLowerCase()
+              : userData.name + shortid.generate(),
+            googleLogin: req.url.includes("google") ? true : false,
+            githubLogin: req.url.includes("github") ? true : false,
+            twitterLogin: req.url.includes("twitter") ? true : false,
+            facebookLogin: req.url.includes("facebook") ? true : false,
+
+            password: passwordLib.hashpassword(userData.email + userData.name),
             createdOn: time.now(),
+            picture:
+              req.url.includes("twitter") && userData.profile_image_url_https
+                ? userData.profile_image_url_https.replace("_normal", "")
+                : req.url.includes("facebook") &&
+                  userData.picture &&
+                  userData.picture.data &&
+                  userData.picture.data.url
+                ? userData.picture.data.url
+                : userData.picture
+                ? userData.picture
+                : "",
           })
           newUser.save((err, newUser) => {
             if (err) {
@@ -428,19 +444,35 @@ let googleLoginFunction = (req, res) => {
             }
           })
         } else {
-          if(resolved && resolved.data && resolved.data.googleLogin){
-            delete resolved.data.googleLogin;
+          if (resolved && resolved.data) {
+            delete resolved.data.googleLogin
+            delete resolved.data.githubLogin
+            delete resolved.data.twitterLogin
+            delete resolved.data.facebookLogin
+
             resolve(resolved.data)
           } else {
-            let apiResponse = response.generate(true, "Something went wrong!", 400, err)
+            let apiResponse = response.generate(
+              true,
+              "Something went wrong!",
+              400,
+              null
+            )
+
+            responseHTML = responseHTML.replace(
+              "%value%",
+              JSON.stringify({
+                apiResponse: apiResponse,
+              })
+            )
             res.status(apiResponse.status)
-            res.send(apiResponse)
+            res.send(responseHTML)
           }
         }
       })
     }
 
-    findUser(token)
+    findUser(userData)
       .then(createUser)
       .then(generateToken)
       .then(saveToken)
@@ -451,20 +483,39 @@ let googleLoginFunction = (req, res) => {
           200,
           resolve
         )
-        res.status(200)
-        res.send(apiResponse)
+        responseHTML = responseHTML.replace(
+          "%value%",
+          JSON.stringify({
+            apiResponse: apiResponse,
+          })
+        )
+        res.status(apiResponse.status)
+        res.send(responseHTML)
       })
       .catch((err) => {
         console.log("errorhandler")
         console.log(err)
+
+        responseHTML = responseHTML.replace(
+          "%value%",
+          JSON.stringify({
+            apiResponse: err,
+          })
+        )
         res.status(err.status)
-        res.send(err)
+        res.send(responseHTML)
       })
   } catch (err) {
     console.log({ err })
     let apiResponse = response.generate(true, "Something went wrong!", 400, err)
+    responseHTML = responseHTML.replace(
+      "%value%",
+      JSON.stringify({
+        apiResponse: apiResponse,
+      })
+    )
     res.status(apiResponse.status)
-    res.send(apiResponse)
+    res.send(responseHTML)
   }
 }
 
@@ -473,5 +524,5 @@ let googleLoginFunction = (req, res) => {
 module.exports = {
   signUpFunction: signUpFunction,
   loginFunction: loginFunction,
-  googleLoginFunction: googleLoginFunction,
+  thirdPartyLoginFunction: thirdPartyLoginFunction,
 } // end exports

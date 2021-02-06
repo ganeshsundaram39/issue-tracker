@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useCallback } from "react"
 import "./signup.scss"
 import TextField from "@material-ui/core/TextField"
 import Button from "@material-ui/core/Button"
@@ -10,9 +10,6 @@ import { RemoveRedEye } from "@material-ui/icons"
 import { onRegister } from "../../../state/actions/auth.action"
 import { useSelector, useDispatch } from "react-redux"
 import { useSnackbar } from "notistack"
-import {
-  useHistory,
-} from "react-router-dom"
 import { resetAuth } from "../../../state/actions/auth.action"
 // import useCountRenders from "../useCountRenders"
 
@@ -22,13 +19,12 @@ const schema = yup.object().shape({
   password: yup.string().required("Password is required"),
 })
 
-const Signup = () => {
+const Signup = ({ handleChange }) => {
   const [passwordIsMasked, togglePasswordMask] = useState(true)
   const loading = useSelector((state) => state.auth.onRegister)
   const registerResponse = useSelector((state) => state.auth.registerResponse)
   const dispatch = useDispatch()
   const { enqueueSnackbar } = useSnackbar()
-  let history = useHistory()
 
   const { register, handleSubmit, errors } = useForm({
     mode: "onBlur",
@@ -48,16 +44,19 @@ const Signup = () => {
       if (registerResponse?.error && registerResponse?.message) {
         enqueueSnackbar(registerResponse?.message, { variant: "error" })
         dispatch(resetAuth())
-
       } else {
         enqueueSnackbar("Registration Successfull!", { variant: "success" })
-        dispatch(resetAuth())
-
-        history.push('/auth/login')
+        handleChange({}, 0)
       }
     }
-  }, [loading, registerResponse, enqueueSnackbar,dispatch,history])
-
+  }, [loading, registerResponse, enqueueSnackbar, dispatch, handleChange])
+  const showPasswordText = useCallback(
+    (e) => {
+      e.stopPropagation()
+      togglePasswordMask((prev) => !prev)
+    },
+    [togglePasswordMask]
+  )
   // useCountRenders('Signup Component')
 
   return (
@@ -94,7 +93,7 @@ const Signup = () => {
             <InputAdornment position="end">
               <RemoveRedEye
                 style={{ cursor: "pointer" }}
-                onClick={() => togglePasswordMask((prev) => !prev)}
+                onClick={showPasswordText}
               />
             </InputAdornment>
           ),

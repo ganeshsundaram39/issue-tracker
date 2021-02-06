@@ -23,10 +23,10 @@ class ErrorBoundary extends React.Component {
       info: info,
     })
   }
-  handleClick = () => {
+  handleClick = (event) => {
+    event.stopPropagation()
 
-      this.props.history.push("/")
-
+   window.location.reload();
   }
   render() {
     if (this.state.hasError) {
@@ -38,12 +38,13 @@ class ErrorBoundary extends React.Component {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            flexDirection: 'column',
-            backgroundColor: 'var(--bgColor)'
-
+            flexDirection: "column",
+            backgroundColor: "var(--bgColor)",
           }}
         >
-          <h1 style={{ color: "white",marginBottom:'30px' }}>Oops, something went wrong :(</h1>
+          <h1 style={{ color: "white", marginBottom: "30px" }}>
+            Oops, something went wrong :(
+          </h1>
           <Button
             variant="contained"
             color="primary"

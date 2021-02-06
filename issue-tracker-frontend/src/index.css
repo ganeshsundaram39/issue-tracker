@@ -2,9 +2,8 @@
 /* You can add global styles to this file, and also import other style files */
 
 :root {
-  --bgColor: rgb(21, 32, 43)
+  --bgColor: rgb(21, 32, 43);
 }
-
 
 html,
 body,

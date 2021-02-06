@@ -7,9 +7,19 @@ import { InputAdornment } from "@material-ui/core"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
 import { RemoveRedEye } from "@material-ui/icons"
-import { onLogin, onGoogleLogin } from "../../../state/actions/auth.action"
+import {
+  onLogin,
+  onGoogleLogin,
+  onGithubLogin,
+  onTwitterLogin,
+  onFacebookLogin,
+} from "../../../state/actions/auth.action"
 import { useSelector, useDispatch } from "react-redux"
 import { useSnackbar } from "notistack"
+import Google from "../../../assets/images/google.svg"
+import Facebook from "../../../assets/images/facebook.svg"
+import Twitter from "../../../assets/images/twitter.svg"
+import Github from "../../../assets/images/github.svg"
 
 import { useHistory } from "react-router-dom"
 import { resetAuth } from "../../../state/actions/auth.action"
@@ -27,6 +37,7 @@ const Login = () => {
     mode: "onBlur",
     resolver: yupResolver(schema),
   })
+
   const dispatch = useDispatch()
   const loading = useSelector((state) => state.auth.onLogin)
   const loginResponse = useSelector((state) => state.auth.loginResponse)
@@ -35,44 +46,38 @@ const Login = () => {
   const onSubmit = (formData) => {
     dispatch(onLogin({ formData }))
   }
-  const onGoogleSignInSuccess = useCallback((googleUser) => {
-    const token = googleUser.getAuthResponse().id_token
-    console.log(token)
-    dispatch(onGoogleLogin({ token }))
-  },[dispatch])
-
-  const onGoogleSignInFail = useCallback(({ error }) => {
-    console.log(error)
-  },[])
   useEffect(() => {
     document.title = "IssueTracker | Login"
   }, [])
-  useEffect(() => {
-    // @ts-expect-error
-    const { gapi } = window
 
-    gapi.load("auth2", () => {
-      gapi.auth2.init({
-        client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
-      })
+  const onGoogleSignIn = useCallback(() => {
+    dispatch(onGoogleLogin())
+  }, [dispatch])
+  const onGithubSignIn = useCallback(() => {
+    dispatch(onGithubLogin())
+  }, [dispatch])
+  const onTwitterSignIn = useCallback(() => {
+    dispatch(onTwitterLogin())
+  }, [dispatch])
 
-      gapi.signin2.render("signin-button", {
-        scope: "profile email",
-        height: 50,
-        longtitle: false,
-        theme: "dark",
-        onsuccess: onGoogleSignInSuccess,
-        onfailure: onGoogleSignInFail,
-      })
-    })
-  }, [onGoogleSignInSuccess,onGoogleSignInFail])
+  const onFacebookSignIn = useCallback(() => {
+    dispatch(onFacebookLogin())
+  }, [dispatch])
+
+  const showPasswordText = useCallback(
+    (e) => {
+      e.stopPropagation()
+      togglePasswordMask((prev) => !prev)
+    },
+    [togglePasswordMask]
+  )
 
   useEffect(() => {
     if (!loading && loginResponse) {
       if (loginResponse?.error && loginResponse?.message) {
         enqueueSnackbar(loginResponse?.message, { variant: "error" })
         dispatch(resetAuth())
-      } else {
+      } else if (loginResponse?.data) {
         enqueueSnackbar("Login Successful!", { variant: "success" })
         localStorage.setItem(
           "userdata",
@@ -102,6 +107,7 @@ const Login = () => {
         name="password"
         error={!!errors.password}
         label="Password"
+        autoComplete="on"
         inputRef={register}
         helperText={errors?.password?.message ? errors?.password?.message : " "}
         type={passwordIsMasked ? "password" : "text"}
@@ -110,7 +116,7 @@ const Login = () => {
             <InputAdornment position="end">
               <RemoveRedEye
                 style={{ cursor: "pointer" }}
-                onClick={() => togglePasswordMask((prev) => !prev)}
+                onClick={showPasswordText}
               />
             </InputAdornment>
           ),
@@ -130,8 +136,15 @@ const Login = () => {
         </Button>
       </div>
 
-      <div className="buttons top-margin">
-        <div id="signin-button"></div>
+      <div className="buttons top-margin social-login">
+        {/* <div id="signin-button"></div> */}
+
+        <img src={Google} alt="Google Login" onClick={onGoogleSignIn} />
+        <img src={Github} alt="Github Login" onClick={onGithubSignIn} />
+
+        <img src={Twitter} alt="Twitter Login" onClick={onTwitterSignIn} />
+
+        <img src={Facebook} alt="Facebook Login" onClick={onFacebookSignIn} />
       </div>
     </form>
   )

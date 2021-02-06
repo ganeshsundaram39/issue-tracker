@@ -36,10 +36,18 @@ let userSchema = new Schema({
     type: Boolean,
     default: false,
   },
-  picture:{
-    type:String,
-    default:""
-  }
+  twitterLogin: {
+    type: Boolean,
+    default: false,
+  },
+  facebookLogin: {
+    type: Boolean,
+    default: false,
+  },
+  picture: {
+    type: String,
+    default: "",
+  },
 })
 
 mongoose.model("User", userSchema)
