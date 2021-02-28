@@ -15,9 +15,8 @@
   .new-issue-form-wrapper {
     display: flex;
     flex-direction: column-reverse;
-    .first{
+    .first {
       flex-basis: 40%;
-
     }
     .second {
       flex-basis: 60%;
@@ -40,7 +39,7 @@
     border: 1px solid #ccc;
   }
   .editor-class {
-    background-color:lightgray;
+    background-color: lightgray;
     padding: 1rem;
     border: 1px solid #ccc;
   }
@@ -101,7 +100,7 @@
 @media (min-width: 992px) {
   .new-issue-container {
     .new-issue-card {
-      width: 70vw;
+      width: 80vw;
     }
     .new-issue-form-wrapper {
       flex-direction: row;

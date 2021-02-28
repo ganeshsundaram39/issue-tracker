@@ -22,4 +22,9 @@ module.exports.setRouter = ({app}) => {
     issueController.createIssueSaveImageFunction
   )
 
+  app.post(
+    `${baseUrl}/create/image-destroy`,
+    authorizeMiddleware,
+    issueController.createIssueDestroySavedImageFunction
+  )
 }

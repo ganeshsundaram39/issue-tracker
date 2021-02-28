@@ -32,7 +32,7 @@ let verifyClaim = (token, cb) => {
       cb(err, null)
     } else {
       console.log("user verified")
-      console.log(decoded)
+      // console.log(decoded)
       cb(null, decoded)
     }
   })

@@ -14,7 +14,7 @@ import AccountBoxSharpIcon from "@material-ui/icons/AccountBoxSharp"
 import InboxSharpIcon from "@material-ui/icons/InboxSharp"
 import ExitToAppSharpIcon from "@material-ui/icons/ExitToAppSharp"
 import { useHistory } from "react-router-dom"
-
+import BugReportIcon from '@material-ui/icons/BugReport';
 const AdapterLink = React.forwardRef((props, ref) => (
   <Link innerRef={ref} {...props} />
 ))
@@ -72,9 +72,9 @@ export default function Drawer() {
         <List>
           <ListItem button component={AdapterLink} to="/issues/new">
             <ListItemIcon>
-            <InboxSharpIcon />
+            <BugReportIcon />
             </ListItemIcon>
-            <ListItemText primary={"New Issues"} />
+            <ListItemText primary={"New Issue"} />
           </ListItem>
         </List>
         <List>

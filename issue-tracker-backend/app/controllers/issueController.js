@@ -2,17 +2,12 @@ const mongoose = require("mongoose")
 const shortid = require("shortid")
 const response = require("./../libs/responseLib")
 const logger = require("./../libs/loggerLib")
-const path = require('path');
-const DatauriParser = require('datauri/parser');
-const parser = new DatauriParser();
-/* Models */
+const path = require("path")
+const DatauriParser = require("datauri/parser")
+const parser = new DatauriParser()
 const IssueModel = mongoose.model("Issue")
-var cloudinary = require('cloudinary').v2;
-// start user signup function
-
-const formatBufferTo64 = file =>
-  parser.format(path.extname(file.originalname).toString(), file.buffer)
-
+var cloudinary = require("cloudinary").v2
+const moment = require("moment")
 
 const createIssueFunction = (req, res) => {
   const createIssue = () => {
@@ -21,10 +16,8 @@ const createIssueFunction = (req, res) => {
         issueId: shortid.generate(),
         title: req.body.title,
         description: req.body.description,
-        imagePaths:
-          req.imageUrls && req.imageUrls.length
-            ? req.imageUrls
-            : "",
+        label: req.body.label,
+        userId: req.body.userId,
       })
       newIssue.save((err, newIssue) => {
         if (err) {
@@ -60,7 +53,17 @@ const createIssueFunction = (req, res) => {
 const getIssuesFunction = (req, res) => {
   const getIssues = () => {
     return new Promise((resolve, reject) => {
-      IssueModel.find({}, { __v: 0, _id: 0 })
+      IssueModel.find(
+        {
+          ...(req.query.userId ? { userId: req.query.userId } : {}),
+
+          ...(req.query.issueId ? { issueId: req.query.issueId } : {}),
+
+          ...(req.query.search ? { title:  new Regex(req.query.search) } : {}),
+
+        },
+        { __v: 0, _id: 0, ...(req.query.issueId ? {} : { description: 0 }) }
+      )
         .lean()
         .exec((err, allIssues) => {
           if (err) {
@@ -79,13 +82,17 @@ const getIssuesFunction = (req, res) => {
     })
   }
   getIssues()
-    .then((result) => {
-      console.log({ result })
+    .then((results) => {
+      // console.log({ results })
+      results = results.map((result) => ({
+        ...result,
+        issueGenerationTime: moment(result.issueGenerationTime).fromNow(),
+      }))
       let apiResponse = response.generate(
         false,
         "Issues retrieved successfully.",
         200,
-        result
+        results
       )
       res.send(apiResponse)
     })
@@ -96,24 +103,51 @@ const getIssuesFunction = (req, res) => {
     })
 }
 
+const formatBufferTo64 = (file) =>
+  parser.format(path.extname(file.originalname).toString(), file.buffer)
 
-const createIssueSaveImageFunction = async(req,res)=>{
+const cloudinaryUpload = (file) => cloudinary.uploader.upload(file, { eager: [
+  { width: 500, height: 500, crop: "pad" } ]},)
+
+const createIssueSaveImageFunction = async (req, res) => {
   try {
-    if (!req.file) { throw new Error('Image is not presented!'); }
-    const file64 = formatBufferTo64(req.file);
-    const uploadResult = await cloudinaryUpload(file64.content);
-
-    return res.json({cloudinaryId: uploadResult.public_id, url: uploadResult.secure_url});
-  } catch(e) {
-    return res.status(422).send({message: e.message})
+    if (!req.file) {
+      throw new Error("Image is not presented!")
+    }
+    const file64 = formatBufferTo64(req.file)
+    const uploadResult = await cloudinaryUpload(file64.content)
+    console.log({ uploadResult })
+    return res.json({
+      cloudinaryId: uploadResult.public_id,
+      url: uploadResult.eager[0].secure_url,
+    })
+  } catch (e) {
+    return res.status(422).send({ message: e.message })
   }
-
-  // cloudinary.v2.uploader.upload("/home/my_image.jpg",
-  // function(error, result) {console.log(result, error)});
 }
 
+const createIssueDestroySavedImageFunction = async (req, res) => {
+  try {
+    const images = req.body.images
+    if (!images || images.length == 0) {
+      throw new Error("No Images found for destruction!")
+    }
+    images.forEach(async (image) => {
+      console.log(image)
+      const result = await cloudinary.uploader.destroy(image)
+      console.log(result)
+    })
+
+    return res.json({
+      result: "Images Destroyed",
+    })
+  } catch (e) {
+    return res.status(422).send({ message: e.message })
+  }
+}
 module.exports = {
   createIssueFunction,
   getIssuesFunction,
   createIssueSaveImageFunction,
+  createIssueDestroySavedImageFunction,
 } // end exports

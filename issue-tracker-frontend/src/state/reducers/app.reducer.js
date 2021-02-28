@@ -1,4 +1,4 @@
-import { TOGGLE_DRAWER_STATE, RESET_APP } from "../types/types"
+import { TOGGLE_DRAWER_STATE, RESET_APP } from "../types/app.types"
 
 const initialState = {
   drawerIsOpen: false,

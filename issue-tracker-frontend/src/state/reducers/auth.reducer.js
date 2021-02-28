@@ -4,7 +4,7 @@ import {
   ON_REGISTER,
   ON_REGISTER_RESPONSE,
   RESET_AUTH,
-} from "../types/types"
+} from "../types/auth.types"
 
 const initialState = {
   onLogin: false,

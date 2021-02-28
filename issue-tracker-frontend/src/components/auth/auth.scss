@@ -8,7 +8,7 @@
   img.side-image {
     width: 34vw;
   }
-}
+
 .card-style {
   min-width: 275px;
   min-height: 400px;
@@ -34,10 +34,11 @@
     width: 27px;
   }
 }
+}
 
 // Large devices (desktops, 992px and up)
 @media (min-width: 992px) {
-  .login-section {
+  .auth {  .login-section {
     width: 30%;
-  }
+  }}
 }

@@ -7,6 +7,7 @@ import { store } from "./state/store/store"
 import { SnackbarProvider } from "notistack"
 // import reportWebVitals from './reportWebVitals';
 
+
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>

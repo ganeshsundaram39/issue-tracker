@@ -1,0 +1,12 @@
+.issue-list-wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20vh 0;
+    .card-style{
+        width: 80vw;
+        min-height: 100vh;
+        padding: 3% 4%;
+    }
+}

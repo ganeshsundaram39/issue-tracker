@@ -12,7 +12,14 @@ const Issue = new Schema({
   description: {
     type: String,
   },
-  imagePaths: {
+  label: {
+    type: String,
+  },
+  status: {
+    type: String,
+    default: "open",
+  },
+  userId: {
     type: String,
   },
   issueGenerationTime: {

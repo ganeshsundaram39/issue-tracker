@@ -9,6 +9,7 @@
     "axios": "^0.21.1",
     "env-cmd": "^10.1.0",
     "http-proxy-middleware": "^1.0.6",
+    "markdown-to-jsx": "^7.1.1",
     "node-sass": "^4.14.1",
     "notistack": "^1.0.3",
     "react": "^17.0.1",
