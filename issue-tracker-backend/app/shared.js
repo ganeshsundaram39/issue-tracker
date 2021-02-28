@@ -11,11 +11,11 @@ const express = require("express")
 const helmet = require("helmet");
 const MongoDBStore = require("connect-mongodb-session")(session)
 var compression = require('compression')
-
+var cloudinary = require('cloudinary').v2;
 const cors = require("cors")
 
 exports.common = function (app, passport) {
-  // if (process.env.SERVER_ENV == "production") {
+  if (process.env.SERVER_ENV == "production") {
 
     app.use(
       helmet({
@@ -30,7 +30,7 @@ exports.common = function (app, passport) {
 
   app.use(compression());
 
-// }
+}
   app.use(cors())
   app.use(morgan("dev"))
 
@@ -108,6 +108,11 @@ exports.onListening = function (server) {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
+  cloudinary.config({
+    cloud_name:  process.env.CLOUDINARY_NAME ,
+    api_key:  process.env.CLOUDINARY_API_KEY ,
+    api_secret:  process.env.CLOUDINARY_API_SECRET
+  });
 }
 
 exports.onError = function (error) {

@@ -70,6 +70,14 @@ export default function Drawer() {
         </List>
         <Divider />
         <List>
+          <ListItem button component={AdapterLink} to="/issues/new">
+            <ListItemIcon>
+            <InboxSharpIcon />
+            </ListItemIcon>
+            <ListItemText primary={"New Issues"} />
+          </ListItem>
+        </List>
+        <List>
           <ListItem button component={AdapterLink} to="/profile">
             <ListItemIcon>
               <AccountBoxSharpIcon />

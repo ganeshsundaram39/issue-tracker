@@ -23,7 +23,7 @@ fs.readdirSync(modelsPath).forEach(function (file) {
 fs.readdirSync(routesPath).forEach(function (file) {
   if (~file.indexOf(".js")) {
     let route = require(routesPath + "/" + file)
-    route.setRouter(app, passport)
+    route.setRouter({app, passport})
   }
 })
 
