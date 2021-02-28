@@ -128,7 +128,6 @@ const Login = () => {
       <div className="buttons top-margin">
         <Button
           variant="contained"
-
           type="submit"
           color="primary"
           fullWidth
@@ -136,15 +135,10 @@ const Login = () => {
           Login
         </Button>
       </div>
-
       <div className="buttons top-margin social-login">
-        {/* <div id="signin-button"></div> */}
-
         <img src={Google} alt="Google Login" onClick={onGoogleSignIn} />
         <img src={Github} alt="Github Login" onClick={onGithubSignIn} />
-
         <img src={Twitter} alt="Twitter Login" onClick={onTwitterSignIn} />
-
         <img src={Facebook} alt="Facebook Login" onClick={onFacebookSignIn} />
       </div>
     </form>

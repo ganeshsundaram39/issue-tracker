@@ -46,7 +46,7 @@ export const getImageUrl = async (data) => {
   return res
 }
 
-export const cancelDeleteImage = (images) => {
+export const destroyImages = (images) => {
   axios.post(baseUrl + "/create/image-destroy", {
     images,
   })

@@ -42,4 +42,13 @@
     padding: 10px;
     border-radius: 5px;
   }
+  .new-comment-wrapper{
+    padding: 10px;
+    display: flex;
+    justify-content: flex-end;
+    border: 1px solid #ccc;
+    button{
+      margin-left:10px
+    }
+  }
 }

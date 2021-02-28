@@ -1,7 +1,7 @@
 {
   "name": "issue-tracker-backend",
   "version": "1.0.0",
-  "description": "",
+  "description": "issue-tracker-backend",
   "main": "server.js",
   "scripts": {
     "start:dev": "env-cmd -f ./env/.env.dev nodemon --inspect server.js",

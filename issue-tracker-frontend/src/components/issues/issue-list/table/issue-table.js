@@ -56,8 +56,6 @@ export default function IssueTable({ rows }) {
                 <div className="single-issue">
                   <ErrorOutlineOutlinedIcon className="icon" />
                   <Link  style={{ color: '#000' }} to={"/issues/" + row.issueId}
-
-
                   >
                     <span className="issue-title"> {row.title} </span>
                   </Link>

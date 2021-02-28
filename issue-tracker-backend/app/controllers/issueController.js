@@ -15,7 +15,7 @@ const createIssueFunction = (req, res) => {
       let newIssue = new IssueModel({
         issueId: shortid.generate(),
         title: req.body.title,
-        description: req.body.description,
+        comments: [{ comment: req.body.comment }],
         label: req.body.label,
         userId: req.body.userId,
       })
@@ -39,7 +39,7 @@ const createIssueFunction = (req, res) => {
 
   createIssue()
     .then((result) => {
-      console.log({ result })
+      // console.log({ result })
       let apiResponse = response.generate(false, "Issue created", 200, result)
       res.send(apiResponse)
     })
@@ -59,10 +59,9 @@ const getIssuesFunction = (req, res) => {
 
           ...(req.query.issueId ? { issueId: req.query.issueId } : {}),
 
-          ...(req.query.search ? { title:  new Regex(req.query.search) } : {}),
-
+          ...(req.query.search ? { title: new Regex(req.query.search) } : {}),
         },
-        { __v: 0, _id: 0, ...(req.query.issueId ? {} : { description: 0 }) }
+        { __v: 0, _id: 0, ...(req.query.issueId ? {} : { comments: 0 }) }
       )
         .lean()
         .exec((err, allIssues) => {
@@ -87,6 +86,14 @@ const getIssuesFunction = (req, res) => {
       results = results.map((result) => ({
         ...result,
         issueGenerationTime: moment(result.issueGenerationTime).fromNow(),
+        comments: [
+          ...result.comments.map((comment) => ({
+            ...comment,
+            commentGenerationTime: moment(
+              comment.commentGenerationTime
+            ).fromNow(),
+          })),
+        ],
       }))
       let apiResponse = response.generate(
         false,
@@ -106,8 +113,10 @@ const getIssuesFunction = (req, res) => {
 const formatBufferTo64 = (file) =>
   parser.format(path.extname(file.originalname).toString(), file.buffer)
 
-const cloudinaryUpload = (file) => cloudinary.uploader.upload(file, { eager: [
-  { width: 500, height: 500, crop: "pad" } ]},)
+const cloudinaryUpload = (file) =>
+  cloudinary.uploader.upload(file, {
+    eager: [{ width: 500, height: 500, crop: "pad" }],
+  })
 
 const createIssueSaveImageFunction = async (req, res) => {
   try {
@@ -116,7 +125,7 @@ const createIssueSaveImageFunction = async (req, res) => {
     }
     const file64 = formatBufferTo64(req.file)
     const uploadResult = await cloudinaryUpload(file64.content)
-    console.log({ uploadResult })
+    // console.log({ uploadResult })
     return res.json({
       cloudinaryId: uploadResult.public_id,
       url: uploadResult.eager[0].secure_url,

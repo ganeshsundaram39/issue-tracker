@@ -67,7 +67,7 @@ let signUpFunction = (req, res) => {
             )
             reject(apiResponse)
           } else if (check.isEmpty(retrievedUserDetails)) {
-            console.log(req.body)
+            // console.log(req.body)
             let newUser = new UserModel({
               userId: shortid.generate(),
               fullName: req.body.fullName,
@@ -130,7 +130,7 @@ let loginFunction = (req, res) => {
     return new Promise((resolve, reject) => {
       if (req.body.email) {
         console.log("req body email is there")
-        console.log(req.body)
+        // console.log(req.body)
         UserModel.findOne({ email: req.body.email }, (err, userDetails) => {
           /* handle the error here if the User is not found */
           if (err) {
@@ -396,7 +396,7 @@ let thirdPartyLoginFunction = (req, res) => {
     let createUser = (resolved) => {
       return new Promise((resolve, reject) => {
         if (resolved && resolved.error) {
-          console.log(userData)
+          // console.log(userData)
           let newUser = new UserModel({
             userId: shortid.generate(),
             fullName: userData.name,

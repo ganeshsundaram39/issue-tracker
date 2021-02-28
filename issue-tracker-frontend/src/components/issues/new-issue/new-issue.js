@@ -1,20 +1,13 @@
 import React, { useState, useCallback, useEffect } from "react"
-
 import "./new-issue.scss"
-
 import Card from "@material-ui/core/Card"
 import BugFixing from "../../../assets/images/bug_fixing.svg"
 import { yupResolver } from "@hookform/resolvers/yup"
-import * as yup from "yup"
 import { useForm } from "react-hook-form"
 import Button from "@material-ui/core/Button"
 import TextField from "@material-ui/core/TextField"
-import ReactMde from "react-mde"
-import * as Showdown from "showdown"
 import { useSelector, useDispatch } from "react-redux"
 import { useSnackbar } from "notistack"
-
-import { makeStyles } from "@material-ui/core/styles"
 import InputLabel from "@material-ui/core/InputLabel"
 import MenuItem from "@material-ui/core/MenuItem"
 import FormControl from "@material-ui/core/FormControl"
@@ -22,40 +15,23 @@ import Select from "@material-ui/core/Select"
 import { useHistory } from "react-router-dom"
 import {
   onNewIssue,
-  getImageUrl,
   resetIssue,
-  cancelDeleteImage,
+  destroyImages,
 } from "../../../state/actions/issue.action"
 import ReactMarkdownEditor from "../react-markdown-editor/react-markdown-editor"
 
-const useStyles = makeStyles((theme) => ({
-  formControl: {
-    minWidth: "100%",
-    "margin-top": "20px",
-  },
-  selectEmpty: {
-    marginTop: theme.spacing(2),
-  },
-}))
-
-const schema = yup.object().shape({
-  title: yup
-    .string()
-    .required("Title is required")
-    .max(50, "Title cannot be greater than 50 characters"),
-})
+import { schema, useStyles, labels } from "./new-issue-extras"
 
 const NewIssue = () => {
   const { register, handleSubmit, errors } = useForm({
     mode: "onBlur",
     resolver: yupResolver(schema),
   })
-
   let history = useHistory()
   const [label, setLabel] = useState("")
   const dispatch = useDispatch()
   const classes = useStyles()
-  const [description, setDescription] = useState("")
+  const [comment, setComment] = useState("")
   const { enqueueSnackbar } = useSnackbar()
   const [images, setImages] = useState([])
   const loading = useSelector((state) => state.issue.onNewIssue)
@@ -63,14 +39,14 @@ const NewIssue = () => {
 
   const onSubmit = useCallback(
     (formData) => {
-    if(!loading){
+      if (!loading) {
+        formData["comment"] = comment
+        formData["label"] = label
 
-      formData["description"] = description
-      formData["label"] = label
-
-      dispatch(onNewIssue({ formData }))}
+        dispatch(onNewIssue({ formData }))
+      }
     },
-    [dispatch, description, label]
+    [dispatch, comment, label, loading]
   )
 
   useEffect(() => {
@@ -98,24 +74,33 @@ const NewIssue = () => {
     (event) => {
       event.stopPropagation()
       if (images && images.length) {
-        cancelDeleteImage(images)
+        destroyImages(images)
       }
 
       history.push("/issues")
     },
     [history, images]
   )
+  useEffect(() => {
+    if (images && images.length) {
+      window.onbeforeunload = function () {
+        destroyImages(images)
+        return true
+      }
+    }
 
+    return () => {
+      window.onbeforeunload = null
+    }
+  }, [images])
   return (
     <div className="new-issue-container">
       <Card className="new-issue-card">
         <h2>New Issue</h2>
-
         <div className="new-issue-form-wrapper">
           <div className="first">
             <img src={BugFixing} alt="bug fixing" />
           </div>
-
           <div className="second">
             <form onSubmit={handleSubmit(onSubmit)}>
               <TextField
@@ -130,13 +115,11 @@ const NewIssue = () => {
                 fullWidth
                 variant="filled"
               />
-
               <ReactMarkdownEditor
-                description={description}
-                setDescription={setDescription}
+                comment={comment}
+                setComment={setComment}
                 setImages={setImages}
               />
-
               <FormControl variant="filled" className={classes.formControl}>
                 <InputLabel id="demo-simple-select-filled-label">
                   Label
@@ -150,39 +133,11 @@ const NewIssue = () => {
                   <MenuItem value="">
                     <em>None</em>
                   </MenuItem>
-
-                  <MenuItem value={"bug"}>
-                    {"bug => Something isn't working"}
-                  </MenuItem>
-                  <MenuItem value={"documentation"}>
-                    {
-                      "documentation => Improvements or additions to documentation"
-                    }
-                  </MenuItem>
-                  <MenuItem value={"duplicate"}>
-                    {"duplicate => This issue or pull request already exists"}
-                  </MenuItem>
-                  <MenuItem value={"enhancement"}>
-                    {"enhancement => New feature or request"}
-                  </MenuItem>
-                  <MenuItem value={"good first issue"}>
-                    {"good first issue => Good for newcomers"}
-                  </MenuItem>
-                  <MenuItem value={"help wanted"}>
-                    {"help wanted => Extra attention is needed"}
-                  </MenuItem>
-                  <MenuItem value={"invalid"}>
-                    {"invalid => This doesn't seem right"}
-                  </MenuItem>
-                  <MenuItem value={"question"}>
-                    {"question=> Further information is requested"}
-                  </MenuItem>
-                  <MenuItem value={"wontfix"}>
-                    {"wontfix => This will not be worked on"}
-                  </MenuItem>
+                  {labels.map((label) => (
+                    <MenuItem value={label.value}>{label.text}</MenuItem>
+                  ))}
                 </Select>
               </FormControl>
-
               <div className="buttons top-margin">
                 <Button
                   variant="contained"
@@ -192,12 +147,7 @@ const NewIssue = () => {
                 >
                   Create Issue
                 </Button>
-                <Button
-                  variant="contained"
-                  type="submit"
-                  color="primary"
-                  onClick={onCancel}
-                >
+                <Button variant="contained" color="primary" onClick={onCancel}>
                   Cancel
                 </Button>
               </div>

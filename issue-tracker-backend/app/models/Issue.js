@@ -9,9 +9,15 @@ const Issue = new Schema({
   title: {
     type: String,
   },
-  description: {
-    type: String,
-  },
+  comments: [
+    {
+      comment: String,
+      commentGenerationTime: {
+        type: Date,
+        default: time.now(),
+      },
+    },
+  ],
   label: {
     type: String,
   },
