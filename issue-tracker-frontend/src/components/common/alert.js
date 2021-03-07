@@ -13,7 +13,7 @@ export default function AlertDialog({
   handleYes,
   handleNo,
   yesText,
-  noText
+  noText,
 }) {
   const [open, setOpen] = React.useState(false)
 
@@ -37,11 +37,7 @@ export default function AlertDialog({
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
-        <DialogContent>
-
-            {message}
-
-        </DialogContent>
+        <DialogContent>{message}</DialogContent>
         <DialogActions>
           <Button
             onClick={(event) => {
@@ -59,7 +55,7 @@ export default function AlertDialog({
             }}
             color="primary"
           >
-           {yesText}
+            {yesText}
           </Button>
         </DialogActions>
       </Dialog>
@@ -69,7 +65,10 @@ export default function AlertDialog({
 
 AlertDialog.propTypes = {
   children: PropTypes.func.isRequired,
-  message:   PropTypes.oneOfType([  PropTypes.string.isRequired,PropTypes.object.isRequired]),
+  message: PropTypes.oneOfType([
+    PropTypes.string.isRequired,
+    PropTypes.object.isRequired,
+  ]),
   title: PropTypes.string.isRequired,
   handleYes: PropTypes.func.isRequired,
   handleNo: PropTypes.func.isRequired,
@@ -82,6 +81,6 @@ AlertDialog.defaultProps = {
   title: "Dialog Title",
   handleYes: () => {},
   handleNo: () => {},
-  yesText: 'Yes',
-  noText: 'No',
+  yesText: "Yes",
+  noText: "No",
 }

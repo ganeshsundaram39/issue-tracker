@@ -13,10 +13,9 @@ export default function AppRoutes() {
     <Switch>
       <Route path="/auth/:page" component={Auth} />
 
-      <PrivateRoute  path="/issues" component={Issues} />
+      <PrivateRoute path="/issues" component={Issues} />
       <PrivateRoute exact path="/profile" component={Profile} />
-      <PrivateRoute  exact path="/close-account" component={CloseAccount} />
-
+      <PrivateRoute exact path="/close-account" component={CloseAccount} />
 
       <Redirect from="/" exact to="/issues" />
       <Route path="*" component={My404} />

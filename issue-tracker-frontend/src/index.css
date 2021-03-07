@@ -33,7 +33,6 @@ kbd,
 q,
 samp,
 small,
-
 sub,
 sup,
 var,
@@ -42,8 +41,6 @@ i,
 dl,
 dt,
 dd,
-
-
 fieldset,
 form,
 label,
@@ -52,7 +49,6 @@ table,
 caption,
 tbody,
 tfoot,
-
 tr,
 th,
 td,
@@ -145,8 +141,6 @@ body {
 
   Extra large devices (large desktops, 1200px and up)
  @media (min-width: 1200px) {  } */
-
-
 
 ::-webkit-scrollbar {
   width: 10px;

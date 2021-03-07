@@ -26,7 +26,7 @@ class ErrorBoundary extends React.Component {
   handleClick = (event) => {
     event.stopPropagation()
 
-   window.location.reload();
+    window.location.reload()
   }
   render() {
     if (this.state.hasError) {

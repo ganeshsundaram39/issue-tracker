@@ -32,9 +32,9 @@ const Signup = ({ handleChange }) => {
   })
 
   const onSubmit = (formData) => {
-    if(!loading){
-
-    dispatch(onRegister({ formData }))}
+    if (!loading) {
+      dispatch(onRegister({ formData }))
+    }
   }
 
   useEffect(() => {
@@ -104,12 +104,7 @@ const Signup = ({ handleChange }) => {
         variant="filled"
       />
       <div className="buttons top-margin">
-        <Button
-          variant="contained"
-          type="submit"
-          color="primary"
-          fullWidth
-        >
+        <Button variant="contained" type="submit" color="primary" fullWidth>
           Signup
         </Button>
       </div>

@@ -1,7 +1,11 @@
 import React, { useEffect, useState, useCallback } from "react"
 import { useParams } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux"
-import { getIssueById,updateComments ,updateStatus} from "../../../state/actions/issue.action"
+import {
+  getIssueById,
+  updateComments,
+  updateStatus,
+} from "../../../state/actions/issue.action"
 import Card from "@material-ui/core/Card"
 import "./issue-view.scss"
 import ErrorOutlineOutlinedIcon from "@material-ui/icons/ErrorOutlineOutlined"
@@ -52,13 +56,18 @@ const IssueView = () => {
     },
     [history]
   )
-  const closeIssue =() => {
-    enqueueSnackbar(`Issue ${particularIssueById.status==='open'?'Closed':'Reopened'}!`, { variant: "success" })
+  const closeIssue = () => {
+    enqueueSnackbar(
+      `Issue ${particularIssueById.status === "open" ? "Closed" : "Reopened"}!`,
+      { variant: "success" }
+    )
 
-    dispatch(updateStatus({
-      issueId: particularIssueById.issueId,
-      status:particularIssueById.status==='open'?'closed':'open'
-    }))
+    dispatch(
+      updateStatus({
+        issueId: particularIssueById.issueId,
+        status: particularIssueById.status === "open" ? "closed" : "open",
+      })
+    )
   }
 
   const addNewComment = () => {
@@ -132,7 +141,9 @@ const IssueView = () => {
                 color="secondary"
                 onClick={closeIssue}
               >
-               {particularIssueById.status==='open'? 'Close issue':'Reopen issue'}
+                {particularIssueById.status === "open"
+                  ? "Close issue"
+                  : "Reopen issue"}
               </Button>
               <Button
                 variant="contained"

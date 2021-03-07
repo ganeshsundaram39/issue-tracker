@@ -8,7 +8,7 @@ import {
   ON_GET_USER_INFO,
   ON_GET_USER_INFO_RESPONSE,
   ON_UPLOAD_PROFILE_PHOTO,
-  ON_UPLOAD_PROFILE_PHOTO_RESPONSE
+  ON_UPLOAD_PROFILE_PHOTO_RESPONSE,
 } from "../types/auth.types"
 import axios from "./axios"
 
@@ -17,7 +17,6 @@ import { popupListener } from "./popupListener"
 
 const baseUrl = process.env.REACT_APP_API_VERSION + "users"
 const baseUrlProfile = process.env.REACT_APP_API_VERSION + "profile"
-
 
 export const onLogin = ({ formData }) => (dispatch) => {
   dispatch({ type: ON_LOGIN })
@@ -122,7 +121,7 @@ export const getUserInfo = () => (dispatch) => {
     })
 }
 
-export const updateProfilePhoto = ({file}) => (dispatch) => {
+export const updateProfilePhoto = ({ file }) => (dispatch) => {
   dispatch({ type: ON_UPLOAD_PROFILE_PHOTO })
 
   let userdata = localStorage.getItem("userdata")
@@ -137,8 +136,8 @@ export const updateProfilePhoto = ({file}) => (dispatch) => {
   formData.append("userId", userdata?.userDetails?.userId)
 
   axios
-    .post(baseUrlProfile+'/image-upload', formData)
-    .then( (response) =>{
+    .post(baseUrlProfile + "/image-upload", formData)
+    .then((response) => {
       if (!response?.data?.error) {
         console.log({ response: response?.data })
         dispatch({
@@ -147,7 +146,7 @@ export const updateProfilePhoto = ({file}) => (dispatch) => {
         })
       }
     })
-    .catch( (error)=> {
+    .catch((error) => {
       console.log({ error: error?.data })
       dispatch({ type: ON_UPLOAD_PROFILE_PHOTO_RESPONSE, payload: error?.data })
     })

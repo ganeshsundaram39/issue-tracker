@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react"
 import Wrapper from "../common/wrapper/wrapper"
 import NewIssue from "./new-issue/new-issue"
 import { Route, Redirect, Switch } from "react-router-dom"

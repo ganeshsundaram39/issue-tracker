@@ -597,7 +597,7 @@ const uploadProfilePhoto = async (req, res) => {
   const removePreviousProfilePicInUser = () => {
     return new Promise((resolve, reject) => {})
   }
-  const updateProfilePicInUser = ({url}) => {
+  const updateProfilePicInUser = ({ url }) => {
     return new Promise((resolve, reject) => {})
   }
 
@@ -609,7 +609,9 @@ const uploadProfilePhoto = async (req, res) => {
     const uploadResult = await cloudinaryUpload(file64.content)
     // console.log({ uploadResult })
     removePreviousProfilePicInUser()
-      .then(()=>updateProfilePicInUser({url:uploadResult.eager[0].secure_url}))
+      .then(() =>
+        updateProfilePicInUser({ url: uploadResult.eager[0].secure_url })
+      )
       .then((res) => {
         return res.json({
           cloudinaryId: uploadResult.public_id,

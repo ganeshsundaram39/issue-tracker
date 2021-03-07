@@ -1,5 +1,4 @@
-
-import React,{useEffect} from "react"
+import React, { useEffect } from "react"
 import Wrapper from "../common/wrapper/wrapper"
 
 const CloseAccount = (props) => {

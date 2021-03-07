@@ -3,8 +3,7 @@ const issueController = require("./../../app/controllers/issueController")
 const { authorizeMiddleware } = require("../middlewares/authorize")
 const { singleUploadCtrl } = require("../middlewares/multer")
 
-
-module.exports.setRouter = ({app}) => {
+module.exports.setRouter = ({ app }) => {
   let baseUrl = `${process.env.API_VERSION}/issues`
 
   app.post(

@@ -44,8 +44,9 @@ const Login = () => {
   const { enqueueSnackbar } = useSnackbar()
 
   const onSubmit = (formData) => {
-    if(!loading){
-    dispatch(onLogin({ formData }))}
+    if (!loading) {
+      dispatch(onLogin({ formData }))
+    }
   }
   useEffect(() => {
     document.title = "IssueTracker | Login"
@@ -126,12 +127,7 @@ const Login = () => {
         variant="filled"
       />
       <div className="buttons top-margin">
-        <Button
-          variant="contained"
-          type="submit"
-          color="primary"
-          fullWidth
-        >
+        <Button variant="contained" type="submit" color="primary" fullWidth>
           Login
         </Button>
       </div>

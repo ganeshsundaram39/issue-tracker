@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"
 
 export const connectDivs = (
   <div
@@ -8,4 +8,4 @@ export const connectDivs = (
       borderRight: "2px solid #ccc",
     }}
   ></div>
-);
+)

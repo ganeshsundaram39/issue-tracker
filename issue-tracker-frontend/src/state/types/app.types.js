@@ -1,6 +1,3 @@
-
-
-
 export const TOGGLE_DRAWER_STATE = "TOGGLE_DRAWER_STATE"
 
 export const RESET_APP = "RESET_APP"

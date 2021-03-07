@@ -40,14 +40,14 @@ let userSchema = new Schema({
     type: Boolean,
     default: false,
   },
-  githubProfile:{
-    type: String
+  githubProfile: {
+    type: String,
   },
-  twitterProfile:{
-    type: String
+  twitterProfile: {
+    type: String,
   },
-  facebookProfile:{
-    type: String
+  facebookProfile: {
+    type: String,
   },
   picture: {
     type: String,

@@ -70,7 +70,10 @@ const Profile = () => {
           {onGetUserResponse && !onGetUserResponse?.error ? (
             <>
               <div className="profile-photo">
-                <ProfilePhoto url={url} onUploadProfilePhoto={onUploadProfilePhoto} />
+                <ProfilePhoto
+                  url={url}
+                  onUploadProfilePhoto={onUploadProfilePhoto}
+                />
               </div>
               <div className="user-data">
                 <UserInfo user={user}></UserInfo>

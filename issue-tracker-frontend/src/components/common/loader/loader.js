@@ -7,7 +7,12 @@ import "./loader.scss"
 
 function Loader(props) {
   return (
-    <div className="loader" style={{backgroundColor:props.color==='black'?'white':'var(--bgColor)'}}>
+    <div
+      className="loader"
+      style={{
+        backgroundColor: props.color === "black" ? "white" : "var(--bgColor)",
+      }}
+    >
       <CircularProgress
         size={props.size}
         thickness={props.thickness}
@@ -20,13 +25,13 @@ function Loader(props) {
 Loader.propTypes = {
   size: PropTypes.number.isRequired,
   thickness: PropTypes.number.isRequired,
-  color: PropTypes.string.isRequired
+  color: PropTypes.string.isRequired,
 }
 
 Loader.defaultProps = {
   size: 55,
   thickness: 4,
-  color:'white'
+  color: "white",
 }
 
 export default Loader

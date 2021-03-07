@@ -134,7 +134,9 @@ const NewIssue = () => {
                     <em>None</em>
                   </MenuItem>
                   {labels.map((label) => (
-                    <MenuItem value={label.value} key={label.value}>{label.text}</MenuItem>
+                    <MenuItem value={label.value} key={label.value}>
+                      {label.text}
+                    </MenuItem>
                   ))}
                 </Select>
               </FormControl>

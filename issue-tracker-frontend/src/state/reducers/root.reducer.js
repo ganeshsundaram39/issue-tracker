@@ -7,5 +7,5 @@ import issueReducer from "./issue.reducer"
 export default combineReducers({
   auth: authReducer,
   app: appReducer,
-  issue:issueReducer,
+  issue: issueReducer,
 })

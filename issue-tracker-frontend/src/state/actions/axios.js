@@ -9,7 +9,7 @@ axios.interceptors.request.use(
       console.info("✉️ ", request)
     }
 
-    if (request.url.includes("issues") ||request.url.includes("profile")) {
+    if (request.url.includes("issues") || request.url.includes("profile")) {
       let local = localStorage.getItem("userdata")
       if (local) {
         local = JSON.parse(local)
@@ -34,9 +34,9 @@ axios.interceptors.response.use(
     return response
   },
   (error) => {
-    if(error?.response?.data?.data?.message==="jwt expired"){
+    if (error?.response?.data?.data?.message === "jwt expired") {
       localStorage.clear()
-      window.location.href = "/auth/login";
+      window.location.href = "/auth/login"
     }
     return Promise.reject(error?.response)
   }

@@ -7,7 +7,7 @@ import {
   ON_GET_ISSUE_BY_ID,
   GET_ISSUE_BY_ID_RESPONSE,
   ON_ISSUE_SEARCH,
-  ON_ISSUE_SEARCH_RESPONSE
+  ON_ISSUE_SEARCH_RESPONSE,
 } from "../types/issue.types"
 
 const initialState = {
@@ -65,12 +65,12 @@ const issueReducer = (state = initialState, action) => {
         onSearchIssue: true,
         searchedIssues: [],
       }
-      case ON_ISSUE_SEARCH_RESPONSE:
-        return {
-          ...state,
-          onSearchIssue: false,
-          searchedIssues: action.payload,
-        }
+    case ON_ISSUE_SEARCH_RESPONSE:
+      return {
+        ...state,
+        onSearchIssue: false,
+        searchedIssues: action.payload,
+      }
     case RESET_ISSUE:
       return {
         ...initialState,

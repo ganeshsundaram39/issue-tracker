@@ -15,9 +15,9 @@ const createIssueFunction = (req, res) => {
       let newIssue = new IssueModel({
         issueId: shortid.generate(),
         title: req.body.title,
-        comments: req.body.comment?[
-          { comment: req.body.comment, commentId: shortid.generate() },
-        ]:[],
+        comments: req.body.comment
+          ? [{ comment: req.body.comment, commentId: shortid.generate() }]
+          : [],
         label: req.body.label,
         userId: req.body.userId,
       })
@@ -65,14 +65,16 @@ const getIssuesFunction = (req, res) => {
             ? { issueId: req.query.issueId || req.body.issueId }
             : {}),
 
-          ...(req.query.search ? { title: {'$regex' : req.query.search, '$options' : 'i'}} : {}),
+          ...(req.query.search
+            ? { title: { $regex: req.query.search, $options: "i" } }
+            : {}),
         },
         {
           __v: 0,
           _id: 0,
-
         }
-      ).sort({issueGenerationTime:-1})
+      )
+        .sort({ issueGenerationTime: -1 })
         .lean()
         .exec((err, allIssues) => {
           if (err) {
@@ -180,8 +182,7 @@ const updateCommentsFunction = (req, res) => {
     })
 }
 
-const updateIssueStatusFunction = (req,res)=>{
-
+const updateIssueStatusFunction = (req, res) => {
   const updateStatus = () => {
     return new Promise((resolve, reject) => {
       if (!req.body.issueId || !req.body.userId) {
@@ -198,7 +199,7 @@ const updateIssueStatusFunction = (req,res)=>{
         {
           $set: {
             status: req.body.status,
-            issueGenerationTime:new Date()
+            issueGenerationTime: new Date(),
           },
         },
         (error, success) => {
@@ -225,16 +226,13 @@ const updateIssueStatusFunction = (req,res)=>{
     })
   }
 
-
-
-
   updateStatus()
-  .then(() => getIssuesFunction(req, res))
-  .catch((err) => {
-    console.log({ err })
-    res.status(err.status)
-    res.send(err)
-  })
+    .then(() => getIssuesFunction(req, res))
+    .catch((err) => {
+      console.log({ err })
+      res.status(err.status)
+      res.send(err)
+    })
 }
 
 const formatBufferTo64 = (file) =>
@@ -256,11 +254,10 @@ const createIssueSaveImageFunction = async (req, res) => {
     return res.json({
       cloudinaryId: uploadResult.public_id,
       url: uploadResult.eager[0].secure_url,
-      error:false
-
+      error: false,
     })
   } catch (e) {
-    return res.status(422).send({ message: e.message ,error:true})
+    return res.status(422).send({ message: e.message, error: true })
   }
 }
 
@@ -280,7 +277,7 @@ const destroyImages = async (req, res) => {
       result: "Images Destroyed",
     })
   } catch (e) {
-    return res.status(422).send({ message: e.message,error:true })
+    return res.status(422).send({ message: e.message, error: true })
   }
 }
 module.exports = {
@@ -289,5 +286,5 @@ module.exports = {
   createIssueSaveImageFunction,
   destroyImages,
   updateCommentsFunction,
-  updateIssueStatusFunction
+  updateIssueStatusFunction,
 } // end exports

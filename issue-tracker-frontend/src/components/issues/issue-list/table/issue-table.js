@@ -57,7 +57,9 @@ export default function IssueTable({ rows }) {
                   <Link style={{ color: "#000" }} to={"/issues/" + row.issueId}>
                     <span className="issue-title"> {row.title} </span>
                   </Link>
-                  {row.label && <span className="label-style">{row.label}</span>}
+                  {row.label && (
+                    <span className="label-style">{row.label}</span>
+                  )}
                 </div>
                 <div className="single-issue-details">
                   <ErrorOutlineOutlinedIcon
@@ -84,7 +86,7 @@ export default function IssueTable({ rows }) {
                     <CommentOutlinedIcon
                       style={{
                         marginRight: "5px",
-                        fontSize: '20px'
+                        fontSize: "20px",
                       }}
                     />{" "}
                     {row.comments.length - 1}
