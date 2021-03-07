@@ -23,6 +23,12 @@ module.exports.setRouter = ({app}) => {
   )
 
   app.post(
+    `${baseUrl}/create/image-destroy`,
+    authorizeMiddleware,
+    issueController.destroyImages
+  )
+
+  app.post(
     `${baseUrl}/comments`,
     authorizeMiddleware,
     issueController.updateCommentsFunction
@@ -32,12 +38,5 @@ module.exports.setRouter = ({app}) => {
     `${baseUrl}/update-status`,
     authorizeMiddleware,
     issueController.updateIssueStatusFunction
-  )
-
-
-  app.post(
-    `${baseUrl}/create/image-destroy`,
-    authorizeMiddleware,
-    issueController.destroyImages
   )
 }

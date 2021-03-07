@@ -1,7 +1,3 @@
-"use strict"
-/**
- * Module Dependencies
- */
 const mongoose = require("mongoose"),
   Schema = mongoose.Schema
 
@@ -43,6 +39,15 @@ let userSchema = new Schema({
   facebookLogin: {
     type: Boolean,
     default: false,
+  },
+  githubProfile:{
+    type: String
+  },
+  twitterProfile:{
+    type: String
+  },
+  facebookProfile:{
+    type: String
   },
   picture: {
     type: String,

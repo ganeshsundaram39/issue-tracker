@@ -1,30 +1,31 @@
-const multer = require('multer');
+const multer = require("multer")
 
-const ALLOWED_FORMATS = ['image/jpeg', 'image/png', 'image/jpg'];
+const ALLOWED_FORMATS = ["image/jpeg", "image/png", "image/jpg"]
 
-const storage = multer.memoryStorage();
+const storage = multer.memoryStorage()
 const upload = multer({
   storage,
-  fileFilter: function(req, file, cb) {
+  fileFilter: function (req, file, cb) {
     if (ALLOWED_FORMATS.includes(file.mimetype)) {
-      cb(null, true);
+      cb(null, true)
     } else {
-      cb(new Error('Not supported file type!'), false);
+      cb(new Error("Not supported file type!"), false)
     }
-  }
+  },
 })
 
-const singleUpload = upload.single('image');
- const singleUploadCtrl = (req, res, next) => {
+const singleUpload = upload.single("image")
+
+const singleUploadCtrl = (req, res, next) => {
   singleUpload(req, res, (error) => {
     if (error) {
-      return res.status(422).send({message: 'Image upload fail!'});
+      return res.status(422).send({ message: "Image upload fail!" })
     }
 
-    next();
+    next()
   })
 }
 
 module.exports = {
-    singleUploadCtrl
+  singleUploadCtrl,
 }

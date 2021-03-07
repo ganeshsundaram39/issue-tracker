@@ -8,6 +8,10 @@ const validateInput = require("../libs/paramsValidationLib")
 const check = require("../libs/checkLib")
 const token = require("../libs/tokenLib")
 const AuthModel = mongoose.model("Auth")
+const DatauriParser = require("datauri/parser")
+const parser = new DatauriParser()
+const path = require("path")
+var cloudinary = require("cloudinary").v2
 
 /* Models */
 const UserModel = mongoose.model("User")
@@ -74,7 +78,8 @@ let signUpFunction = (req, res) => {
               email: req.body.email.toLowerCase(),
               password: passwordLib.hashpassword(req.body.password),
               createdOn: time.now(),
-              picture:"https://api.hello-avatar.com/adorables/"+req.body.fullName
+              picture:
+                "https://api.hello-avatar.com/adorables/" + req.body.fullName,
             })
             newUser.save((err, newUser) => {
               if (err) {
@@ -237,6 +242,7 @@ let loginFunction = (req, res) => {
       res.send(err)
     })
 }
+// end of the login function
 
 let generateToken = (userDetails) => {
   console.log("generate token")
@@ -421,7 +427,7 @@ let thirdPartyLoginFunction = (req, res) => {
                 ? userData.picture.data.url
                 : userData.picture
                 ? userData.picture
-                : "https://api.hello-avatar.com/adorables/"+userData.name,
+                : "https://api.hello-avatar.com/adorables/" + userData.name,
           })
           newUser.save((err, newUser) => {
             if (err) {
@@ -520,10 +526,113 @@ let thirdPartyLoginFunction = (req, res) => {
   }
 }
 
-// end of the login function
+const getUserInfoFunction = (req, res) => {
+  const getUser = () => {
+    return new Promise((resolve, reject) => {
+      if (!req.query.userId) {
+        let apiResponse = response.generate(
+          true,
+          "Failed to get user! userId cannot be empty!",
+          500,
+          err
+        )
+        reject(apiResponse)
+      }
+
+      UserModel.find(
+        {
+          userId: req.query.userId,
+        },
+        {
+          __v: 0,
+          _id: 0,
+          password: 0,
+        }
+      )
+        .lean()
+        .exec((err, userData) => {
+          if (err) {
+            logger.error(err.message, "userController: getUser", 10)
+            let apiResponse = response.generate(
+              true,
+              "Failed to get all userInfo",
+              500,
+              err
+            )
+            reject(apiResponse)
+          } else {
+            resolve(userData)
+          }
+        })
+    })
+  }
+
+  getUser()
+    .then((results) => {
+      console.log({ results })
+      let apiResponse = response.generate(
+        false,
+        "User retrieved successfully.",
+        200,
+        results
+      )
+      res.send(apiResponse)
+    })
+    .catch((err) => {
+      console.log({ err })
+      res.status(err.status)
+      res.send(err)
+    })
+}
+
+const cloudinaryUpload = (file) =>
+  cloudinary.uploader.upload(file, {
+    eager: [{ width: 500, height: 500 }],
+  })
+
+const formatBufferTo64 = (file) =>
+  parser.format(path.extname(file.originalname).toString(), file.buffer)
+
+const uploadProfilePhoto = async (req, res) => {
+  const removePreviousProfilePicInUser = () => {
+    return new Promise((resolve, reject) => {})
+  }
+  const updateProfilePicInUser = ({url}) => {
+    return new Promise((resolve, reject) => {})
+  }
+
+  try {
+    if (!req.file) {
+      throw new Error("Image is not presented!")
+    }
+    const file64 = formatBufferTo64(req.file)
+    const uploadResult = await cloudinaryUpload(file64.content)
+    // console.log({ uploadResult })
+    removePreviousProfilePicInUser()
+      .then(()=>updateProfilePicInUser({url:uploadResult.eager[0].secure_url}))
+      .then((res) => {
+        return res.json({
+          cloudinaryId: uploadResult.public_id,
+          url: uploadResult.eager[0].secure_url,
+          error: false,
+        })
+      })
+      .catch((err) => {
+        return res.json({
+          cloudinaryId: uploadResult.public_id,
+          url: uploadResult.eager[0].secure_url,
+          error: false,
+        })
+      })
+  } catch (e) {
+    return res.status(422).send({ message: e.message, error: true })
+  }
+}
 
 module.exports = {
   signUpFunction: signUpFunction,
   loginFunction: loginFunction,
   thirdPartyLoginFunction: thirdPartyLoginFunction,
+  getUserInfoFunction: getUserInfoFunction,
+  uploadProfilePhoto: uploadProfilePhoto,
 } // end exports

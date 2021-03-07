@@ -9,7 +9,7 @@ axios.interceptors.request.use(
       console.info("✉️ ", request)
     }
 
-    if (request.url.includes("issues")) {
+    if (request.url.includes("issues") ||request.url.includes("profile")) {
       let local = localStorage.getItem("userdata")
       if (local) {
         local = JSON.parse(local)

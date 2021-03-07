@@ -256,9 +256,11 @@ const createIssueSaveImageFunction = async (req, res) => {
     return res.json({
       cloudinaryId: uploadResult.public_id,
       url: uploadResult.eager[0].secure_url,
+      error:false
+
     })
   } catch (e) {
-    return res.status(422).send({ message: e.message })
+    return res.status(422).send({ message: e.message ,error:true})
   }
 }
 
@@ -278,7 +280,7 @@ const destroyImages = async (req, res) => {
       result: "Images Destroyed",
     })
   } catch (e) {
-    return res.status(422).send({ message: e.message })
+    return res.status(422).send({ message: e.message,error:true })
   }
 }
 module.exports = {

@@ -1,7 +1,10 @@
 const userController = require("./../../app/controllers/userController")
+const { authorizeMiddleware } = require("../middlewares/authorize")
+const { singleUploadCtrl } = require("../middlewares/multer")
 
-module.exports.setRouter = ({app, passport}) => {
+module.exports.setRouter = ({ app, passport }) => {
   let baseUrl = `${process.env.API_VERSION}/users`
+  let baseUrlProfile = `${process.env.API_VERSION}/profile`
 
   app.post(`${baseUrl}/signup`, userController.signUpFunction)
 
@@ -50,7 +53,19 @@ module.exports.setRouter = ({app, passport}) => {
   app.get(
     `${baseUrl}/login/facebook/callback?`,
     passport.authenticate("facebook", { failureRedirect: "/auth/login" }),
-
     userController.thirdPartyLoginFunction
+  )
+
+  app.get(
+    `${baseUrlProfile}`,
+    authorizeMiddleware,
+    userController.getUserInfoFunction
+  )
+
+  app.post(
+    `${baseUrlProfile}/image-upload`,
+    authorizeMiddleware,
+    singleUploadCtrl,
+    userController.uploadProfilePhoto
   )
 }
