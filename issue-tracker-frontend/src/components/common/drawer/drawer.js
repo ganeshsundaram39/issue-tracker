@@ -14,7 +14,9 @@ import AccountBoxSharpIcon from "@material-ui/icons/AccountBoxSharp"
 import InboxSharpIcon from "@material-ui/icons/InboxSharp"
 import ExitToAppSharpIcon from "@material-ui/icons/ExitToAppSharp"
 import { useHistory } from "react-router-dom"
-import BugReportIcon from '@material-ui/icons/BugReport';
+import BugReportIcon from "@material-ui/icons/BugReport"
+import DeleteForeverSharpIcon from "@material-ui/icons/DeleteForeverSharp"
+import AlertDialog from "../alert"
 const AdapterLink = React.forwardRef((props, ref) => (
   <Link innerRef={ref} {...props} />
 ))
@@ -26,7 +28,7 @@ export default function Drawer() {
 
   const toggleDrawerFn = useCallback(
     (event) => {
-      event.stopPropagation()
+      event?.stopPropagation?.()
       if (
         event &&
         event.type === "keydown" &&
@@ -42,7 +44,7 @@ export default function Drawer() {
 
   const logoutUserFn = useCallback(
     (event) => {
-      event.stopPropagation()
+      event?.stopPropagation?.()
 
       dispatch(logoutUser())
 
@@ -68,15 +70,16 @@ export default function Drawer() {
             <ListItemText primary={"All Issues"} />
           </ListItem>
         </List>
-        <Divider />
+
         <List>
           <ListItem button component={AdapterLink} to="/issues/new">
             <ListItemIcon>
-            <BugReportIcon />
+              <BugReportIcon />
             </ListItemIcon>
             <ListItemText primary={"New Issue"} />
           </ListItem>
         </List>
+        <Divider />
         <List>
           <ListItem button component={AdapterLink} to="/profile">
             <ListItemIcon>
@@ -86,12 +89,30 @@ export default function Drawer() {
           </ListItem>
         </List>
         <List>
-          <ListItem button onClick={logoutUserFn}>
+          <ListItem button component={AdapterLink} to="/close-account">
             <ListItemIcon>
-              <ExitToAppSharpIcon />
+              <DeleteForeverSharpIcon />
             </ListItemIcon>
-            <ListItemText primary={"Logout"} />
+            <ListItemText primary={"Close Account"} />
           </ListItem>
+        </List>
+        <Divider />
+        <List>
+          <AlertDialog
+            message="Are you sure you want to Logout?"
+            title="Logout"
+            handleYes={logoutUserFn}
+            handleNo={() => {}}
+          >
+            {({ handleClickOpen }) => (
+              <ListItem button onClick={handleClickOpen}>
+                <ListItemIcon>
+                  <ExitToAppSharpIcon />
+                </ListItemIcon>
+                <ListItemText primary={"Logout"} />
+              </ListItem>
+            )}
+          </AlertDialog>
         </List>
       </div>
     ),

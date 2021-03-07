@@ -15,7 +15,9 @@ const createIssueFunction = (req, res) => {
       let newIssue = new IssueModel({
         issueId: shortid.generate(),
         title: req.body.title,
-        comments: [{ comment: req.body.comment }],
+        comments: req.body.comment?[
+          { comment: req.body.comment, commentId: shortid.generate() },
+        ]:[],
         label: req.body.label,
         userId: req.body.userId,
       })
@@ -55,14 +57,22 @@ const getIssuesFunction = (req, res) => {
     return new Promise((resolve, reject) => {
       IssueModel.find(
         {
-          ...(req.query.userId ? { userId: req.query.userId } : {}),
+          ...(req.query.userId || req.body.userId
+            ? { userId: req.query.userId || req.body.userId }
+            : {}),
 
-          ...(req.query.issueId ? { issueId: req.query.issueId } : {}),
+          ...(req.query.issueId || req.body.issueId
+            ? { issueId: req.query.issueId || req.body.issueId }
+            : {}),
 
-          ...(req.query.search ? { title: new Regex(req.query.search) } : {}),
+          ...(req.query.search ? { title: {'$regex' : req.query.search, '$options' : 'i'}} : {}),
         },
-        { __v: 0, _id: 0, ...(req.query.issueId ? {} : { comments: 0 }) }
-      )
+        {
+          __v: 0,
+          _id: 0,
+
+        }
+      ).sort({issueGenerationTime:-1})
         .lean()
         .exec((err, allIssues) => {
           if (err) {
@@ -86,14 +96,18 @@ const getIssuesFunction = (req, res) => {
       results = results.map((result) => ({
         ...result,
         issueGenerationTime: moment(result.issueGenerationTime).fromNow(),
-        comments: [
-          ...result.comments.map((comment) => ({
-            ...comment,
-            commentGenerationTime: moment(
-              comment.commentGenerationTime
-            ).fromNow(),
-          })),
-        ],
+        ...(result.comments
+          ? {
+              comments: [
+                ...result.comments.map((comment) => ({
+                  ...comment,
+                  commentGenerationTime: moment(
+                    comment.commentGenerationTime
+                  ).fromNow(),
+                })),
+              ],
+            }
+          : {}),
       }))
       let apiResponse = response.generate(
         false,
@@ -108,6 +122,119 @@ const getIssuesFunction = (req, res) => {
       res.status(err.status)
       res.send(err)
     })
+}
+
+const updateCommentsFunction = (req, res) => {
+  const updateComments = () => {
+    return new Promise((resolve, reject) => {
+      if (!req.body.issueId || !req.body.userId) {
+        let apiResponse = response.generate(
+          true,
+          "Failed to update comments",
+          500,
+          err
+        )
+        reject(apiResponse)
+      }
+      IssueModel.findOneAndUpdate(
+        { issueId: req.body.issueId, userId: req.body.userId },
+        {
+          $push: {
+            comments: {
+              comment: req.body.comment,
+              commentId: shortid.generate(),
+              commentGenerationTime: new Date(),
+            },
+          },
+        },
+        (error, success) => {
+          if (error) {
+            console.log(error)
+            logger.error(
+              err.message,
+              "issueController: updateCommentsFunction",
+              10
+            )
+            let apiResponse = response.generate(
+              true,
+              "Failed to update comments",
+              500,
+              err
+            )
+            reject(apiResponse)
+          } else {
+            console.log(success)
+            resolve(req, res)
+          }
+        }
+      )
+    })
+  }
+
+  updateComments()
+    .then(() => getIssuesFunction(req, res))
+    .catch((err) => {
+      console.log({ err })
+      res.status(err.status)
+      res.send(err)
+    })
+}
+
+const updateIssueStatusFunction = (req,res)=>{
+
+  const updateStatus = () => {
+    return new Promise((resolve, reject) => {
+      if (!req.body.issueId || !req.body.userId) {
+        let apiResponse = response.generate(
+          true,
+          "Failed to update status",
+          500,
+          err
+        )
+        reject(apiResponse)
+      }
+      IssueModel.findOneAndUpdate(
+        { issueId: req.body.issueId, userId: req.body.userId },
+        {
+          $set: {
+            status: req.body.status,
+            issueGenerationTime:new Date()
+          },
+        },
+        (error, success) => {
+          if (error) {
+            console.log(error)
+            logger.error(
+              err.message,
+              "issueController: updateIssueStatusFunction",
+              10
+            )
+            let apiResponse = response.generate(
+              true,
+              "Failed to update status",
+              500,
+              err
+            )
+            reject(apiResponse)
+          } else {
+            console.log(success)
+            resolve(req, res)
+          }
+        }
+      )
+    })
+  }
+
+
+
+
+  updateStatus()
+  .then(() => getIssuesFunction(req, res))
+  .catch((err) => {
+    console.log({ err })
+    res.status(err.status)
+    res.send(err)
+  })
 }
 
 const formatBufferTo64 = (file) =>
@@ -135,7 +262,7 @@ const createIssueSaveImageFunction = async (req, res) => {
   }
 }
 
-const createIssueDestroySavedImageFunction = async (req, res) => {
+const destroyImages = async (req, res) => {
   try {
     const images = req.body.images
     if (!images || images.length == 0) {
@@ -158,5 +285,7 @@ module.exports = {
   createIssueFunction,
   getIssuesFunction,
   createIssueSaveImageFunction,
-  createIssueDestroySavedImageFunction,
+  destroyImages,
+  updateCommentsFunction,
+  updateIssueStatusFunction
 } // end exports

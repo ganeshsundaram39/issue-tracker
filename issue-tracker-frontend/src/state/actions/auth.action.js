@@ -25,9 +25,9 @@ export const onLogin = ({ formData }) => (dispatch) => {
       dispatch({ type: ON_LOGIN_RESPONSE, payload: response?.data })
     })
     .catch(function (error) {
-      console.log({ error: error?.response?.data })
+      console.log({ error: error?.data })
 
-      dispatch({ type: ON_LOGIN_RESPONSE, payload: error?.response?.data })
+      dispatch({ type: ON_LOGIN_RESPONSE, payload: error?.data })
     })
 }
 
@@ -42,8 +42,8 @@ export const onRegister = ({ formData }) => (dispatch) => {
       dispatch({ type: ON_REGISTER_RESPONSE, payload: response?.data })
     })
     .catch(function (error) {
-      console.log({ error: error?.response?.data })
-      dispatch({ type: ON_REGISTER_RESPONSE, payload: error?.response?.data })
+      console.log({ error: error?.data })
+      dispatch({ type: ON_REGISTER_RESPONSE, payload: error?.data })
     })
 }
 

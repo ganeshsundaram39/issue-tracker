@@ -1,26 +1,17 @@
 import React, { useEffect, useState, useCallback } from "react"
 import { useParams } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux"
-import { getIssueById } from "../../../state/actions/issue.action"
+import { getIssueById,updateComments ,updateStatus} from "../../../state/actions/issue.action"
 import Card from "@material-ui/core/Card"
 import "./issue-view.scss"
 import ErrorOutlineOutlinedIcon from "@material-ui/icons/ErrorOutlineOutlined"
 import Markdown from "markdown-to-jsx"
 import { useHistory } from "react-router-dom"
 import Button from "@material-ui/core/Button"
-import Loader from "../../common/loader/loader"
 import Divider from "@material-ui/core/Divider"
 import ReactMarkdownEditor from "../react-markdown-editor/react-markdown-editor"
-
-const connectDivs = (
-  <div
-    style={{
-      height: "20px",
-      width: "20px",
-      borderRight: "2px solid #ccc",
-    }}
-  ></div>
-)
+import { useSnackbar } from "notistack"
+import { connectDivs } from "../../common/connectDivs"
 
 const IssueView = () => {
   const dispatch = useDispatch()
@@ -28,6 +19,8 @@ const IssueView = () => {
   const [comments, setComments] = useState([])
   const [newComment, setNewComment] = useState("")
   const [images, setImages] = useState([])
+  const { enqueueSnackbar } = useSnackbar()
+
   const onGetParticularIssueById = useSelector(
     (state) => state.issue.onGetParticularIssueById
   )
@@ -59,12 +52,31 @@ const IssueView = () => {
     },
     [history]
   )
-  const closeIssue = useCallback(() => {},[])
-  const addNewComment = useCallback(() => {},[])
+  const closeIssue =() => {
+    enqueueSnackbar(`Issue ${particularIssueById.status==='open'?'Closed':'Reopened'}!`, { variant: "success" })
+
+    dispatch(updateStatus({
+      issueId: particularIssueById.issueId,
+      status:particularIssueById.status==='open'?'closed':'open'
+    }))
+  }
+
+  const addNewComment = () => {
+    if (!newComment) return
+
+    dispatch(
+      updateComments({
+        issueId: particularIssueById.issueId,
+        comment: newComment,
+      })
+    )
+
+    setNewComment("")
+  }
+
   return (
     <div className="issue-view">
       <Card className="card-style">
-        {onGetParticularIssueById && <Loader color="black" size={45} />}
         {!onGetParticularIssueById && particularIssueById ? (
           <>
             <div className="issue-title">
@@ -92,17 +104,17 @@ const IssueView = () => {
                    </div>`}
                 </Markdown>
               </div>
-            ):null}
-            {comments &&
-              comments.length?
-              comments.map((comment) => (
-                <>
-                  <div className="markdown-wrapper">
-                    <Markdown>{comment.comment}</Markdown>
+            ) : null}
+            {comments && comments.length
+              ? comments.map((comment) => (
+                  <div key={comment.commentId}>
+                    <div className="markdown-wrapper">
+                      <Markdown>{comment.comment}</Markdown>
+                    </div>
+                    {connectDivs}
                   </div>
-                  {connectDivs}
-                </>
-              )):null}
+                ))
+              : null}
             <Divider
               style={{
                 marginBottom: "15px",
@@ -112,20 +124,18 @@ const IssueView = () => {
               comment={newComment}
               setComment={setNewComment}
               setImages={setImages}
+              images={images}
             />
             <div className="new-comment-wrapper">
               <Button
                 variant="contained"
-
                 color="secondary"
-
                 onClick={closeIssue}
               >
-                Close issue
+               {particularIssueById.status==='open'? 'Close issue':'Reopen issue'}
               </Button>
               <Button
                 variant="contained"
-
                 color="primary"
                 onClick={addNewComment}
               >
@@ -133,7 +143,7 @@ const IssueView = () => {
               </Button>
             </div>
           </>
-        ):null}
+        ) : null}
       </Card>
     </div>
   )

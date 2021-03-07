@@ -1,5 +1,6 @@
 import React, { lazy } from "react"
 import { Route, Redirect, Switch } from "react-router-dom"
+import CloseAccount from "../components/close-account/close-account"
 import PrivateRoute from "../hocs/privateroute/privateroute"
 
 const Auth = lazy(() => import("../components/auth/auth"))
@@ -12,8 +13,10 @@ export default function AppRoutes() {
     <Switch>
       <Route path="/auth/:page" component={Auth} />
 
-      <PrivateRoute exact path="/profile" component={Profile} />
       <PrivateRoute  path="/issues" component={Issues} />
+      <PrivateRoute exact path="/profile" component={Profile} />
+      <PrivateRoute  exact path="/close-account" component={CloseAccount} />
+
 
       <Redirect from="/" exact to="/issues" />
       <Route path="*" component={My404} />

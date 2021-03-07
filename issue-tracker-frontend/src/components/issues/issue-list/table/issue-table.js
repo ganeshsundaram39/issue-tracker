@@ -9,10 +9,9 @@ import TablePagination from "@material-ui/core/TablePagination"
 import TableRow from "@material-ui/core/TableRow"
 import Paper from "@material-ui/core/Paper"
 import "./issue-table.scss"
+import CommentOutlinedIcon from "@material-ui/icons/CommentOutlined"
 import { TablePaginationActions } from "./issue-table-paginate/issue-table-paginate"
-import {
-  Link,
-} from "react-router-dom";
+import { Link } from "react-router-dom"
 import ErrorOutlineOutlinedIcon from "@material-ui/icons/ErrorOutlineOutlined"
 
 const useStyles = makeStyles({
@@ -55,11 +54,10 @@ export default function IssueTable({ rows }) {
               <TableCell component="th" scope="row">
                 <div className="single-issue">
                   <ErrorOutlineOutlinedIcon className="icon" />
-                  <Link  style={{ color: '#000' }} to={"/issues/" + row.issueId}
-                  >
+                  <Link style={{ color: "#000" }} to={"/issues/" + row.issueId}>
                     <span className="issue-title"> {row.title} </span>
                   </Link>
-                  <span className="label-style">{row.label}</span>
+                  {row.label && <span className="label-style">{row.label}</span>}
                 </div>
                 <div className="single-issue-details">
                   <ErrorOutlineOutlinedIcon
@@ -78,6 +76,20 @@ export default function IssueTable({ rows }) {
                     {row.issueGenerationTime}
                   </span>
                 </div>
+              </TableCell>
+
+              <TableCell style={{ width: 160 }} align="right">
+                {row.comments && row.comments.length > 1 ? (
+                  <div className="issue-comment-count">
+                    <CommentOutlinedIcon
+                      style={{
+                        marginRight: "5px",
+                        fontSize: '20px'
+                      }}
+                    />{" "}
+                    {row.comments.length - 1}
+                  </div>
+                ) : null}
               </TableCell>
             </TableRow>
           ))}

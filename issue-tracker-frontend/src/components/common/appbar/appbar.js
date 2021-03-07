@@ -1,4 +1,4 @@
-import React, { useCallback } from "react"
+import React, { useCallback, useState, Fragment } from "react"
 import AppBar from "@material-ui/core/AppBar"
 import Toolbar from "@material-ui/core/Toolbar"
 import IconButton from "@material-ui/core/IconButton"
@@ -7,8 +7,14 @@ import InputBase from "@material-ui/core/InputBase"
 import { fade, makeStyles } from "@material-ui/core/styles"
 import MenuIcon from "@material-ui/icons/Menu"
 import SearchIcon from "@material-ui/icons/Search"
-import { useDispatch } from "react-redux"
 import { toggleDrawer } from "../../../state/actions/app.action"
+import {
+  getAllIssues,
+  onSearchIssueLoader,
+} from "../../../state/actions/issue.action"
+import { useSelector, useDispatch } from "react-redux"
+import { Link } from "react-router-dom"
+import useThrottle from "../useThrottle"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     [theme.breakpoints.up("sm")]: {
       marginLeft: theme.spacing(1),
-      width: "auto",
+      width: "250px",
     },
   },
   searchIcon: {
@@ -63,12 +69,30 @@ const useStyles = makeStyles((theme) => ({
       },
     },
   },
+  searchResults: {
+    width: "inherit",
+    background: "white",
+    position: "fixed",
+    zIndex: 999999,
+    border: "1px solid #ccc",
+    padding: "10px 5px 0 5px",
+    color: "black",
+  },
+  searchResult: {
+    color: "#000",
+    display: "inline-block",
+    marginBottom: "10px",
+  },
 }))
 
 export default function SearchAppBar({ pageName }) {
   const classes = useStyles()
-
   const dispatch = useDispatch()
+  const [search, setSearch] = useState("")
+  const [showSearchSelect, setShowSearchSelect] = useState(false)
+  const onSearchIssue = useSelector((state) => state.issue.onSearchIssue)
+  const searchedIssues = useSelector((state) => state.issue.searchedIssues)
+  const throttledDispatch = useThrottle(dispatch, 500)
 
   const toggleDrawerFn = useCallback(
     (event) => {
@@ -80,15 +104,26 @@ export default function SearchAppBar({ pageName }) {
       ) {
         return
       }
-
       dispatch(toggleDrawer())
     },
     [dispatch]
   )
 
+  const handleChange = (event) => {
+    const newValue = event.target.value
+    setSearch(newValue)
+    if (newValue && newValue.length > 2) {
+      setShowSearchSelect(true)
+      dispatch(onSearchIssueLoader())
+      throttledDispatch(getAllIssues({ search: newValue }))
+    } else {
+      setShowSearchSelect(false)
+    }
+  }
+
   return (
     <div className={classes.root}>
-      <AppBar  position="fixed">
+      <AppBar position="fixed">
         <Toolbar>
           <IconButton
             edge="start"
@@ -107,13 +142,43 @@ export default function SearchAppBar({ pageName }) {
               <SearchIcon />
             </div>
             <InputBase
-              placeholder="Search…"
+              placeholder="Search Issue..."
               classes={{
                 root: classes.inputRoot,
                 input: classes.inputInput,
               }}
-              inputProps={{ "aria-label": "search" }}
+              onChange={handleChange}
+              value={search}
+              inputProps={{ "aria-label": "search issue" }}
             />
+            {showSearchSelect && (
+              <div
+                className={classes.searchResults}
+                onMouseEnter={() => setShowSearchSelect(true)}
+                onMouseLeave={() => setShowSearchSelect(false)}
+              >
+                {onSearchIssue && (
+                  <div style={{ marginBottom: "10px" }}>Loading...</div>
+                )}
+                {searchedIssues && searchedIssues.length
+                  ? searchedIssues.map((issue) => (
+                      <Fragment key={issue.issueId}>
+                        <Link
+                          className={classes.searchResult}
+                          to={"/issues/" + issue.issueId}
+                        >
+                          <span className="issue-title"> {issue.title} </span>
+                        </Link>
+                      </Fragment>
+                    ))
+                  : null}
+                {!onSearchIssue &&
+                searchedIssues &&
+                searchedIssues.length === 0 ? (
+                  <div style={{ marginBottom: "10px" }}>No Issues Found!</div>
+                ) : null}
+              </div>
+            )}
           </div>
         </Toolbar>
       </AppBar>

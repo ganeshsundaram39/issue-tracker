@@ -16,6 +16,7 @@ const Issue = new Schema({
         type: Date,
         default: time.now(),
       },
+      commentId: String,
     },
   ],
   label: {

@@ -22,7 +22,7 @@ let userSchema = new Schema({
   },
   password: {
     type: String,
-    default: "lasd;lfkjlk",
+    default: "lasd;lfkjlkfda",
   },
   createdOn: {
     type: Date,
@@ -46,7 +46,7 @@ let userSchema = new Schema({
   },
   picture: {
     type: String,
-    default: "",
+    default: "https://api.hello-avatar.com/adorables/dasdf",
   },
 })
 

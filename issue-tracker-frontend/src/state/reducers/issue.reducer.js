@@ -5,7 +5,9 @@ import {
   ON_GET_ALL_ISSUE_RESPONSE,
   RESET_ISSUE,
   ON_GET_ISSUE_BY_ID,
-  GET_ISSUE_BY_ID_RESPONSE
+  GET_ISSUE_BY_ID_RESPONSE,
+  ON_ISSUE_SEARCH,
+  ON_ISSUE_SEARCH_RESPONSE
 } from "../types/issue.types"
 
 const initialState = {
@@ -15,6 +17,8 @@ const initialState = {
   allIssueResponse: null,
   onGetParticularIssueById: false,
   particularIssueById: null,
+  onSearchIssue: false,
+  searchedIssues: [],
 }
 
 const issueReducer = (state = initialState, action) => {
@@ -55,6 +59,18 @@ const issueReducer = (state = initialState, action) => {
         onGetParticularIssueById: false,
         particularIssueById: action.payload,
       }
+    case ON_ISSUE_SEARCH:
+      return {
+        ...state,
+        onSearchIssue: true,
+        searchedIssues: [],
+      }
+      case ON_ISSUE_SEARCH_RESPONSE:
+        return {
+          ...state,
+          onSearchIssue: false,
+          searchedIssues: action.payload,
+        }
     case RESET_ISSUE:
       return {
         ...initialState,

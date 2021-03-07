@@ -74,6 +74,7 @@ let signUpFunction = (req, res) => {
               email: req.body.email.toLowerCase(),
               password: passwordLib.hashpassword(req.body.password),
               createdOn: time.now(),
+              picture:"https://api.hello-avatar.com/adorables/"+req.body.fullName
             })
             newUser.save((err, newUser) => {
               if (err) {
@@ -420,7 +421,7 @@ let thirdPartyLoginFunction = (req, res) => {
                 ? userData.picture.data.url
                 : userData.picture
                 ? userData.picture
-                : "",
+                : "https://api.hello-avatar.com/adorables/"+userData.name,
           })
           newUser.save((err, newUser) => {
             if (err) {
