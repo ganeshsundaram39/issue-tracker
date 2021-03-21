@@ -22,7 +22,7 @@ exports.common = function (app, passport) {
           directives: {
             ...helmet.contentSecurityPolicy.getDefaultDirectives(),
             "script-src": ["'self'", "'unsafe-inline'"],
-            "img-src": ["'self'", "data:"],
+             "img-src": ["'self'","https:", "data:"],
           },
         },
       })
