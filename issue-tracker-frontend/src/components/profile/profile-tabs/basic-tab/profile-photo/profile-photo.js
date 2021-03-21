@@ -23,7 +23,7 @@ const ProfilePhoto = ({ url, onUploadProfilePhoto }) => {
     "https://res.cloudinary.com/gscode/image/upload/c_scale,w_300/v1615090896/profile-photo-default.jpg"
 
   const onDrop = (pictureFiles, pictureDataURLs) => {
-    console.log({ pictureFiles, pictureDataURLs })
+
 
     if (
       pictureFiles &&

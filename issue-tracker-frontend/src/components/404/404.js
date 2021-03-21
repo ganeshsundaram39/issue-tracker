@@ -16,7 +16,7 @@ export default function My404(props) {
         onClick={(e) => {
           e.stopPropagation()
 
-          console.log(props)
+
           props.history.push("/issues")
         }}
       >

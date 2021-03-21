@@ -26,11 +26,10 @@ export const createNewUser = ({ formData }) => (dispatch) => {
       ...formData,
     })
     .then(function (response) {
-      console.log({ response: response?.data })
+
       dispatch({ type: ON_NEW_ISSUE_RESPONSE, payload: response?.data })
     })
     .catch(function (error) {
-      console.log({ error: error?.data })
       dispatch({ type: ON_NEW_ISSUE_RESPONSE, payload: error?.data })
     })
 }
@@ -73,7 +72,7 @@ export const getAllIssues = ({ search = "" } = {}) => (dispatch) => {
     })
     .then(function (response) {
       if (!response?.data?.error) {
-        console.log({ response: response?.data?.data })
+
         if (search) {
           dispatch({
             type: ON_ISSUE_SEARCH_RESPONSE,
@@ -88,7 +87,7 @@ export const getAllIssues = ({ search = "" } = {}) => (dispatch) => {
       }
     })
     .catch(function (error) {
-      console.log({ error: error?.data })
+
       if (search) {
         dispatch({
           type: ON_ISSUE_SEARCH_RESPONSE,
@@ -116,7 +115,7 @@ export const getIssueById = (issueId) => (dispatch) => {
     })
     .then(function (response) {
       if (!response?.data?.error) {
-        console.log({ response: response?.data?.data })
+
         dispatch({
           type: GET_ISSUE_BY_ID_RESPONSE,
           payload: response?.data?.data?.[0],
@@ -124,7 +123,6 @@ export const getIssueById = (issueId) => (dispatch) => {
       }
     })
     .catch(function (error) {
-      console.log({ error: error?.data })
       dispatch({ type: GET_ISSUE_BY_ID_RESPONSE, payload: error?.data })
     })
 }
@@ -143,7 +141,7 @@ export const updateComments = ({ issueId, comment }) => (dispatch) => {
     })
     .then(function (response) {
       if (!response?.data?.error) {
-        console.log({ response: response?.data?.data })
+
         dispatch({
           type: GET_ISSUE_BY_ID_RESPONSE,
           payload: response?.data?.data?.[0],
@@ -151,7 +149,6 @@ export const updateComments = ({ issueId, comment }) => (dispatch) => {
       }
     })
     .catch(function (error) {
-      console.log({ error: error?.data })
       dispatch({ type: GET_ISSUE_BY_ID_RESPONSE, payload: error?.data })
     })
 }
@@ -170,7 +167,7 @@ export const updateStatus = ({ issueId, status }) => (dispatch) => {
     })
     .then(function (response) {
       if (!response?.data?.error) {
-        console.log({ response: response?.data?.data })
+
         dispatch({
           type: GET_ISSUE_BY_ID_RESPONSE,
           payload: response?.data?.data?.[0],
@@ -178,7 +175,6 @@ export const updateStatus = ({ issueId, status }) => (dispatch) => {
       }
     })
     .catch(function (error) {
-      console.log({ error: error?.data })
       dispatch({ type: GET_ISSUE_BY_ID_RESPONSE, payload: error?.data })
     })
 }

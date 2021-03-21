@@ -29,7 +29,6 @@ export const savePrimaryColor = ({ colorHash, colorName,userId }) => (dispatch) 
       userId,
     })
     .then(function (response) {
-      console.log({ response: response?.data })
       if(!response?.error){
         if (localStorage.getItem("userData")) {
           const userData = JSON.parse(localStorage.getItem("userData"))
@@ -45,7 +44,6 @@ export const savePrimaryColor = ({ colorHash, colorName,userId }) => (dispatch) 
       })}
     })
     .catch(function (error) {
-      console.log({ error: error?.data })
       dispatch({ type: ON_SAVE_PRIMARY_COLOR_RESPONSE, payload: error?.data })
     })
 }

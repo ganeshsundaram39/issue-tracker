@@ -23,7 +23,7 @@ const ReactMarkdownEditor = ({ comment, setComment, setImages }) => {
       yield res?.data?.url
       return true
     } catch (err) {
-      console.log({ err })
+
       enqueueSnackbar("Not Allowed", { variant: "error" })
       return false
     }

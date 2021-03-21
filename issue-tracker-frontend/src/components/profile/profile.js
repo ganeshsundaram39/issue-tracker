@@ -24,7 +24,7 @@ const Profile = () => {
   useEffect(() => {
     if (!onGetUser && onGetUserResponse) {
       if (onGetUserResponse && onGetUserResponse.length) {
-        console.log({ onGetUserResponse })
+
         const userData = onGetUserResponse[0]
         if (userData?.googleLogin && userData?.picture?.includes?.("=")) {
           const cleanPicture = userData.picture.split("=")[0]
@@ -42,7 +42,7 @@ const Profile = () => {
   useEffect(() => {
     if (!onUploadProfilePhoto && onUploadProfilePhotoResponse) {
       if (onUploadProfilePhotoResponse && onUploadProfilePhotoResponse.url) {
-        console.log({ onUploadProfilePhotoResponse })
+
         setUrl(onUploadProfilePhotoResponse?.url)
         enqueueSnackbar("Profile photo updated!", { variant: "success" })
       } else if (

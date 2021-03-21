@@ -32,12 +32,9 @@ export const onLogin = ({ formData }) => (dispatch) => {
       ...formData,
     })
     .then(function (response) {
-      console.log({ response: response?.data })
       dispatch({ type: ON_LOGIN_RESPONSE, payload: response?.data })
     })
     .catch(function (error) {
-      console.log({ error: error?.data })
-
       dispatch({ type: ON_LOGIN_RESPONSE, payload: error?.data })
     })
 }
@@ -49,11 +46,10 @@ export const onRegister = ({ formData }) => (dispatch) => {
       ...formData,
     })
     .then(function (response) {
-      console.log({ response: response?.data })
+
       dispatch({ type: ON_REGISTER_RESPONSE, payload: response?.data })
     })
     .catch(function (error) {
-      console.log({ error: error?.data })
       dispatch({ type: ON_REGISTER_RESPONSE, payload: error?.data })
     })
 }
@@ -115,7 +111,7 @@ export const getUserInfo = () => (dispatch) => {
     })
     .then(function (response) {
       if (!response?.data?.error) {
-        console.log({ response: response?.data?.data })
+
         dispatch({
           type: ON_GET_USER_INFO_RESPONSE,
           payload: response?.data?.data,
@@ -123,7 +119,7 @@ export const getUserInfo = () => (dispatch) => {
       }
     })
     .catch(function (error) {
-      console.log({ error: error?.data })
+
       dispatch({ type: ON_GET_USER_INFO_RESPONSE, payload: error?.data })
     })
 }
@@ -146,7 +142,6 @@ export const updateProfilePhoto = ({ file }) => (dispatch) => {
     .post(baseUrlProfile + "/image-upload", formData)
     .then((response) => {
       if (!response?.data?.error) {
-        console.log({ response: response?.data })
         dispatch({
           type: ON_UPLOAD_PROFILE_PHOTO_RESPONSE,
           payload: response?.data,
@@ -154,7 +149,7 @@ export const updateProfilePhoto = ({ file }) => (dispatch) => {
       }
     })
     .catch((error) => {
-      console.log({ error: error?.data })
+
       dispatch({ type: ON_UPLOAD_PROFILE_PHOTO_RESPONSE, payload: error?.data })
     })
 }
@@ -166,11 +161,10 @@ export const updateProfileBasic = ({ formData }) => (dispatch) => {
       ...formData,
     })
     .then(function (response) {
-      console.log({ response: response?.data })
+
       dispatch({ type: ON_UPDATE_PROFILE_BASIC_RESPONSE, payload: response?.data })
     })
     .catch(function (error) {
-      console.log({ error: error?.data })
       dispatch({ type: ON_UPDATE_PROFILE_BASIC_RESPONSE, payload: error?.data })
     })
 }
@@ -186,11 +180,10 @@ export const updateProfilePassword = ({ formData }) => (dispatch) => {
       ...formData,
     })
     .then(function (response) {
-      console.log({ response: response?.data })
+
       dispatch({ type: ON_UPDATE_PROFILE_PASSWORD_RESPONSE, payload: response?.data })
     })
     .catch(function (error) {
-      console.log({ error: error?.data })
       dispatch({ type: ON_UPDATE_PROFILE_PASSWORD_RESPONSE, payload: error?.data })
     })
 }
@@ -202,11 +195,9 @@ export const closeAccount = ({ userId }) => (dispatch) => {
       userId,
     })
     .then(function (response) {
-      console.log({ response: response?.data })
       dispatch({ type: ON_CLOSE_ACCOUNT_RESPONSE, payload: response?.data })
     })
     .catch(function (error) {
-      console.log({ error: error?.data })
       dispatch({ type: ON_CLOSE_ACCOUNT_RESPONSE, payload: error?.data })
     })
 }
