@@ -23,8 +23,6 @@ const ProfilePhoto = ({ url, onUploadProfilePhoto }) => {
     "https://res.cloudinary.com/gscode/image/upload/c_scale,w_300/v1615090896/profile-photo-default.jpg"
 
   const onDrop = (pictureFiles, pictureDataURLs) => {
-
-
     if (
       pictureFiles &&
       pictureFiles.length &&
@@ -56,7 +54,7 @@ const ProfilePhoto = ({ url, onUploadProfilePhoto }) => {
   return (
     <div className="profile-photo-wrapper">
       <img
-        src={url?url:imageErrorSrc}
+        src={url ? url : imageErrorSrc}
         className="photo"
         onError={profilePhotoError}
         alt="Profile-Picha"

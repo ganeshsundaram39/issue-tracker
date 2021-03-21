@@ -9,13 +9,12 @@ export default function My404(props) {
 
   return (
     <div className="my404">
-      <PageNotFound color={primaryColorHash}/>
+      <PageNotFound color={primaryColorHash} />
       <Button
         variant="contained"
         color="primary"
         onClick={(e) => {
           e.stopPropagation()
-
 
           props.history.push("/issues")
         }}

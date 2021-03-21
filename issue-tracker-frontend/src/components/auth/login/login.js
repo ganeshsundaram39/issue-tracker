@@ -87,8 +87,10 @@ const Login = () => {
         )
         dispatch(
           setPrimaryColor({
-            colorHash: loginResponse?.data?.userDetails?.theme?.primaryColorHash,
-            colorName: loginResponse?.data?.userDetails?.theme?.primaryColorName,
+            colorHash:
+              loginResponse?.data?.userDetails?.theme?.primaryColorHash,
+            colorName:
+              loginResponse?.data?.userDetails?.theme?.primaryColorName,
           })
         )
         dispatch(resetAuth())

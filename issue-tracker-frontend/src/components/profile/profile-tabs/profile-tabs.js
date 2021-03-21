@@ -79,7 +79,7 @@ export function ProfileTabs({ url, onUploadProfilePhoto, user }) {
 
       {value === 3 && (
         <div className="close-account">
-          <CloseAccount  userId={user?.userId ?? ""}/>
+          <CloseAccount userId={user?.userId ?? ""} />
         </div>
       )}
     </div>

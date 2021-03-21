@@ -5,8 +5,8 @@ import DialogActions from "@material-ui/core/DialogActions"
 import DialogContent from "@material-ui/core/DialogContent"
 import DialogTitle from "@material-ui/core/DialogTitle"
 import PropTypes from "prop-types"
-import useMediaQuery from '@material-ui/core/useMediaQuery';
-import { useTheme } from '@material-ui/core/styles';
+import useMediaQuery from "@material-ui/core/useMediaQuery"
+import { useTheme } from "@material-ui/core/styles"
 
 export default function AlertDialog({
   children,
@@ -18,8 +18,8 @@ export default function AlertDialog({
   noText,
 }) {
   const [open, setOpen] = React.useState(false)
-  const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const theme = useTheme()
+  const fullScreen = useMediaQuery(theme.breakpoints.down("sm"))
   const handleClickOpen = (event) => {
     event?.stopPropagation?.()
     setOpen(true)

@@ -61,7 +61,7 @@ const appReducer = (state = initialState, action) => {
       return {
         ...initialState,
         primaryColorName: "indigo",
-        primaryColorHash:"#3f51b5"
+        primaryColorHash: "#3f51b5",
       }
     default:
       return state

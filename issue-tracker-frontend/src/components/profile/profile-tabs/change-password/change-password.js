@@ -15,17 +15,17 @@ import {
 import InputAdornment from "@material-ui/core/InputAdornment"
 import { RemoveRedEye } from "@material-ui/icons"
 import * as Yup from "yup"
-import { passwordRegex, passwordRegexMessage } from "../../../common/passwordRegex"
+import {
+  passwordRegex,
+  passwordRegexMessage,
+} from "../../../common/passwordRegex"
 import PasswordSVG from "../../../../assets/images/password-svg"
 
-
-
 const schema = yup.object().shape({
-  newPassword: yup.string().required("Password is required")
-  .matches(
-    passwordRegex,
-    passwordRegexMessage
-  ),
+  newPassword: yup
+    .string()
+    .required("Password is required")
+    .matches(passwordRegex, passwordRegexMessage),
   confirmPassword: yup
     .string()
     .required("Confirm password is required")
@@ -89,7 +89,7 @@ const ChangePassword = ({ userId }) => {
   return (
     <form className={"change-password-form"} onSubmit={handleSubmit(onSubmit)}>
       <div className="side-image">
-        <PasswordSVG color={primaryColorHash}/>
+        <PasswordSVG color={primaryColorHash} />
       </div>
       <div className="password-inputs">
         <TextField
@@ -121,7 +121,6 @@ const ChangePassword = ({ userId }) => {
           label="Confirm Password"
           inputRef={register}
           autoComplete="off"
-
           helperText={
             errors?.confirmPassword?.message
               ? errors?.confirmPassword?.message

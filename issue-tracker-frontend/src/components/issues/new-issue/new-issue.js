@@ -100,7 +100,7 @@ const NewIssue = () => {
         <h2>New Issue</h2>
         <div className="new-issue-form-wrapper">
           <div className="first">
-            <BugFixing color={primaryColorHash}/>
+            <BugFixing color={primaryColorHash} />
           </div>
           <div className="second">
             <form onSubmit={handleSubmit(onSubmit)}>

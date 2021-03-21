@@ -22,7 +22,7 @@ exports.common = function (app, passport) {
           directives: {
             ...helmet.contentSecurityPolicy.getDefaultDirectives(),
             "script-src": ["'self'", "'unsafe-inline'"],
-             "img-src": ["'self'","https:", "data:"],
+            "img-src": ["'self'", "https:", "data:"],
           },
         },
       })
@@ -106,7 +106,7 @@ exports.onListening = function (server) {
     useCreateIndex: true,
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    useFindAndModify: false
+    useFindAndModify: false,
   })
   cloudinary.config({
     cloud_name: process.env.CLOUDINARY_NAME,

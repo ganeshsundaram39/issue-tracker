@@ -1,6 +1,6 @@
-import React,{memo} from "react";
+import React, { memo } from "react"
 
-const PageNotFound=({color="#3f51b5"}) =>{
+const PageNotFound = ({ color = "#3f51b5" }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -286,7 +286,7 @@ const PageNotFound=({color="#3f51b5"}) =>{
         opacity="0.3"
       ></circle>
     </svg>
-  );
+  )
 }
 
-export default memo(PageNotFound);
+export default memo(PageNotFound)

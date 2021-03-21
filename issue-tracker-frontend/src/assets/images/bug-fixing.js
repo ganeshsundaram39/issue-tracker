@@ -1,6 +1,6 @@
-import React,{memo} from "react";
+import React, { memo } from "react"
 
-const BugFixing=({color="#3f51b5"}) =>{
+const BugFixing = ({ color = "#3f51b5" }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -500,7 +500,7 @@ const BugFixing=({color="#3f51b5"}) =>{
         transform="translate(-88.65 -57.09)"
       ></path>
     </svg>
-  );
+  )
 }
 
-export default memo(BugFixing);
+export default memo(BugFixing)

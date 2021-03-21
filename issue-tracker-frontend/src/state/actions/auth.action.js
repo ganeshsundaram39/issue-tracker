@@ -15,7 +15,7 @@ import {
   ON_UPDATE_PROFILE_PASSWORD,
   ON_UPDATE_PROFILE_PASSWORD_RESPONSE,
   ON_CLOSE_ACCOUNT,
-  ON_CLOSE_ACCOUNT_RESPONSE
+  ON_CLOSE_ACCOUNT_RESPONSE,
 } from "../types/auth.types"
 import axios from "./axios"
 
@@ -46,7 +46,6 @@ export const onRegister = ({ formData }) => (dispatch) => {
       ...formData,
     })
     .then(function (response) {
-
       dispatch({ type: ON_REGISTER_RESPONSE, payload: response?.data })
     })
     .catch(function (error) {
@@ -111,7 +110,6 @@ export const getUserInfo = () => (dispatch) => {
     })
     .then(function (response) {
       if (!response?.data?.error) {
-
         dispatch({
           type: ON_GET_USER_INFO_RESPONSE,
           payload: response?.data?.data,
@@ -119,7 +117,6 @@ export const getUserInfo = () => (dispatch) => {
       }
     })
     .catch(function (error) {
-
       dispatch({ type: ON_GET_USER_INFO_RESPONSE, payload: error?.data })
     })
 }
@@ -149,7 +146,6 @@ export const updateProfilePhoto = ({ file }) => (dispatch) => {
       }
     })
     .catch((error) => {
-
       dispatch({ type: ON_UPLOAD_PROFILE_PHOTO_RESPONSE, payload: error?.data })
     })
 }
@@ -161,15 +157,17 @@ export const updateProfileBasic = ({ formData }) => (dispatch) => {
       ...formData,
     })
     .then(function (response) {
-
-      dispatch({ type: ON_UPDATE_PROFILE_BASIC_RESPONSE, payload: response?.data })
+      dispatch({
+        type: ON_UPDATE_PROFILE_BASIC_RESPONSE,
+        payload: response?.data,
+      })
     })
     .catch(function (error) {
       dispatch({ type: ON_UPDATE_PROFILE_BASIC_RESPONSE, payload: error?.data })
     })
 }
 
-export const resetUpdateProfileData =()=>(dispatch)=>{
+export const resetUpdateProfileData = () => (dispatch) => {
   dispatch({ type: RESET_UPDATE_PROFILE_DATA })
 }
 
@@ -180,11 +178,16 @@ export const updateProfilePassword = ({ formData }) => (dispatch) => {
       ...formData,
     })
     .then(function (response) {
-
-      dispatch({ type: ON_UPDATE_PROFILE_PASSWORD_RESPONSE, payload: response?.data })
+      dispatch({
+        type: ON_UPDATE_PROFILE_PASSWORD_RESPONSE,
+        payload: response?.data,
+      })
     })
     .catch(function (error) {
-      dispatch({ type: ON_UPDATE_PROFILE_PASSWORD_RESPONSE, payload: error?.data })
+      dispatch({
+        type: ON_UPDATE_PROFILE_PASSWORD_RESPONSE,
+        payload: error?.data,
+      })
     })
 }
 export const closeAccount = ({ userId }) => (dispatch) => {

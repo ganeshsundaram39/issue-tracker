@@ -40,10 +40,13 @@ const IssueList = () => {
     <div className="issue-list-wrapper">
       <Card className="card-style">
         {allIssueResponse && allIssueResponse?.length ? (
-          <Paper style={{
-            flexGrow: 1,
-            marginBottom: "5px",
-          }} square>
+          <Paper
+            style={{
+              flexGrow: 1,
+              marginBottom: "5px",
+            }}
+            square
+          >
             <Tabs
               value={value}
               onChange={handleChange}

@@ -53,8 +53,8 @@ export default function SearchAppBar({ pageName }) {
       setShowSearchSelect(false)
     }
   }
-  const clearSearch=()=>{
-    setSearch('')
+  const clearSearch = () => {
+    setSearch("")
     setShowSearchSelect(false)
   }
   return (
@@ -93,9 +93,7 @@ export default function SearchAppBar({ pageName }) {
               </div>
             )}
             {showSearchSelect && (
-              <div
-                className={classes.searchResults}
-              >
+              <div className={classes.searchResults}>
                 {onSearchIssue && (
                   <div style={{ marginBottom: "10px" }}>Loading...</div>
                 )}

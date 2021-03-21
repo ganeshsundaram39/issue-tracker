@@ -13,7 +13,7 @@ function App() {
 
   const theme = createMuiTheme({
     palette: {
-      primary: getPrimaryColor({colorName:primaryColorName}),
+      primary: getPrimaryColor({ colorName: primaryColorName }),
     },
   })
   return (

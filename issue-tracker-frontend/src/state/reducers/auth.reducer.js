@@ -13,8 +13,8 @@ import {
   RESET_UPDATE_PROFILE_DATA,
   ON_UPDATE_PROFILE_PASSWORD,
   ON_UPDATE_PROFILE_PASSWORD_RESPONSE,
-   ON_CLOSE_ACCOUNT,
-  ON_CLOSE_ACCOUNT_RESPONSE
+  ON_CLOSE_ACCOUNT,
+  ON_CLOSE_ACCOUNT_RESPONSE,
 } from "../types/auth.types"
 
 const initialState = {
@@ -30,9 +30,8 @@ const initialState = {
   onUpdateProfileBasicResponse: null,
   onUpdateProfilePassword: false,
   onUpdateProfilePasswordResponse: null,
-  onCloseAccount:false,
-  onCloseAccountResponse:null,
-
+  onCloseAccount: false,
+  onCloseAccountResponse: null,
 }
 
 const authReducer = (state = initialState, action) => {
@@ -105,8 +104,8 @@ const authReducer = (state = initialState, action) => {
         onUpdateProfileBasicResponse: null,
         onUpdateProfilePassword: false,
         onUpdateProfilePasswordResponse: null,
-        onCloseAccount:false,
-        onCloseAccountResponse:null,
+        onCloseAccount: false,
+        onCloseAccountResponse: null,
       }
     case ON_UPDATE_PROFILE_PASSWORD:
       return {
@@ -120,18 +119,18 @@ const authReducer = (state = initialState, action) => {
         onUpdateProfilePassword: false,
         onUpdateProfilePasswordResponse: action.payload,
       }
-      case ON_CLOSE_ACCOUNT:
-        return {
-          ...state,
-          onCloseAccount:true,
-          onCloseAccountResponse:null,
-        }
-      case ON_CLOSE_ACCOUNT_RESPONSE:
-        return {
-          ...state,
-          onCloseAccount:false,
-          onCloseAccountResponse:action.payload,
-        }
+    case ON_CLOSE_ACCOUNT:
+      return {
+        ...state,
+        onCloseAccount: true,
+        onCloseAccountResponse: null,
+      }
+    case ON_CLOSE_ACCOUNT_RESPONSE:
+      return {
+        ...state,
+        onCloseAccount: false,
+        onCloseAccountResponse: action.payload,
+      }
     case RESET_AUTH:
       return {
         ...initialState,

@@ -1,4 +1,4 @@
-import { fade, makeStyles } from "@material-ui/core/styles";
+import { fade, makeStyles } from "@material-ui/core/styles"
 
 export const useSearchBarStyles = makeStyles((theme) => ({
   root: {
@@ -36,14 +36,14 @@ export const useSearchBarStyles = makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    top:'1px'
+    top: "1px",
   },
-  clearIcon:{
-    display: 'inline',
-    position: 'absolute',
-    right: '7px',
-    cursor:'pointer',
-    top: '6px',
+  clearIcon: {
+    display: "inline",
+    position: "absolute",
+    right: "7px",
+    cursor: "pointer",
+    top: "6px",
   },
   inputRoot: {
     color: "inherit",
@@ -69,13 +69,13 @@ export const useSearchBarStyles = makeStyles((theme) => ({
     border: "1px solid #ccc",
     padding: "10px 5px 0 5px",
     color: "black",
-    display: 'flex',
-    flexDirection: 'column',
-    paddingBottom: '40px'
+    display: "flex",
+    flexDirection: "column",
+    paddingBottom: "40px",
   },
   searchResult: {
     color: "#000",
     display: "inline-block",
     marginBottom: "10px",
   },
-}));
+}))

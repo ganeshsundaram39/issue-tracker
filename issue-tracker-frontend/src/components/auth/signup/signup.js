@@ -17,11 +17,10 @@ import { passwordRegex, passwordRegexMessage } from "../../common/passwordRegex"
 const schema = yup.object().shape({
   fullName: yup.string().required("FullName is required"),
   email: yup.string().required("Email is required").email("Invalid Email Id"),
-  password: yup.string().required("Password is required")
-  .matches(
-    passwordRegex,
-    passwordRegexMessage
-  ),
+  password: yup
+    .string()
+    .required("Password is required")
+    .matches(passwordRegex, passwordRegexMessage),
 })
 
 const Signup = ({ handleChange }) => {

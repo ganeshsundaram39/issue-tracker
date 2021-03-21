@@ -10,7 +10,6 @@ var cloudinary = require("cloudinary").v2
 const moment = require("moment")
 
 const createIssueFunction = (req, res) => {
-
   const createIssue = () => {
     return new Promise((resolve, reject) => {
       let newIssue = new IssueModel({

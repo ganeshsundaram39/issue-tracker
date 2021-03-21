@@ -1,6 +1,6 @@
-import React,{memo} from "react";
+import React, { memo } from "react"
 // https://svg2jsx.com/
-const PasswordSVG=({color="#3f51b5"}) =>{
+const PasswordSVG = ({ color = "#3f51b5" }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -147,7 +147,7 @@ const PasswordSVG=({color="#3f51b5"}) =>{
         transform="translate(-120 -52.51)"
       ></path>
     </svg>
-  );
+  )
 }
 
-export default memo(PasswordSVG);
+export default memo(PasswordSVG)

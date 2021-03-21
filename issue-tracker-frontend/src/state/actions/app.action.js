@@ -1,10 +1,9 @@
 import {
   TOGGLE_DRAWER_STATE,
   SET_PRIMARY_COLOR,
-
   ON_SAVE_PRIMARY_COLOR,
   ON_SAVE_PRIMARY_COLOR_RESPONSE,
-  RESET_SAVE_PRIMARY_COLOR
+  RESET_SAVE_PRIMARY_COLOR,
 } from "../types/app.types"
 import axios from "./axios"
 
@@ -18,8 +17,9 @@ export const setPrimaryColor = ({ colorHash, colorName }) => (dispatch) => {
   dispatch({ type: SET_PRIMARY_COLOR, payload: { colorHash, colorName } })
 }
 
-
-export const savePrimaryColor = ({ colorHash, colorName,userId }) => (dispatch) => {
+export const savePrimaryColor = ({ colorHash, colorName, userId }) => (
+  dispatch
+) => {
   dispatch({ type: ON_SAVE_PRIMARY_COLOR })
 
   axios
@@ -29,7 +29,7 @@ export const savePrimaryColor = ({ colorHash, colorName,userId }) => (dispatch) 
       userId,
     })
     .then(function (response) {
-      if(!response?.error){
+      if (!response?.error) {
         if (localStorage.getItem("userData")) {
           const userData = JSON.parse(localStorage.getItem("userData"))
           userData.userDetails = {
@@ -38,10 +38,11 @@ export const savePrimaryColor = ({ colorHash, colorName,userId }) => (dispatch) 
           }
           localStorage.setItem("userData", JSON.stringify(userData))
         }
-      dispatch({
-        type: ON_SAVE_PRIMARY_COLOR_RESPONSE,
-        payload: response?.data,
-      })}
+        dispatch({
+          type: ON_SAVE_PRIMARY_COLOR_RESPONSE,
+          payload: response?.data,
+        })
+      }
     })
     .catch(function (error) {
       dispatch({ type: ON_SAVE_PRIMARY_COLOR_RESPONSE, payload: error?.data })

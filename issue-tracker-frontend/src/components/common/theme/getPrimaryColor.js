@@ -1,4 +1,3 @@
-
 import {
   indigo,
   blue,
@@ -16,7 +15,7 @@ import {
   amber,
   orange,
   deepOrange,
-} from './colors.js'
+} from "./colors.js"
 
 const getPrimaryColor = ({ colorName = "indigo" }) => {
   switch (colorName) {
