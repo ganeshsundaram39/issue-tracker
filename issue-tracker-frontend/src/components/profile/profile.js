@@ -2,11 +2,10 @@ import React, { useEffect, useState } from "react"
 import Wrapper from "../common/wrapper/wrapper"
 import "./profile.scss"
 import Card from "@material-ui/core/Card"
-import ProfilePhoto from "./profilephoto/profilephoto"
 import { useSelector, useDispatch } from "react-redux"
 import { getUserInfo } from "../../state/actions/auth.action"
-import UserInfo from "./userinfo/userinfo"
 import { useSnackbar } from "notistack"
+import { ProfileTabs } from "./profile-tabs/profile-tabs"
 
 const Profile = () => {
   const [url, setUrl] = useState("")
@@ -68,17 +67,11 @@ const Profile = () => {
       <div className="profile-wrapper">
         <Card className="card-style">
           {onGetUserResponse && !onGetUserResponse?.error ? (
-            <>
-              <div className="profile-photo">
-                <ProfilePhoto
-                  url={url}
-                  onUploadProfilePhoto={onUploadProfilePhoto}
-                />
-              </div>
-              <div className="user-data">
-                <UserInfo user={user}></UserInfo>
-              </div>
-            </>
+            <ProfileTabs
+              url={url}
+              onUploadProfilePhoto={onUploadProfilePhoto}
+              user={user}
+            />
           ) : null}
           {onGetUserResponse && onGetUserResponse?.error ? (
             <h1>No Profile Found</h1>

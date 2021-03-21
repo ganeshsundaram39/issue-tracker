@@ -5,18 +5,26 @@
   min-height: 100vh;
   padding: 20vh 0;
   .card-style {
-    width: 80vw;
-    min-height: 100vh;
+    width: 90vw;
+    min-height: 70vh;
     padding: 3% 4%;
-    display: flex;
-    flex-wrap: nowrap;
-    .profile-photo {
-      flex-basis: 30%;
-      display: flex;
-      justify-content: center;
+  }
+}
+
+//  Small devices (landscape phones, 576px and up)
+@media (min-width: 576px) {
+  .profile-wrapper {
+    .card-style {
+      width: 85vw;
     }
-    .user-data {
-      flex-basis: 70%;
+  }
+}
+
+//   Medium devices (tablets, 768px and up)
+@media (min-width: 768px) {
+  .profile-wrapper {
+    .card-style {
+      width: 80vw;
     }
   }
 }

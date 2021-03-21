@@ -1,0 +1,43 @@
+.change-theme-wrapper {
+  display: flex;
+  justify-content: center;
+  .colors {
+    flex-basis: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    .buttons {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      flex-basis: 100%;
+    }
+  }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+  .change-theme-wrapper {
+    .colors {
+      flex-basis: 70%;
+      .buttons {
+        display: flex;
+        justify-content: center;
+      }
+    }
+  }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+  .change-theme-wrapper {
+    .colors {
+      flex-basis: 50%;
+      .buttons {
+        display: flex;
+        justify-content: flex-start;
+      }
+    }
+  }
+}

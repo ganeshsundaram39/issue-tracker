@@ -5,9 +5,11 @@ const time = require("../libs/timeLib")
 const Issue = new Schema({
   issueId: {
     type: String,
+    required: true,
   },
   title: {
     type: String,
+    required: true,
   },
   comments: [
     {
@@ -25,13 +27,16 @@ const Issue = new Schema({
   status: {
     type: String,
     default: "open",
+    required: true,
   },
   userId: {
     type: String,
+    required: true,
   },
   issueGenerationTime: {
     type: Date,
     default: time.now(),
+    required: true,
   },
 })
 

@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from "react"
 import "./new-issue.scss"
 import Card from "@material-ui/core/Card"
-import BugFixing from "../../../assets/images/bug_fixing.svg"
+import BugFixing from "../../../assets/images/bug-fixing"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { useForm } from "react-hook-form"
 import Button from "@material-ui/core/Button"
@@ -14,7 +14,7 @@ import FormControl from "@material-ui/core/FormControl"
 import Select from "@material-ui/core/Select"
 import { useHistory } from "react-router-dom"
 import {
-  onNewIssue,
+  createNewUser,
   resetIssue,
   destroyImages,
 } from "../../../state/actions/issue.action"
@@ -34,23 +34,24 @@ const NewIssue = () => {
   const [comment, setComment] = useState("")
   const { enqueueSnackbar } = useSnackbar()
   const [images, setImages] = useState([])
-  const loading = useSelector((state) => state.issue.onNewIssue)
+  const onNewIssue = useSelector((state) => state.issue.onNewIssue)
   const newIssueResponse = useSelector((state) => state.issue.newIssueResponse)
+  const primaryColorHash = useSelector((state) => state.app.primaryColorHash)
 
   const onSubmit = useCallback(
     (formData) => {
-      if (!loading) {
+      if (!onNewIssue) {
         formData["comment"] = comment
         formData["label"] = label
 
-        dispatch(onNewIssue({ formData }))
+        dispatch(createNewUser({ formData }))
       }
     },
-    [dispatch, comment, label, loading]
+    [dispatch, comment, label, onNewIssue]
   )
 
   useEffect(() => {
-    if (!loading && newIssueResponse) {
+    if (!onNewIssue && newIssueResponse) {
       if (newIssueResponse?.error && newIssueResponse?.message) {
         enqueueSnackbar(newIssueResponse?.message, { variant: "error" })
         dispatch(resetIssue())
@@ -60,7 +61,7 @@ const NewIssue = () => {
         history.push("/issues")
       }
     }
-  }, [loading, newIssueResponse, enqueueSnackbar, dispatch, history])
+  }, [onNewIssue, newIssueResponse, enqueueSnackbar, dispatch, history])
 
   useEffect(() => {
     document.title = "IssueTracker | New Issue"
@@ -99,7 +100,7 @@ const NewIssue = () => {
         <h2>New Issue</h2>
         <div className="new-issue-form-wrapper">
           <div className="first">
-            <img src={BugFixing} alt="bug fixing" />
+            <BugFixing color={primaryColorHash}/>
           </div>
           <div className="second">
             <form onSubmit={handleSubmit(onSubmit)}>

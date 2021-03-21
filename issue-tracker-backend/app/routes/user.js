@@ -3,7 +3,7 @@ const { authorizeMiddleware } = require("../middlewares/authorize")
 const { singleUploadCtrl } = require("../middlewares/multer")
 
 module.exports.setRouter = ({ app, passport }) => {
-  let baseUrl = `${process.env.API_VERSION}/users`
+  let baseUrl = `${process.env.API_VERSION}/user`
   let baseUrlProfile = `${process.env.API_VERSION}/profile`
 
   app.post(`${baseUrl}/signup`, userController.signUpFunction)
@@ -66,6 +66,26 @@ module.exports.setRouter = ({ app, passport }) => {
     `${baseUrlProfile}/image-upload`,
     authorizeMiddleware,
     singleUploadCtrl,
-    userController.uploadProfilePhoto
+    userController.uploadProfilePhotoFunction
+  )
+  app.post(
+    `${baseUrlProfile}/update/basic`,
+    authorizeMiddleware,
+    userController.updateProfileBasicFunction
+  )
+  app.post(
+    `${baseUrlProfile}/update/password`,
+    authorizeMiddleware,
+    userController.updateProfilePasswordFunction
+  )
+  app.post(
+    `${baseUrlProfile}/update/theme`,
+    authorizeMiddleware,
+    userController.updateProfileThemeFunction
+  )
+  app.post(
+    `${baseUrlProfile}/close-account`,
+    authorizeMiddleware,
+    userController.closeAccountFunction
   )
 }

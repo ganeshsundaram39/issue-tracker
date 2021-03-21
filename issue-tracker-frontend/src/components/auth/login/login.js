@@ -23,6 +23,7 @@ import Github from "../../../assets/images/github.svg"
 
 import { useHistory } from "react-router-dom"
 import { resetAuth } from "../../../state/actions/auth.action"
+import { setPrimaryColor } from "../../../state/actions/app.action"
 // import useCountRenders from "../useCountRenders"
 
 const schema = yup.object().shape({
@@ -80,12 +81,18 @@ const Login = () => {
         enqueueSnackbar(loginResponse?.message, { variant: "error" })
         dispatch(resetAuth())
       } else if (loginResponse?.data) {
-        enqueueSnackbar("Login Successful!", { variant: "success" })
         localStorage.setItem(
-          "userdata",
+          "userData",
           JSON.stringify({ ...loginResponse?.data })
         )
+        dispatch(
+          setPrimaryColor({
+            colorHash: loginResponse?.data?.userDetails?.theme?.primaryColorHash,
+            colorName: loginResponse?.data?.userDetails?.theme?.primaryColorName,
+          })
+        )
         dispatch(resetAuth())
+        enqueueSnackbar("Login Successful!", { variant: "success" })
         history.push("/issues")
       }
     }

@@ -15,7 +15,6 @@ import InboxSharpIcon from "@material-ui/icons/InboxSharp"
 import ExitToAppSharpIcon from "@material-ui/icons/ExitToAppSharp"
 import { useHistory } from "react-router-dom"
 import BugReportIcon from "@material-ui/icons/BugReport"
-import DeleteForeverSharpIcon from "@material-ui/icons/DeleteForeverSharp"
 import AlertDialog from "../alert"
 const AdapterLink = React.forwardRef((props, ref) => (
   <Link innerRef={ref} {...props} />
@@ -48,7 +47,7 @@ export default function Drawer() {
 
       dispatch(logoutUser())
 
-      localStorage.removeItem("userdata")
+      localStorage.removeItem("userData")
       history.push("/auth/login")
     },
     [dispatch, history]
@@ -86,14 +85,6 @@ export default function Drawer() {
               <AccountBoxSharpIcon />
             </ListItemIcon>
             <ListItemText primary={"Profile"} />
-          </ListItem>
-        </List>
-        <List>
-          <ListItem button component={AdapterLink} to="/close-account">
-            <ListItemIcon>
-              <DeleteForeverSharpIcon />
-            </ListItemIcon>
-            <ListItemText primary={"Close Account"} />
           </ListItem>
         </List>
         <Divider />

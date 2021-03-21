@@ -4,9 +4,10 @@ import Toolbar from "@material-ui/core/Toolbar"
 import IconButton from "@material-ui/core/IconButton"
 import Typography from "@material-ui/core/Typography"
 import InputBase from "@material-ui/core/InputBase"
-import { fade, makeStyles } from "@material-ui/core/styles"
 import MenuIcon from "@material-ui/icons/Menu"
 import SearchIcon from "@material-ui/icons/Search"
+import CloseSharpIcon from "@material-ui/icons/CloseSharp"
+
 import { toggleDrawer } from "../../../state/actions/app.action"
 import {
   getAllIssues,
@@ -15,78 +16,10 @@ import {
 import { useSelector, useDispatch } from "react-redux"
 import { Link } from "react-router-dom"
 import useThrottle from "../useThrottle"
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
-  title: {
-    flexGrow: 1,
-    display: "none",
-    [theme.breakpoints.up("sm")]: {
-      display: "block",
-    },
-  },
-  search: {
-    position: "relative",
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.common.white, 0.15),
-    "&:hover": {
-      backgroundColor: fade(theme.palette.common.white, 0.25),
-    },
-    marginLeft: 0,
-    width: "100%",
-    [theme.breakpoints.up("sm")]: {
-      marginLeft: theme.spacing(1),
-      width: "250px",
-    },
-  },
-  searchIcon: {
-    padding: theme.spacing(0, 2),
-    height: "100%",
-    position: "absolute",
-    pointerEvents: "none",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  inputRoot: {
-    color: "inherit",
-  },
-  inputInput: {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-    transition: theme.transitions.create("width"),
-    width: "100%",
-    [theme.breakpoints.up("sm")]: {
-      width: "12ch",
-      "&:focus": {
-        width: "20ch",
-      },
-    },
-  },
-  searchResults: {
-    width: "inherit",
-    background: "white",
-    position: "fixed",
-    zIndex: 999999,
-    border: "1px solid #ccc",
-    padding: "10px 5px 0 5px",
-    color: "black",
-  },
-  searchResult: {
-    color: "#000",
-    display: "inline-block",
-    marginBottom: "10px",
-  },
-}))
+import { useSearchBarStyles } from "./useSearchBarStyles"
 
 export default function SearchAppBar({ pageName }) {
-  const classes = useStyles()
+  const classes = useSearchBarStyles()
   const dispatch = useDispatch()
   const [search, setSearch] = useState("")
   const [showSearchSelect, setShowSearchSelect] = useState(false)
@@ -120,7 +53,10 @@ export default function SearchAppBar({ pageName }) {
       setShowSearchSelect(false)
     }
   }
-
+  const clearSearch=()=>{
+    setSearch('')
+    setShowSearchSelect(false)
+  }
   return (
     <div className={classes.root}>
       <AppBar position="fixed">
@@ -142,20 +78,23 @@ export default function SearchAppBar({ pageName }) {
               <SearchIcon />
             </div>
             <InputBase
-              placeholder="Search Issue..."
+              placeholder="Search Issues..."
               classes={{
                 root: classes.inputRoot,
                 input: classes.inputInput,
               }}
               onChange={handleChange}
               value={search}
-              inputProps={{ "aria-label": "search issue" }}
+              inputProps={{ "aria-label": "search Issues" }}
             />
+            {search && (
+              <div className={classes.clearIcon} onClick={clearSearch}>
+                <CloseSharpIcon />
+              </div>
+            )}
             {showSearchSelect && (
               <div
                 className={classes.searchResults}
-                onMouseEnter={() => setShowSearchSelect(true)}
-                onMouseLeave={() => setShowSearchSelect(false)}
               >
                 {onSearchIssue && (
                   <div style={{ marginBottom: "10px" }}>Loading...</div>

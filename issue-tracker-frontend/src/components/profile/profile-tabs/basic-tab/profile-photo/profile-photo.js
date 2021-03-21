@@ -6,10 +6,10 @@ import CloseSharpIcon from "@material-ui/icons/CloseSharp"
 import Tooltip from "@material-ui/core/Tooltip"
 
 import ImageUploader from "react-images-upload"
-import "./profilephoto.scss"
-import AlertDialog from "../../common/alert"
+import "./profile-photo.scss"
+import AlertDialog from "../../../../common/alert"
 import { useSnackbar } from "notistack"
-import { updateProfilePhoto } from "../../../state/actions/auth.action"
+import { updateProfilePhoto } from "../../../../../state/actions/auth.action"
 import { useDispatch } from "react-redux"
 import LoopSharpIcon from "@material-ui/icons/LoopSharp"
 
@@ -42,7 +42,7 @@ const ProfilePhoto = ({ url, onUploadProfilePhoto }) => {
       dispatch(updateProfilePhoto({ file: pictureFile[0] }))
       removeImage()
     } else {
-      enqueueSnackbar("No Image to upload!", { variant: "error" })
+      enqueueSnackbar("No image to upload!", { variant: "error" })
     }
   }
   const removeImage = () => {
@@ -56,14 +56,14 @@ const ProfilePhoto = ({ url, onUploadProfilePhoto }) => {
   return (
     <div className="profile-photo-wrapper">
       <img
-        src={url}
+        src={url?url:imageErrorSrc}
         className="photo"
         onError={profilePhotoError}
         alt="Profile-Picha"
       />
       <AlertDialog
         message={
-          <div style={{ width: "450px" }}>
+          <div className="image-uploader">
             <ImageUploader
               withIcon={true}
               buttonText="Choose image"

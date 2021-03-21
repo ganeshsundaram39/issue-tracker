@@ -123,6 +123,10 @@ body {
   margin-top: 5%;
 }
 
+.bottom-margin {
+  margin-bottom: 5%;
+}
+
 html,
 body {
   min-height: 100vh;
@@ -131,16 +135,20 @@ body {
 }
 
 /* Small devices (landscape phones, 576px and up) */
-/* @media (min-width: 576px) {  }
+@media (min-width: 576px) {
+}
 
-  Medium devices (tablets, 768px and up)
- @media (min-width: 768px) {  }
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+}
 
-  Large devices (desktops, 992px and up)
- @media (min-width: 992px) {  }
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+}
 
-  Extra large devices (large desktops, 1200px and up)
- @media (min-width: 1200px) {  } */
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+}
 
 ::-webkit-scrollbar {
   width: 10px;
@@ -161,4 +169,10 @@ hr {
   border-width: 0px 0px 2px;
   border-image: initial;
   border-bottom: 2px dashed rgb(204, 204, 204);
+}
+.mde-preview-content {
+  word-wrap: break-word;
+  img {
+    max-width: 100%;
+  }
 }

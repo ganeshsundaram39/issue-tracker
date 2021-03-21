@@ -1,0 +1,31 @@
+.profile-tabs {
+  .basic-profile {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    .profile-photo {
+      flex-basis: 100%;
+      display: flex;
+      justify-content: center;
+      margin-bottom: 30px;
+    }
+    .basic {
+      flex-basis: 100%;
+    }
+  }
+}
+
+//   Large devices (desktops, 992px and up)
+@media (min-width: 992px) {
+  .profile-tabs {
+    .basic-profile {
+      flex-wrap: nowrap;
+      .profile-photo {
+        flex-basis: 35%;
+      }
+      .basic {
+        flex-basis: 65%;
+      }
+    }
+  }
+}

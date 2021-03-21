@@ -27,8 +27,8 @@ const Auth = () => {
     indexToTabName[page] >= 0 ? indexToTabName[page] : 0
   )
 
-  let userdata = localStorage.getItem("userdata")
-  if (userdata) userdata = JSON.parse(userdata)
+  let userData = localStorage.getItem("userData")
+  if (userData) userData = JSON.parse(userData)
 
   const handleChange = (event, newValue) => {
     setSelectedTab(newValue)
@@ -40,7 +40,7 @@ const Auth = () => {
 
   return (
     <>
-      {userdata?.authToken ? <Redirect to="/issues" /> : null}
+      {userData?.authToken ? <Redirect to="/issues" /> : null}
       <div className="auth">
         <img
           className="side-image"

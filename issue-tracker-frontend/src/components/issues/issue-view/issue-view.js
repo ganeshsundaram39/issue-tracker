@@ -138,12 +138,12 @@ const IssueView = () => {
             <div className="new-comment-wrapper">
               <Button
                 variant="contained"
-                color="secondary"
+                color="primary"
                 onClick={closeIssue}
               >
                 {particularIssueById.status === "open"
-                  ? "Close issue"
-                  : "Reopen issue"}
+                  ? "Close"
+                  : "Reopen"}
               </Button>
               <Button
                 variant="contained"

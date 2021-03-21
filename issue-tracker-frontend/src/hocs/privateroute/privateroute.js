@@ -5,10 +5,10 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
     render={(props) => {
-      let userdata = localStorage.getItem("userdata")
-      if (userdata) userdata = JSON.parse(userdata)
+      let userData = localStorage.getItem("userData")
+      if (userData) userData = JSON.parse(userData)
 
-      return userdata?.authToken ? (
+      return userData?.authToken ? (
         <Component {...props} />
       ) : (
         <Redirect to="/auth/login" />

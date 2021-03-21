@@ -7,14 +7,18 @@ const logger = require("./../libs/loggerLib")
 const validateInput = require("../libs/paramsValidationLib")
 const check = require("../libs/checkLib")
 const token = require("../libs/tokenLib")
-const AuthModel = mongoose.model("Auth")
 const DatauriParser = require("datauri/parser")
 const parser = new DatauriParser()
 const path = require("path")
 var cloudinary = require("cloudinary").v2
+const { isEmailValid } = require("../libs/emailValid")
+const urlValid = require("../libs/urlValid")
+const { passwordRegex, passwordRegexMessage } = require("../libs/passwordRegex")
 
 /* Models */
+const AuthModel = mongoose.model("Auth")
 const UserModel = mongoose.model("User")
+const IssueModel = mongoose.model("Issue")
 
 // start user signup function
 
@@ -569,7 +573,7 @@ const getUserInfoFunction = (req, res) => {
 
   getUser()
     .then((results) => {
-      console.log({ results })
+      // console.log({ results })
       let apiResponse = response.generate(
         false,
         "User retrieved successfully.",
@@ -593,48 +597,244 @@ const cloudinaryUpload = (file) =>
 const formatBufferTo64 = (file) =>
   parser.format(path.extname(file.originalname).toString(), file.buffer)
 
-const uploadProfilePhoto = async (req, res) => {
-  const removePreviousProfilePicInUser = () => {
-    return new Promise((resolve, reject) => {})
-  }
-  const updateProfilePicInUser = ({ url }) => {
-    return new Promise((resolve, reject) => {})
-  }
-
+const uploadProfilePhotoFunction = async (req, res) => {
   try {
     if (!req.file) {
       throw new Error("Image is not presented!")
     }
+    if (!req.body.userId) {
+      throw new Error("userId cannot be invalid!")
+    }
+
+    const findUser = await UserModel.findOne({
+      userId: req.body.userId,
+    }).lean()
+
+    if (!findUser) {
+      throw new Error("Something went wrong!")
+    }
+
+    if (findUser.cloudinaryId) {
+      await cloudinary.uploader.destroy(findUser.cloudinaryId)
+    }
+
     const file64 = formatBufferTo64(req.file)
     const uploadResult = await cloudinaryUpload(file64.content)
-    // console.log({ uploadResult })
-    removePreviousProfilePicInUser()
-      .then(() =>
-        updateProfilePicInUser({ url: uploadResult.eager[0].secure_url })
-      )
-      .then((res) => {
-        return res.json({
+
+    const updateStatus = await UserModel.findOneAndUpdate(
+      { userId: req.body.userId },
+      {
+        $set: {
+          picture: uploadResult.eager[0].secure_url,
           cloudinaryId: uploadResult.public_id,
-          url: uploadResult.eager[0].secure_url,
-          error: false,
-        })
-      })
-      .catch((err) => {
-        return res.json({
-          cloudinaryId: uploadResult.public_id,
-          url: uploadResult.eager[0].secure_url,
-          error: false,
-        })
-      })
+        },
+      }
+    ).lean()
+
+    if (!updateStatus) {
+      throw new Error("Something went wrong!")
+    }
+
+    return res.json({
+      url: uploadResult.eager[0].secure_url,
+      error: false,
+    })
   } catch (e) {
+    console.log({ e })
     return res.status(422).send({ message: e.message, error: true })
   }
 }
 
+const updateProfileBasicFunction = async (req, res) => {
+  try {
+    if (!req.body.userId) {
+      throw new Error("userId cannot be invalid!")
+    }
+    if (!req.body.fullName) {
+      throw new Error("fullName cannot be invalid!")
+    }
+    if (!isEmailValid(req.body.email)) {
+      throw new Error("email cannot be invalid!")
+    }
+
+    if (req.body.githubProfile && !urlValid(req.body.githubProfile)) {
+      throw new Error("githubProfile cannot be invalid!")
+    }
+    if (req.body.twitterProfile && !urlValid(req.body.twitterProfile)) {
+      throw new Error("twitterProfile cannot be invalid!")
+    }
+    if (req.body.twitterProfile && !urlValid(req.body.twitterProfile)) {
+      throw new Error("twitterProfile cannot be invalid!")
+    }
+    if (req.body.facebookProfile && !urlValid(req.body.facebookProfile)) {
+      throw new Error("facebookProfile cannot be invalid!")
+    }
+    if (req.body.redditProfile && !urlValid(req.body.redditProfile)) {
+      throw new Error("redditProfile cannot be invalid!")
+    }
+
+    const updateStatus = await UserModel.findOneAndUpdate(
+      { userId: req.body.userId },
+      {
+        $set: {
+          fullName: req.body.fullName,
+          email: req.body.email,
+          githubProfile: req.body.githubProfile,
+          twitterProfile: req.body.twitterProfile,
+          facebookProfile: req.body.facebookProfile,
+          redditProfile: req.body.redditProfile,
+          bio: req.body.bio,
+        },
+      }
+    ).lean()
+
+    if (!updateStatus) {
+      throw new Error("Something went wrong!")
+    }
+
+    let apiResponse = response.generate(false, "Update Successfull!", 200, {})
+    return res.json(apiResponse)
+  } catch (e) {
+    console.log({ e })
+    let apiResponse = response.generate(
+      true,
+      "Failed to update userData",
+      422,
+      e
+    )
+    return res.status(422).send(apiResponse)
+  }
+}
+
+const updateProfilePasswordFunction = async (req, res) => {
+  try {
+    if (!req.body.userId) {
+      throw new Error("userId cannot be invalid!")
+    }
+    if (!req.body.newPassword) {
+      throw new Error("New Password cannot be invalid!")
+    }
+
+    if (!passwordRegex.test(req.body.newPassword)) {
+      throw new Error(passwordRegexMessage)
+    }
+
+    const updateStatus = await UserModel.findOneAndUpdate(
+      { userId: req.body.userId },
+      {
+        $set: {
+          password: passwordLib.hashpassword(req.body.newPassword),
+        },
+      }
+    ).lean()
+
+    if (!updateStatus) {
+      throw new Error("Something went wrong!")
+    }
+
+    let apiResponse = response.generate(
+      false,
+      "Password Changed Successfully!",
+      200,
+      {}
+    )
+    return res.json(apiResponse)
+  } catch (e) {
+    console.log({ e })
+    let apiResponse = response.generate(
+      true,
+      "Failed to change password!",
+      422,
+      e
+    )
+    return res.status(422).send(apiResponse)
+  }
+}
+
+const updateProfileThemeFunction = async (req, res) => {
+  try {
+    if (!req.body.userId) {
+      throw new Error("userId cannot be invalid!")
+    }
+    if (!req.body.colorHash) {
+      throw new Error("color hash cannot be invalid!")
+    }
+    if (!req.body.colorName) {
+      throw new Error("color name cannot be invalid!")
+    }
+
+    const updateStatus = await UserModel.findOneAndUpdate(
+      { userId: req.body.userId },
+      {
+        $set: {
+          theme: {
+            primaryColorHash: req.body.colorHash,
+            primaryColorName: req.body.colorName,
+          },
+        },
+      }
+    ).lean()
+
+    if (!updateStatus) {
+      throw new Error("Something went wrong!")
+    }
+
+    let apiResponse = response.generate(
+      false,
+      "Theme Changed Successfully!",
+      200,
+      {
+        userId: req.body.userId,
+        theme: {
+          primaryColorHash: req.body.colorHash,
+          primaryColorName: req.body.colorName,
+        },
+      }
+    )
+    return res.json(apiResponse)
+  } catch (e) {
+    console.log({ e })
+    let apiResponse = response.generate(true, "Failed to change theme!", 422, e)
+    return res.status(422).send(apiResponse)
+  }
+}
+const closeAccountFunction = async (req, res) => {
+  try {
+    if (!req.body.userId) {
+      throw new Error("userId cannot be invalid!")
+    }
+
+    await UserModel.deleteMany({ userId: req.body.userId }).lean()
+    await IssueModel.deleteMany({ userId: req.body.userId }).lean()
+    await AuthModel.deleteMany({ userId: req.body.userId }).lean()
+
+    let apiResponse = response.generate(
+      false,
+      "Account Closed Successfully!",
+      200,
+      {}
+    )
+    return res.json(apiResponse)
+  } catch (e) {
+    console.log({ e })
+    let apiResponse = response.generate(
+      true,
+      "Failed to close account!",
+      422,
+      e
+    )
+    return res.status(422).send(apiResponse)
+  }
+}
+
 module.exports = {
-  signUpFunction: signUpFunction,
-  loginFunction: loginFunction,
-  thirdPartyLoginFunction: thirdPartyLoginFunction,
-  getUserInfoFunction: getUserInfoFunction,
-  uploadProfilePhoto: uploadProfilePhoto,
+  signUpFunction,
+  loginFunction,
+  thirdPartyLoginFunction,
+  getUserInfoFunction,
+  uploadProfilePhotoFunction,
+  updateProfileBasicFunction,
+  updateProfilePasswordFunction,
+  updateProfileThemeFunction,
+  closeAccountFunction,
 } // end exports

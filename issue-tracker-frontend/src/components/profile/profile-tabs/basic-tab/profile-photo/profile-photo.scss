@@ -51,3 +51,14 @@
     }
   }
 }
+
+.image-uploader {
+  width: 100%;
+}
+
+//   Large devices (desktops, 992px and up)
+@media (min-width: 992px) {
+  .image-uploader {
+    width: 450px;
+  }
+}

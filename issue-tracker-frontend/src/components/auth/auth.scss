@@ -1,12 +1,14 @@
 .auth {
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
+  padding: 10px 0;
   display: flex;
   align-items: center;
   justify-content: space-evenly;
   background-color: var(--bgColor);
   img.side-image {
     width: 34vw;
+    display: none;
   }
 
   .card-style {
@@ -36,6 +38,19 @@
   }
 }
 
+//  Medium devices (tablets, 768px and up)
+@media (min-width: 768px) {
+  .auth {
+    .login-section {
+      width: 50%;
+    }
+    img.side-image {
+      width: 34vw;
+      display: block;
+    }
+  }
+}
+
 // Large devices (desktops, 992px and up)
 @media (min-width: 992px) {
   .auth {
@@ -44,3 +59,4 @@
     }
   }
 }
+

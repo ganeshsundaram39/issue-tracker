@@ -9,7 +9,7 @@ if (process.env.DYNO) {
   trustProxy = true
 }
 module.exports = function (passport) {
-  let baseUrl = `${process.env.API_VERSION}/users`
+  let baseUrl = `${process.env.API_VERSION}/user`
 
   passport.serializeUser((data, cb) => {
     cb(null, data)

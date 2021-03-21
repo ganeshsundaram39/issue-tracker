@@ -13,12 +13,12 @@ import axios from "./axios"
 
 const baseUrl = process.env.REACT_APP_API_VERSION + "issues"
 
-export const onNewIssue = ({ formData }) => (dispatch) => {
-  let userdata = localStorage.getItem("userdata")
+export const createNewUser = ({ formData }) => (dispatch) => {
+  let userData = localStorage.getItem("userData")
 
-  if (userdata) {
-    userdata = JSON.parse(userdata)
-    formData = { ...formData, userId: userdata?.userDetails?.userId }
+  if (userData) {
+    userData = JSON.parse(userData)
+    formData = { ...formData, userId: userData?.userDetails?.userId }
   }
   dispatch({ type: ON_NEW_ISSUE })
   axios
@@ -30,8 +30,8 @@ export const onNewIssue = ({ formData }) => (dispatch) => {
       dispatch({ type: ON_NEW_ISSUE_RESPONSE, payload: response?.data })
     })
     .catch(function (error) {
-      console.log({ error: error?.response?.data })
-      dispatch({ type: ON_NEW_ISSUE_RESPONSE, payload: error?.response?.data })
+      console.log({ error: error?.data })
+      dispatch({ type: ON_NEW_ISSUE_RESPONSE, payload: error?.data })
     })
 }
 
@@ -59,15 +59,15 @@ export const getAllIssues = ({ search = "" } = {}) => (dispatch) => {
   if (!search) {
     dispatch({ type: ON_GET_ALL_ISSUE })
   }
-  let userdata = localStorage.getItem("userdata")
+  let userData = localStorage.getItem("userData")
 
-  if (userdata) {
-    userdata = JSON.parse(userdata)
+  if (userData) {
+    userData = JSON.parse(userData)
   }
   axios
     .get(baseUrl, {
       params: {
-        userId: userdata?.userDetails?.userId,
+        userId: userData?.userDetails?.userId,
         ...(search ? { search } : {}),
       },
     })
@@ -102,15 +102,15 @@ export const getAllIssues = ({ search = "" } = {}) => (dispatch) => {
 
 export const getIssueById = (issueId) => (dispatch) => {
   dispatch({ type: ON_GET_ISSUE_BY_ID })
-  let userdata = localStorage.getItem("userdata")
+  let userData = localStorage.getItem("userData")
 
-  if (userdata) {
-    userdata = JSON.parse(userdata)
+  if (userData) {
+    userData = JSON.parse(userData)
   }
   axios
     .get(baseUrl, {
       params: {
-        userId: userdata?.userDetails?.userId,
+        userId: userData?.userDetails?.userId,
         issueId,
       },
     })
@@ -130,14 +130,14 @@ export const getIssueById = (issueId) => (dispatch) => {
 }
 
 export const updateComments = ({ issueId, comment }) => (dispatch) => {
-  let userdata = localStorage.getItem("userdata")
+  let userData = localStorage.getItem("userData")
 
-  if (userdata) {
-    userdata = JSON.parse(userdata)
+  if (userData) {
+    userData = JSON.parse(userData)
   }
   axios
     .post(`${baseUrl}/comments`, {
-      userId: userdata?.userDetails?.userId,
+      userId: userData?.userDetails?.userId,
       issueId,
       comment,
     })
@@ -157,14 +157,14 @@ export const updateComments = ({ issueId, comment }) => (dispatch) => {
 }
 
 export const updateStatus = ({ issueId, status }) => (dispatch) => {
-  let userdata = localStorage.getItem("userdata")
+  let userData = localStorage.getItem("userData")
 
-  if (userdata) {
-    userdata = JSON.parse(userdata)
+  if (userData) {
+    userData = JSON.parse(userData)
   }
   axios
     .post(`${baseUrl}/update-status`, {
-      userId: userdata?.userDetails?.userId,
+      userId: userData?.userDetails?.userId,
       issueId,
       status,
     })

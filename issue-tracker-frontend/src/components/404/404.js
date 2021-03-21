@@ -1,12 +1,15 @@
 import React from "react"
-import pagenotfound from "../../assets/images/pagenotfound.svg"
+import PageNotFound from "../../assets/images/pagenotfound"
 import "./404.scss"
 import Button from "@material-ui/core/Button"
+import { useSelector } from "react-redux"
 
 export default function My404(props) {
+  const primaryColorHash = useSelector((state) => state.app.primaryColorHash)
+
   return (
     <div className="my404">
-      <img src={pagenotfound} alt="" />
+      <PageNotFound color={primaryColorHash}/>
       <Button
         variant="contained"
         color="primary"

@@ -5,7 +5,7 @@
   min-height: 100vh;
   padding: 20vh 0;
   .card-style {
-    width: 80vw;
+    width: 90vw;
     min-height: 100vh;
     padding: 3% 4%;
   }
@@ -13,10 +13,10 @@
   .issue-title {
     padding-bottom: 15px;
     h1 {
-      position: relative;
+      display: flex;
+      justify-content: space-between;
       button {
-        position: absolute;
-        right: 0;
+        display: none;
       }
       &::first-letter {
         text-transform: uppercase;
@@ -41,14 +41,36 @@
     border: 1px solid #ccc;
     padding: 10px;
     border-radius: 5px;
+    word-wrap: break-word;
+    img {
+      max-width: 100%;
+    }
   }
   .new-comment-wrapper {
     padding: 10px;
     display: flex;
     justify-content: flex-end;
     border: 1px solid #ccc;
+    align-items: flex-start;
     button {
       margin-left: 10px;
+    }
+  }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+  .issue-view {
+    .card-style {
+      width: 80vw;
+    }
+
+    .issue-title {
+      h1 {
+        button {
+          display: block;
+        }
+      }
     }
   }
 }

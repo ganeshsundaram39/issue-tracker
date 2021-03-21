@@ -7,22 +7,27 @@ let userSchema = new Schema({
     default: "",
     index: true,
     unique: true,
+    required: true,
   },
   fullName: {
     type: String,
     default: "",
+    required: true,
   },
   email: {
     type: String,
     default: "",
+    required: true,
   },
   password: {
     type: String,
     default: "lasd;lfkjlkfda",
+    required: true,
   },
   createdOn: {
     type: Date,
     default: "",
+    required: true,
   },
   googleLogin: {
     type: Boolean,
@@ -49,9 +54,28 @@ let userSchema = new Schema({
   facebookProfile: {
     type: String,
   },
+  redditProfile: {
+    type: String,
+  },
+  bio: {
+    type: String,
+  },
   picture: {
     type: String,
     default: "https://api.hello-avatar.com/adorables/dasdf",
+  },
+  cloudinaryId: {
+    type: String,
+  },
+  theme: {
+    primaryColorName: {
+      type: String,
+      default: "indigo",
+    },
+    primaryColorHash: {
+      type: String,
+      default: "#3f51b5",
+    },
   },
 })
 

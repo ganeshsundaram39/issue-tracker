@@ -1,0 +1,51 @@
+.basic-form {
+  & > div {
+    flex-basis: 100%;
+    display: flex;
+    justify-content: center;
+  }
+  & > div.bio {
+    flex-basis: 100%;
+  }
+  .icon {
+    font-size: 1.1rem;
+    &.twitter {
+      color: #1c9cea;
+    }
+    &.facebook {
+      color: #4064ac;
+    }
+    &.reddit {
+      color: white;
+      background: #ff4500;
+    }
+  }
+  .buttons{
+    align-items: flex-start;
+  }
+
+}
+
+//  Small devices (landscape phones, 576px and up)
+@media (min-width: 576px) {
+  .basic-form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    & > div {
+      flex-basis: 48%;
+    }
+    & > div.buttons {
+      flex-basis: 100%;
+    }
+  }
+}
+
+//   Large devices (desktops, 992px and up)
+@media (min-width: 992px) {
+  .basic-form {
+    & > div.buttons {
+      justify-content: flex-start;
+    }
+  }
+}

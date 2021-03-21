@@ -8,14 +8,6 @@ import { useSelector, useDispatch } from "react-redux"
 import IssueTable from "./table/issue-table"
 import { Link } from "react-router-dom"
 import Paper from "@material-ui/core/Paper"
-import { makeStyles } from "@material-ui/core/styles"
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-    marginBottom: "5px",
-  },
-}))
 
 const IssueList = () => {
   const [value, setValue] = useState(0)
@@ -24,7 +16,7 @@ const IssueList = () => {
   const allIssueResponse = useSelector((state) => state.issue.allIssueResponse)
   const [openIssues, setOpenIssues] = useState([])
   const [closedIssues, setCloseIssues] = useState([])
-  const classes = useStyles()
+
   const handleChange = (event, newValue) => {
     setValue(newValue)
   }
@@ -48,7 +40,10 @@ const IssueList = () => {
     <div className="issue-list-wrapper">
       <Card className="card-style">
         {allIssueResponse && allIssueResponse?.length ? (
-          <Paper className={classes.root} square>
+          <Paper style={{
+            flexGrow: 1,
+            marginBottom: "5px",
+          }} square>
             <Tabs
               value={value}
               onChange={handleChange}

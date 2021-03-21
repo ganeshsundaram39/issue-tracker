@@ -11,12 +11,17 @@ import { onRegister } from "../../../state/actions/auth.action"
 import { useSelector, useDispatch } from "react-redux"
 import { useSnackbar } from "notistack"
 import { resetAuth } from "../../../state/actions/auth.action"
+import { passwordRegex, passwordRegexMessage } from "../../common/passwordRegex"
 // import useCountRenders from "../useCountRenders"
 
 const schema = yup.object().shape({
-  username: yup.string().required("Username is required"),
+  fullName: yup.string().required("FullName is required"),
   email: yup.string().required("Email is required").email("Invalid Email Id"),
-  password: yup.string().required("Password is required"),
+  password: yup.string().required("Password is required")
+  .matches(
+    passwordRegex,
+    passwordRegexMessage
+  ),
 })
 
 const Signup = ({ handleChange }) => {
@@ -64,11 +69,11 @@ const Signup = ({ handleChange }) => {
   return (
     <form className={"tab-wrapper"} onSubmit={handleSubmit(onSubmit)}>
       <TextField
-        label="Username"
-        name="username"
+        label="Full Name"
+        name="fullName"
         type="text"
-        error={!!errors.username}
-        helperText={errors?.username?.message ? errors?.username?.message : " "}
+        error={!!errors.fullName}
+        helperText={errors?.fullName?.message ? errors?.fullName?.message : " "}
         inputRef={register}
         fullWidth
         variant="filled"

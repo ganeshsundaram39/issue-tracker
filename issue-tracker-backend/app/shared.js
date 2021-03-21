@@ -105,6 +105,7 @@ exports.onListening = function (server) {
     useCreateIndex: true,
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    useFindAndModify: false
   })
   cloudinary.config({
     cloud_name: process.env.CLOUDINARY_NAME,
