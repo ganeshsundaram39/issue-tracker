@@ -16,17 +16,17 @@ const cors = require("cors")
 
 exports.common = function (app, passport) {
   if (process.env.SERVER_ENV == "production") {
-    app.use(
-      helmet({
-        contentSecurityPolicy: {
-          directives: {
-            ...helmet.contentSecurityPolicy.getDefaultDirectives(),
-            "script-src": ["'self'", "'unsafe-inline'"],
-            "img-src": ["'self'", "https:", "data:"],
-          },
-        },
-      })
-    )
+    // app.use(
+    //   helmet({
+    //     contentSecurityPolicy: {
+    //       directives: {
+    //         ...helmet.contentSecurityPolicy.getDefaultDirectives(),
+    //         "script-src": ["'self'", "'unsafe-inline'"],
+    //         "img-src": ["'self'", "https:", "data:"],
+    //       },
+    //     },
+    //   })
+    // )
 
     app.use(compression())
   }
