@@ -1,0 +1,6 @@
+export const ON_NEW_BOARD = "ON_NEW_BOARD"
+
+export const ON_NEW_BOARD_RESPONSE = "ON_NEW_BOARD_RESPONSE"
+
+export const RESET_BOARD = "RESET_BOARD"
+

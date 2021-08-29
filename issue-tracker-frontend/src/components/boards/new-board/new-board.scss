@@ -1,0 +1,45 @@
+.new-board-container {
+  display: flex;
+  justify-content: center;
+  padding: 10% 0;
+  .new-board-card {
+    min-height: 80vh;
+    width: 100vh;
+    padding: 40px 25px;
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      text-transform: uppercase;
+    }
+  }
+  .new-board-form-wrapper {
+    display: flex;
+    flex-direction: column-reverse;
+    .first {
+      flex-basis: 40%;
+    }
+    .second {
+      flex-basis: 60%;
+    }
+    .first {
+      display: flex;
+      justify-content: center;
+      svg {
+        width: 300px;
+        height: 300px;
+      }
+    }
+  }
+}
+
+// Large devices (desktops, 992px and up)
+@media (min-width: 992px) {
+  .new-board-container {
+    .new-board-card {
+      width: 80vw;
+    }
+    .new-board-form-wrapper {
+      flex-direction: row;
+    }
+  }
+}

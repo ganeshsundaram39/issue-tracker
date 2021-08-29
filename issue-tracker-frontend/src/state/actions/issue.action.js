@@ -13,7 +13,7 @@ import axios from "./axios"
 
 const baseUrl = process.env.REACT_APP_API_VERSION + "issues"
 
-export const createNewUser = ({ formData }) => (dispatch) => {
+export const createNewIssue = ({ formData }) => (dispatch) => {
   let userData = localStorage.getItem("userData")
 
   if (userData) {

@@ -14,7 +14,7 @@ import FormControl from "@material-ui/core/FormControl"
 import Select from "@material-ui/core/Select"
 import { useHistory } from "react-router-dom"
 import {
-  createNewUser,
+  createNewIssue,
   resetIssue,
   destroyImages,
 } from "../../../state/actions/issue.action"
@@ -44,7 +44,7 @@ const NewIssue = () => {
         formData["comment"] = comment
         formData["label"] = label
 
-        dispatch(createNewUser({ formData }))
+        dispatch(createNewIssue({ formData }))
       }
     },
     [dispatch, comment, label, onNewIssue]
@@ -148,7 +148,7 @@ const NewIssue = () => {
                   color="primary"
                   style={{ marginRight: "15px" }}
                 >
-                  Create Issue
+                  Create
                 </Button>
                 <Button variant="contained" color="primary" onClick={onCancel}>
                   Cancel

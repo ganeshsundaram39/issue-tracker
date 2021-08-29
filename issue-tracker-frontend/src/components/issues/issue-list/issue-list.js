@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from "react-redux"
 import IssueTable from "./table/issue-table"
 import { Link } from "react-router-dom"
 import Paper from "@material-ui/core/Paper"
+import Button from "@material-ui/core/Button"
 
 const IssueList = () => {
   const [value, setValue] = useState(0)
@@ -39,6 +40,25 @@ const IssueList = () => {
   return (
     <div className="issue-list-wrapper">
       <Card className="card-style">
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+
+            marginBottom: "15px",
+          }}
+        >
+          <Link
+            to={"/issues/new"}
+            style={{
+              textDecoration: "none",
+            }}
+          >
+            <Button variant="contained" color="primary">
+              New Issue
+            </Button>
+          </Link>
+        </div>
         {allIssueResponse && allIssueResponse?.length ? (
           <Paper
             style={{

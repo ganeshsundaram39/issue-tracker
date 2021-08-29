@@ -16,6 +16,7 @@ import ExitToAppSharpIcon from "@material-ui/icons/ExitToAppSharp"
 import { useHistory } from "react-router-dom"
 import BugReportIcon from "@material-ui/icons/BugReport"
 import AlertDialog from "../alert"
+import ViewAgendaIcon from '@material-ui/icons/ViewAgenda';
 const AdapterLink = React.forwardRef((props, ref) => (
   <Link innerRef={ref} {...props} />
 ))
@@ -70,14 +71,23 @@ export default function Drawer() {
           </ListItem>
         </List>
 
-        <List>
+        {/* <List>
           <ListItem button component={AdapterLink} to="/issues/new">
             <ListItemIcon>
               <BugReportIcon />
             </ListItemIcon>
             <ListItemText primary={"New Issue"} />
           </ListItem>
+        </List> */}
+        <List>
+          <ListItem button component={AdapterLink} to="/boards">
+            <ListItemIcon>
+              <ViewAgendaIcon />
+            </ListItemIcon>
+            <ListItemText primary={"Boards"} />
+          </ListItem>
         </List>
+
         <Divider />
         <List>
           <ListItem button component={AdapterLink} to="/profile">
