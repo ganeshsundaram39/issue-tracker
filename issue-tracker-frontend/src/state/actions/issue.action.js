@@ -8,6 +8,7 @@ import {
   GET_ISSUE_BY_ID_RESPONSE,
   ON_ISSUE_SEARCH,
   ON_ISSUE_SEARCH_RESPONSE,
+  SET_ISSUE_HEADER_TITLE,
 } from "../types/issue.types"
 import axios from "./axios"
 
@@ -175,4 +176,9 @@ export const updateStatus = ({ issueId, status }) => (dispatch) => {
 
 export const resetIssue = () => (dispatch) => {
   dispatch({ type: RESET_ISSUE })
+}
+
+
+export const setIssueHeaderTitle = (title) => (dispatch) => {
+  dispatch({ type: SET_ISSUE_HEADER_TITLE, payload: title })
 }

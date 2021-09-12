@@ -10,6 +10,7 @@ export const useSearchBarStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 1,
     display: "none",
+    textTransform: "capitalize",
     [theme.breakpoints.up("sm")]: {
       display: "block",
     },

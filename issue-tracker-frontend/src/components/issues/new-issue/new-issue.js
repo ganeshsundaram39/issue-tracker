@@ -17,10 +17,12 @@ import {
   createNewIssue,
   resetIssue,
   destroyImages,
+  setIssueHeaderTitle,
 } from "../../../state/actions/issue.action"
 import ReactMarkdownEditor from "../react-markdown-editor/react-markdown-editor"
 
 import { schema, useStyles, labels } from "./new-issue-extras"
+import { setBoardHeaderTitle } from "../../../state/actions/board.action"
 
 const NewIssue = () => {
   const { register, handleSubmit, errors } = useForm({
@@ -65,6 +67,8 @@ const NewIssue = () => {
 
   useEffect(() => {
     document.title = "IssueTracker | New Issue"
+    dispatch(setIssueHeaderTitle("New Issue"))
+
   }, [])
 
   const handleChange = useCallback((event) => {
@@ -97,12 +101,13 @@ const NewIssue = () => {
   return (
     <div className="new-issue-container">
       <Card className="new-issue-card">
-        <h2>New Issue</h2>
+
         <div className="new-issue-form-wrapper">
           <div className="first">
             <BugFixing color={primaryColorHash} />
           </div>
           <div className="second">
+          <h2>New Issue</h2>
             <form onSubmit={handleSubmit(onSubmit)}>
               <TextField
                 label="Enter Title"

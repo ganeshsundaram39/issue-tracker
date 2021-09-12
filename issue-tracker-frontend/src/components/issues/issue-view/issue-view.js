@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux"
 import {
   getIssueById,
+  setIssueHeaderTitle,
   updateComments,
   updateStatus,
 } from "../../../state/actions/issue.action"
@@ -44,6 +45,7 @@ const IssueView = () => {
   useEffect(() => {
     if (!onGetParticularIssueById && particularIssueById) {
       document.title = "IssueTracker | " + particularIssueById.title
+      dispatch(setIssueHeaderTitle("Issue | "+particularIssueById.title))
 
       setComments(particularIssueById.comments)
     }

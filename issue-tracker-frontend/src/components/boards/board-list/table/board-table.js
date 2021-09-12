@@ -8,12 +8,10 @@ import TableFooter from "@material-ui/core/TableFooter"
 import TablePagination from "@material-ui/core/TablePagination"
 import TableRow from "@material-ui/core/TableRow"
 import Paper from "@material-ui/core/Paper"
-import "./issue-table.scss"
-import CommentOutlinedIcon from "@material-ui/icons/CommentOutlined"
-import { TablePaginationActions } from "./issue-table-paginate/issue-table-paginate"
+import "./board-table.scss"
 import { Link } from "react-router-dom"
-import ErrorOutlineOutlinedIcon from "@material-ui/icons/ErrorOutlineOutlined"
-import { useSelector } from "react-redux"
+import { TablePaginationActions } from "../../../issues/issue-list/table/issue-table-paginate/issue-table-paginate"
+import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
 
 const useStyles = makeStyles({
   table: {
@@ -21,11 +19,10 @@ const useStyles = makeStyles({
   },
 })
 
-export default function IssueTable({ rows }) {
+export default function BoardTable({ rows }) {
   const classes = useStyles()
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(5)
-  const primaryColorHash = useSelector((state) => state.app.primaryColorHash)
 
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage)
@@ -48,30 +45,21 @@ export default function IssueTable({ rows }) {
             : rows
           ).map((row, index) => (
             <TableRow
-              key={row.issueId}
+              key={row.boardId}
               style={
                 index % 2 ? { background: "#fdffe0" } : { background: "white" }
               }
             >
               <TableCell component="th" scope="row">
-                <div className="single-issue">
-                  <ErrorOutlineOutlinedIcon className="icon" />
-                  <Link style={{ color: "#000" }} to={"/issues/" + row.issueId}>
-                    <span className="issue-title"> {row.title} </span>
+                <div className="single-board">
+                  <FormatListBulletedIcon className="icon" />
+                  <Link style={{ color: "#000" }} to={"/boards/" + row.boardId}>
+                    <span className="board-title"> {row.title} </span>
                   </Link>
-                  {row.label && (
-                    <span className="label-style"
 
-                    style={{
-                      borderColor:primaryColorHash,
-                      background: primaryColorHash
-                    }}
-
-                    >{row.label}</span>
-                  )}
                 </div>
-                <div className="single-issue-details">
-                  <ErrorOutlineOutlinedIcon
+                <div className="single-board-details">
+                  <FormatListBulletedIcon
                     style={{
                       visibility: "hidden",
                       height: 0,
@@ -84,24 +72,11 @@ export default function IssueTable({ rows }) {
                     }}
                   >
                     {" "}
-                    {row.issueGenerationTime}
+                    {row.boardGenerationTime}
                   </span>
                 </div>
               </TableCell>
 
-              <TableCell style={{ width: 160 }} align="right">
-                {row.comments && row.comments.length > 1 ? (
-                  <div className="issue-comment-count">
-                    <CommentOutlinedIcon
-                      style={{
-                        marginRight: "5px",
-                        fontSize: "20px",
-                      }}
-                    />{" "}
-                    {row.comments.length - 1}
-                  </div>
-                ) : null}
-              </TableCell>
             </TableRow>
           ))}
 
@@ -127,6 +102,7 @@ export default function IssueTable({ rows }) {
               onChangeRowsPerPage={handleChangeRowsPerPage}
               ActionsComponent={TablePaginationActions}
             />
+
           </TableRow>
         </TableFooter>
       </Table>

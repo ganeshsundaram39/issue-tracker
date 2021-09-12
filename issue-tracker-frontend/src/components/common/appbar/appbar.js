@@ -71,6 +71,7 @@ export default function SearchAppBar({ pageName }) {
             <MenuIcon />
           </IconButton>
           <Typography className={classes.title} variant="h6" noWrap>
+
             {pageName}
           </Typography>
           <div className={classes.search}>

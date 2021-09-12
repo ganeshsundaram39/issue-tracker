@@ -2,11 +2,25 @@ import {
   ON_NEW_BOARD,
   ON_NEW_BOARD_RESPONSE,
   RESET_BOARD,
+  ON_GET_ALL_BOARD,
+  ON_GET_ALL_BOARD_RESPONSE,
+  ON_GET_BOARD_BY_ID,
+  GET_BOARD_BY_ID_RESPONSE,
+  ON_BOARD_SEARCH,
+  ON_BOARD_SEARCH_RESPONSE,
+  SET_BOARD_HEADER_TITLE
 } from "../types/board.types"
 
 const initialState = {
   onNewBoard: false,
   onNewBoardResponse: null,
+  onGetAllBoard: false,
+  allBoardResponse: null,
+  onGetParticularBoardById: false,
+  particularBoardById:null,
+  onSearchBoard: false,
+  searchedBoards: [],
+  boardHeaderTitle: 'All Boards'
 }
 
 const boardReducer = (state = initialState, action) => {
@@ -23,7 +37,47 @@ const boardReducer = (state = initialState, action) => {
         onNewBoard: false,
         newBoardResponse: action.payload,
       }
-
+    case ON_GET_ALL_BOARD:
+      return {
+        ...state,
+        onGetAllBoard: true,
+        allBoardResponse: null,
+      }
+    case ON_GET_ALL_BOARD_RESPONSE:
+      return {
+        ...state,
+        onGetAllBoard: false,
+        allBoardResponse: action.payload,
+      }
+    case ON_GET_BOARD_BY_ID:
+      return {
+        ...state,
+        onGetParticularBoardById: true,
+        particularBoardById: action.payload,
+      }
+    case GET_BOARD_BY_ID_RESPONSE:
+      return {
+        ...state,
+        onGetParticularBoardById: false,
+        particularBoardById: action.payload,
+      }
+    case ON_BOARD_SEARCH:
+      return {
+        ...state,
+        onSearchBoard: true,
+        searchedBoards: [],
+      }
+      case SET_BOARD_HEADER_TITLE:
+        return {
+          ...state,
+          boardHeaderTitle: action.payload,
+        }
+    case ON_BOARD_SEARCH_RESPONSE:
+      return {
+        ...state,
+        onSearchBoard: false,
+        searchedBoards: action.payload,
+      }
     case RESET_BOARD:
       return {
         ...initialState,

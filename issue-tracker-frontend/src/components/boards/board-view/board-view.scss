@@ -1,0 +1,40 @@
+.board-view {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 0;
+  *{
+    font-family: Roboto, "Helvetica Neue", sans-serif !important;
+  }
+  button{
+    border:0
+  }
+  .card-style {
+    width: 90vw;
+    min-height: 100vh;
+    padding: 3% 4%;
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      text-transform: uppercase;
+    }
+  }
+.react-trello-board{
+  height: 100vh;
+  background-color: transparent;
+  padding: 80px 20px;
+}
+
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+  .board-view {
+    .card-style {
+      width: 80vw;
+    }
+
+
+  }
+}

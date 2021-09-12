@@ -5,6 +5,8 @@ import {
   ON_SAVE_PRIMARY_COLOR,
   ON_SAVE_PRIMARY_COLOR_RESPONSE,
   RESET_SAVE_PRIMARY_COLOR,
+  SAVE_BACKGROUND_IMG,
+  RESET_BACKGROUND_IMG,
 } from "../types/app.types"
 
 let userTheme
@@ -23,6 +25,7 @@ const initialState = {
   primaryColorHash: userTheme ? userTheme?.primaryColorHash : "#3f51b5",
   onSavePrimaryColor: false,
   onSavePrimaryColorResponse: null,
+  backgroundImg: "default",
 }
 
 const appReducer = (state = initialState, action) => {
@@ -38,7 +41,6 @@ const appReducer = (state = initialState, action) => {
         primaryColorName: action.payload.colorName,
         primaryColorHash: action.payload.colorHash,
       }
-
     case ON_SAVE_PRIMARY_COLOR:
       return {
         ...state,
@@ -50,6 +52,16 @@ const appReducer = (state = initialState, action) => {
         ...state,
         onSavePrimaryColor: false,
         onSavePrimaryColorResponse: action.payload,
+      }
+    case SAVE_BACKGROUND_IMG:
+      return {
+        ...state,
+        backgroundImg: action.payload,
+      }
+    case RESET_BACKGROUND_IMG:
+      return {
+        ...state,
+        backgroundImg: "default",
       }
     case RESET_SAVE_PRIMARY_COLOR:
       return {

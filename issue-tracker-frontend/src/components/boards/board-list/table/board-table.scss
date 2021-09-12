@@ -1,8 +1,8 @@
-.single-issue {
+.single-board {
   display: flex;
   align-items: center;
   height: 25px;
-  .issue-title {
+  .board-title {
     text-transform: capitalize;
     display: inline-block;
     font-size: 15px;
@@ -27,9 +27,4 @@
     margin-left: 5px;
     color: white;
   }
-}
-.issue-comment-count {
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }

@@ -10,20 +10,21 @@ import { useSelector, useDispatch } from "react-redux"
 import { useSnackbar } from "notistack"
 import { useHistory } from "react-router-dom"
 import * as yup from "yup"
-
-
+import { InputLabel } from "@material-ui/core"
+import CheckIcon from "@material-ui/icons/Check"
 import {
   createNewBoard,
   resetBoard,
+  setBoardHeaderTitle,
 } from "../../../state/actions/board.action"
+import { imagesArray, images } from "../../common/wrapper/images"
 
- const schema = yup.object().shape({
-    title: yup
-      .string()
-      .required("Title is required")
-      .max(50, "Title cannot be greater than 50 characters"),
-  })
-
+const schema = yup.object().shape({
+  title: yup
+    .string()
+    .required("Title is required")
+    .max(50, "Title cannot be greater than 50 characters"),
+})
 
 const NewBoard = () => {
   const { register, handleSubmit, errors } = useForm({
@@ -36,16 +37,16 @@ const NewBoard = () => {
   const onNewBoard = useSelector((state) => state.board.onNewBoard)
   const newBoardResponse = useSelector((state) => state.board.newBoardResponse)
   const primaryColorHash = useSelector((state) => state.app.primaryColorHash)
+  const [boardBackgroundImg, setBoardBackgroundImg] = useState("default")
 
   const onSubmit = useCallback(
     (formData) => {
       if (!onNewBoard) {
-
-
+        formData = { ...formData, boardBackgroundImg }
         dispatch(createNewBoard({ formData }))
       }
     },
-    [dispatch, onNewBoard]
+    [dispatch, onNewBoard, boardBackgroundImg]
   )
 
   useEffect(() => {
@@ -63,14 +64,12 @@ const NewBoard = () => {
 
   useEffect(() => {
     document.title = "IssueTracker | New Board"
+    dispatch(setBoardHeaderTitle("New Board"))
   }, [])
-
-
 
   const onCancel = useCallback(
     (event) => {
       event.stopPropagation()
-
       history.push("/boards")
     },
     [history]
@@ -79,12 +78,13 @@ const NewBoard = () => {
   return (
     <div className="new-board-container">
       <Card className="new-board-card">
-        <h2>New Board</h2>
+
         <div className="new-board-form-wrapper">
           <div className="first">
             <TeamBoard color={primaryColorHash} />
           </div>
           <div className="second">
+             <h2>New Board</h2>
             <form onSubmit={handleSubmit(onSubmit)}>
               <TextField
                 label="Enter Board Title"
@@ -99,6 +99,25 @@ const NewBoard = () => {
                 variant="filled"
               />
 
+              <div>
+                <InputLabel className={"board-label"}>
+                  Board Background
+                </InputLabel>
+                <div className="board-images">
+                  {imagesArray.map((image) => (
+                    <div
+                      key={image}
+                      className="board-image"
+                      onClick={() => setBoardBackgroundImg(image)}
+                      style={{ backgroundImage: `url(${images[image]})` }}
+                    >
+                      {boardBackgroundImg === image ? (
+                        <CheckIcon className="check-icon" />
+                      ) : null}
+                    </div>
+                  ))}
+                </div>
+              </div>
 
               <div className="buttons top-margin">
                 <Button

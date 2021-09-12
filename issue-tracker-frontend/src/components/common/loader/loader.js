@@ -5,12 +5,12 @@ import CircularProgress from "@material-ui/core/CircularProgress"
 
 import "./loader.scss"
 
-function Loader(props) {
+function Loader(props={  backgroundColor:  "var(--bgColor)"}) {
   return (
     <div
       className="loader"
       style={{
-        backgroundColor: props.color === "black" ? "white" : "var(--bgColor)",
+        backgroundColor: props.backgroundColor,
       }}
     >
       <CircularProgress

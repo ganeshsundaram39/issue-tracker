@@ -3,7 +3,7 @@ import Tabs from "@material-ui/core/Tabs"
 import Tab from "@material-ui/core/Tab"
 import Card from "@material-ui/core/Card"
 import "./issue-list.scss"
-import { getAllIssues } from "../../../state/actions/issue.action"
+import { getAllIssues, setIssueHeaderTitle } from "../../../state/actions/issue.action"
 import { useSelector, useDispatch } from "react-redux"
 import IssueTable from "./table/issue-table"
 import { Link } from "react-router-dom"
@@ -36,6 +36,9 @@ const IssueList = () => {
 
   useEffect(() => {
     document.title = "IssueTracker | All Issues"
+
+    dispatch(setIssueHeaderTitle("All Issues"))
+
   }, [])
   return (
     <div className="issue-list-wrapper">

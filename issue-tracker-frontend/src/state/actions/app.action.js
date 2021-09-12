@@ -4,6 +4,8 @@ import {
   ON_SAVE_PRIMARY_COLOR,
   ON_SAVE_PRIMARY_COLOR_RESPONSE,
   RESET_SAVE_PRIMARY_COLOR,
+  SAVE_BACKGROUND_IMG,
+  RESET_BACKGROUND_IMG
 } from "../types/app.types"
 import axios from "./axios"
 
@@ -51,4 +53,12 @@ export const savePrimaryColor = ({ colorHash, colorName, userId }) => (
 
 export const resetSavePrimaryColor = () => (dispatch) => {
   dispatch({ type: RESET_SAVE_PRIMARY_COLOR })
+}
+
+export const setBackgroundImage = (name) => (dispatch) => {
+  dispatch({ type: SAVE_BACKGROUND_IMG, payload: name })
+}
+
+export const resetBackgroundImage = () => (dispatch) => {
+  dispatch({ type: RESET_BACKGROUND_IMG })
 }

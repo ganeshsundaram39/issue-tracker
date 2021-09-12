@@ -8,6 +8,7 @@ import {
   GET_ISSUE_BY_ID_RESPONSE,
   ON_ISSUE_SEARCH,
   ON_ISSUE_SEARCH_RESPONSE,
+  SET_ISSUE_HEADER_TITLE
 } from "../types/issue.types"
 
 const initialState = {
@@ -19,6 +20,7 @@ const initialState = {
   particularIssueById: null,
   onSearchIssue: false,
   searchedIssues: [],
+  issueHeaderTitle: 'All Issues'
 }
 
 const issueReducer = (state = initialState, action) => {
@@ -71,6 +73,11 @@ const issueReducer = (state = initialState, action) => {
         onSearchIssue: false,
         searchedIssues: action.payload,
       }
+      case SET_ISSUE_HEADER_TITLE:
+        return {
+          ...state,
+          issueHeaderTitle: action.payload,
+        }
     case RESET_ISSUE:
       return {
         ...initialState,
