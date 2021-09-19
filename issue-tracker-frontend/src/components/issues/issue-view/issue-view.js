@@ -44,12 +44,23 @@ const IssueView = () => {
 
   useEffect(() => {
     if (!onGetParticularIssueById && particularIssueById) {
-      document.title = "IssueTracker | " + particularIssueById.title
-      dispatch(setIssueHeaderTitle("Issue | "+particularIssueById.title))
+      if (particularIssueById.title && particularIssueById.comments) {
+        document.title = "IssueTracker | " + particularIssueById.title
+        dispatch(setIssueHeaderTitle("Issue | " + particularIssueById.title))
 
-      setComments(particularIssueById.comments)
+        setComments(particularIssueById.comments)
+      } else {
+        enqueueSnackbar("Issue Not Found", { variant: "error" })
+        history.push("/404")
+      }
     }
-  }, [onGetParticularIssueById, particularIssueById])
+  }, [
+    onGetParticularIssueById,
+    particularIssueById,
+    enqueueSnackbar,
+    history,
+    dispatch,
+  ])
 
   const redirectToNewIssue = useCallback(
     (event) => {

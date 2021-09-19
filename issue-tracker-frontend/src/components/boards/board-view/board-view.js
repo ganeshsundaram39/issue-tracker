@@ -3,10 +3,13 @@ import "./board-view.scss"
 import Board from "react-trello"
 import { useSelector, useDispatch } from "react-redux"
 import { useParams } from "react-router-dom"
+import { useSnackbar } from "notistack"
+import { useHistory } from "react-router-dom"
 
 import {
   getBoardById,
   setBoardHeaderTitle,
+  updateLanes,
 } from "../../../state/actions/board.action"
 import Loader from "../../common/loader/loader"
 import {
@@ -17,7 +20,12 @@ import {
 const BoardView = () => {
   const dispatch = useDispatch()
   const [lanes, setLanes] = useState({ lanes: [] })
+  const [lanesLoaded, setLanesLoaded] = useState(false)
+
   const { boardId } = useParams()
+  let history = useHistory()
+  const { enqueueSnackbar } = useSnackbar()
+
   const onGetParticularBoardById = useSelector(
     (state) => state.board.onGetParticularBoardById
   )
@@ -27,16 +35,25 @@ const BoardView = () => {
   useEffect(() => {
     dispatch(getBoardById(boardId))
   }, [dispatch, boardId])
-
+  // useLayoutEffect(()=> {
+  //     console.log('I am about to render!');
+  //     dispatch(getBoardById(boardId))
+  // },[dispatch,boardId]);
   useEffect(() => {
     if (!onGetParticularBoardById && particularBoardById) {
+      if(particularBoardById.title && particularBoardById.boardBackgroundImg  ){
       document.title = "IssueTracker | Board | " + particularBoardById.title
       dispatch(setBoardHeaderTitle("Board | " + particularBoardById.title))
       dispatch(setBackgroundImage(particularBoardById.boardBackgroundImg))
-      const { lanes } = particularBoardById
-      setLanes({ lanes })
+        const { lanes } = particularBoardById
+        setLanes({ lanes })
+      } else {
+        enqueueSnackbar('Board Not Found', { variant: "error" })
+        history.push("/404")
+      }
+      setLanesLoaded(true)
     }
-  }, [onGetParticularBoardById, particularBoardById,dispatch])
+  }, [onGetParticularBoardById, particularBoardById,dispatch,history,enqueueSnackbar])
 
   useEffect(() => {
     document.querySelector(".board-view").scrollIntoView()
@@ -45,9 +62,16 @@ const BoardView = () => {
     }
   }, [dispatch])
 
-  const shouldReceiveNewData = (nextData) => {
+
+
+  const shouldReceiveNewData = (lanes) => {
     console.log("Board has changed")
-    console.log(nextData)
+    console.log(lanes)
+    if (!onGetParticularBoardById && particularBoardById && lanesLoaded) {
+      if(particularBoardById.title && particularBoardById.boardBackgroundImg  ){
+      dispatch(updateLanes({boardId,lanes: lanes?.lanes}))
+      }
+    }
   }
 
   const handleCardDelete = (cardId, laneId) => {
@@ -60,11 +84,11 @@ const BoardView = () => {
   }
   return (
     <div className="board-view">
-      {onGetParticularBoardById ? (
+      {onGetParticularBoardById ||!particularBoardById || !lanesLoaded? (
         <Loader backgroundColor={"transparent"} />
       ) : (
         <Board
-          data={lanes?.lanes?.length ? lanes : { lanes: [] }}
+          data={ lanes}
           draggable
           editable
           canAddLanes

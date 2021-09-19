@@ -24,25 +24,7 @@ const Board = new Schema({
     default: time.now(),
     required: true,
   },
-  lanes: [
-    {
-      id: String,
-      title: String,
-      style: {
-        type:Object,
-        default:{
-          width:280
-        }
-      },
-      cards: [
-        {
-          id: String,
-          title: String,
-          description: String
-        }
-      ]
-    }
-  ],
+  lanes:[]
 })
 
 mongoose.model("Board", Board)

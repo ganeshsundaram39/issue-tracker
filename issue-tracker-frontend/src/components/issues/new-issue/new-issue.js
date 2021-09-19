@@ -22,7 +22,6 @@ import {
 import ReactMarkdownEditor from "../react-markdown-editor/react-markdown-editor"
 
 import { schema, useStyles, labels } from "./new-issue-extras"
-import { setBoardHeaderTitle } from "../../../state/actions/board.action"
 
 const NewIssue = () => {
   const { register, handleSubmit, errors } = useForm({
@@ -69,7 +68,7 @@ const NewIssue = () => {
     document.title = "IssueTracker | New Issue"
     dispatch(setIssueHeaderTitle("New Issue"))
 
-  }, [])
+  }, [dispatch])
 
   const handleChange = useCallback((event) => {
     setLabel(event.target.value)

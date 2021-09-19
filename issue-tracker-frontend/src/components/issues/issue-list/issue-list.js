@@ -39,7 +39,7 @@ const IssueList = () => {
 
     dispatch(setIssueHeaderTitle("All Issues"))
 
-  }, [])
+  }, [dispatch])
   return (
     <div className="issue-list-wrapper">
       <Card className="card-style">

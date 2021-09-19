@@ -13,4 +13,9 @@ module.exports.setRouter = ({ app }) => {
 
   app.get(`${baseUrl}`, authorizeMiddleware, boardController.getBoardsFunction)
 
+  app.post(`${baseUrl}/edit`, authorizeMiddleware, boardController.editBoardFunction)
+
+  app.post(`${baseUrl}/update-board-lanes`, authorizeMiddleware, boardController.updateLanesFunction)
+
+
 }

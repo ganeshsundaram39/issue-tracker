@@ -1,4 +1,4 @@
-import React, { Suspense,useEffect, useState } from "react"
+import React, { Suspense,useEffect } from "react"
 import ErrorBoundary from "../hocs/ErrorBoundary/ErrorBoundary"
 import { BrowserRouter as Router } from "react-router-dom"
 import AppRoutes from "./app.routes"

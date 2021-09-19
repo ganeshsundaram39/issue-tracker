@@ -21,7 +21,9 @@ export default function AppRoutes() {
       <PrivateRoute exact path="/profile" component={Profile} />
 
       <Redirect from="/" exact to="/issues" />
+      <Route path="404" component={My404} />
       <Route path="*" component={My404} />
+
     </Switch>
   )
 }

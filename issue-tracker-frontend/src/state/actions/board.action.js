@@ -98,12 +98,38 @@ export const getBoardById = (boardId) => (dispatch) => {
       if (!response?.data?.error) {
         dispatch({
           type: GET_BOARD_BY_ID_RESPONSE,
-          payload: response?.data?.data?.[0],
+          payload: response?.data?.data?.[0] ?? {},
         })
       }
     })
     .catch(function (error) {
       dispatch({ type: GET_BOARD_BY_ID_RESPONSE, payload: error?.data })
+    })
+}
+
+export const updateLanes = ({ boardId, lanes }) => (dispatch) => {
+  let userData = localStorage.getItem("userData")
+
+  if (userData) {
+    userData = JSON.parse(userData)
+  }
+  axios
+    .post(`${baseUrl}/update-board-lanes`, {
+      userId: userData?.userDetails?.userId,
+      boardId,
+      lanes,
+    })
+    .then(function (response) {
+      if (!response?.data?.error) {
+        // dispatch({
+        //   type: GET_BOARD_BY_ID_RESPONSE,
+        //   payload: response?.data?.data?.[0],
+        // })
+      }
+    })
+    .catch(function (error) {
+      console.log({error})
+      // dispatch({ type: GET_BOARD_BY_ID_RESPONSE, payload: error?.data })
     })
 }
 

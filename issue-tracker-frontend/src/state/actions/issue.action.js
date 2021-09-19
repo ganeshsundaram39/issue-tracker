@@ -115,7 +115,7 @@ export const getIssueById = (issueId) => (dispatch) => {
       if (!response?.data?.error) {
         dispatch({
           type: GET_ISSUE_BY_ID_RESPONSE,
-          payload: response?.data?.data?.[0],
+          payload: response?.data?.data?.[0] ?? {},
         })
       }
     })

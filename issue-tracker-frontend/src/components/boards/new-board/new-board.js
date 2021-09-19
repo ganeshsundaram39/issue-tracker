@@ -65,7 +65,7 @@ const NewBoard = () => {
   useEffect(() => {
     document.title = "IssueTracker | New Board"
     dispatch(setBoardHeaderTitle("New Board"))
-  }, [])
+  }, [dispatch])
 
   const onCancel = useCallback(
     (event) => {
