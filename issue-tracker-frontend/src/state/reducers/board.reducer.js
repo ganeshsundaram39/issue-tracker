@@ -8,7 +8,9 @@ import {
   GET_BOARD_BY_ID_RESPONSE,
   ON_BOARD_SEARCH,
   ON_BOARD_SEARCH_RESPONSE,
-  SET_BOARD_HEADER_TITLE
+  SET_BOARD_HEADER_TITLE,
+  ON_DELETE_BOARD,
+  ON_DELETE_BOARD_RESPONSE
 } from "../types/board.types"
 
 const initialState = {
@@ -20,7 +22,9 @@ const initialState = {
   particularBoardById:null,
   onSearchBoard: false,
   searchedBoards: [],
-  boardHeaderTitle: 'All Boards'
+  boardHeaderTitle: 'All Boards',
+  onDeleteBoard: false,
+  onDeleteBoardResponse: null,
 }
 
 const boardReducer = (state = initialState, action) => {
@@ -78,6 +82,18 @@ const boardReducer = (state = initialState, action) => {
         onSearchBoard: false,
         searchedBoards: action.payload,
       }
+      case ON_DELETE_BOARD:
+        return {
+          ...state,
+          onDeleteBoard: true,
+          onDeleteBoardResponse: null,
+        }
+      case ON_DELETE_BOARD_RESPONSE:
+        return {
+          ...state,
+          onDeleteBoard: false,
+          onDeleteBoardResponse: action.payload,
+        }
     case RESET_BOARD:
       return {
         ...initialState,

@@ -22,11 +22,15 @@ export default function AlertDialog({
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"))
   const handleClickOpen = (event) => {
     event?.stopPropagation?.()
+    event?.preventDefault?.()
+
     setOpen(true)
   }
 
   const handleClose = (event) => {
     event?.stopPropagation?.()
+    event?.preventDefault?.()
+
     setOpen(false)
   }
 

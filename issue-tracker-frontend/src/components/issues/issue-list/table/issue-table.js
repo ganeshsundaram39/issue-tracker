@@ -41,33 +41,43 @@ export default function IssueTable({ rows }) {
 
   return (
     <TableContainer component={Paper}>
-      <Table className={classes.table} aria-label="custom pagination table">
-        <TableBody>
+      <Table className={classes.table} aria-label="custom pagination table"
+        component="div"
+
+      >
+        <TableBody
+        component="div"
+
+        >
           {(rowsPerPage > 0
             ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             : rows
           ).map((row, index) => (
             <TableRow
+              component={Link}
+              to={"/issues/" + row.issueId}
               key={row.issueId}
-              style={
-                index % 2 ? { background: "#fdffe0" } : { background: "white" }
-              }
+              style={{
+                background: index % 2 ? "#fdffe0" : "white",
+                textDecoration: "none",
+              }}
             >
-              <TableCell component="th" scope="row">
+              <TableCell component="div" scope="row">
                 <div className="single-issue">
                   <ErrorOutlineOutlinedIcon className="icon" />
-                  <Link style={{ color: "#000" }} to={"/issues/" + row.issueId}>
-                    <span className="issue-title"> {row.title} </span>
-                  </Link>
+
+                  <span className="issue-title"> {row.title} </span>
+
                   {row.label && (
-                    <span className="label-style"
-
-                    style={{
-                      borderColor:primaryColorHash,
-                      background: primaryColorHash
-                    }}
-
-                    >{row.label}</span>
+                    <span
+                      className="label-style"
+                      style={{
+                        borderColor: primaryColorHash,
+                        background: primaryColorHash,
+                      }}
+                    >
+                      {row.label}
+                    </span>
                   )}
                 </div>
                 <div className="single-issue-details">
@@ -89,7 +99,9 @@ export default function IssueTable({ rows }) {
                 </div>
               </TableCell>
 
-              <TableCell style={{ width: 160 }} align="right">
+              <TableCell style={{ width: 160 }} align="right"
+              component="div"
+              >
                 {row.comments && row.comments.length > 1 ? (
                   <div className="issue-comment-count">
                     <CommentOutlinedIcon
@@ -106,14 +118,15 @@ export default function IssueTable({ rows }) {
           ))}
 
           {emptyRows > 0 && (
-            <TableRow style={{ height: 53 * emptyRows }}>
-              <TableCell colSpan={6} />
+            <TableRow style={{ height: 53 * emptyRows }}
+            component="div" >
+              <TableCell colSpan={6} component="div"  style={{ border: 0 }} />
             </TableRow>
           )}
         </TableBody>
-        <TableFooter>
-          <TableRow>
-            <TablePagination
+        <TableFooter component="div">
+          <TableRow component="div">
+            <TablePagination component="div"
               rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
               colSpan={3}
               count={rows.length}

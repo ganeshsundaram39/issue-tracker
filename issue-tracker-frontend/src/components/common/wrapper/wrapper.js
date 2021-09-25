@@ -8,13 +8,13 @@ import { images } from "./images"
 
 const Wrapper = ({ children, pageName }) => {
   const backgroundImg = useSelector((state) => state.app.backgroundImg)
-
+  const isIssue = pageName?.toLowerCase()?.includes('issue')
   return (
     <div
       className="container"
       style={{ backgroundImage: `url(${images[backgroundImg]})` }}
     >
-      <SearchAppBar pageName={pageName} />
+      <SearchAppBar pageName={pageName} isIssue={isIssue} />
       <Drawer />
       {children}
     </div>

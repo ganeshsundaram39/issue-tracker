@@ -17,5 +17,6 @@ module.exports.setRouter = ({ app }) => {
 
   app.post(`${baseUrl}/update-board-lanes`, authorizeMiddleware, boardController.updateLanesFunction)
 
+  app.post(`${baseUrl}/delete/board`, authorizeMiddleware, boardController.deleteBoardFunction)
 
 }

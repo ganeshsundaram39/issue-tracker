@@ -9,6 +9,8 @@ import {
   ON_BOARD_SEARCH,
   ON_BOARD_SEARCH_RESPONSE,
   SET_BOARD_HEADER_TITLE,
+  ON_DELETE_BOARD,
+  ON_DELETE_BOARD_RESPONSE
 } from "../types/board.types"
 import axios from "./axios"
 
@@ -139,4 +141,19 @@ export const resetBoard = () => (dispatch) => {
 
 export const setBoardHeaderTitle = (title) => (dispatch) => {
   dispatch({ type: SET_BOARD_HEADER_TITLE, payload: title })
+}
+
+export const deleteBoard = ({ boardId }) => (dispatch) => {
+  dispatch({ type: ON_DELETE_BOARD })
+
+  axios
+    .post(`${baseUrl}/delete/board`, {
+      boardId,
+    })
+    .then(function (response) {
+      dispatch({ type: ON_DELETE_BOARD_RESPONSE, payload: response?.data })
+    })
+    .catch(function (error) {
+      dispatch({ type: ON_DELETE_BOARD_RESPONSE, payload: error?.data })
+    })
 }

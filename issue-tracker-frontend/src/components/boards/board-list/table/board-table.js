@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useCallback } from "react"
 import { makeStyles } from "@material-ui/core/styles"
 import Table from "@material-ui/core/Table"
 import TableBody from "@material-ui/core/TableBody"
@@ -11,7 +11,12 @@ import Paper from "@material-ui/core/Paper"
 import "./board-table.scss"
 import { Link } from "react-router-dom"
 import { TablePaginationActions } from "../../../issues/issue-list/table/issue-table-paginate/issue-table-paginate"
-import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
+import FormatListBulletedIcon from "@material-ui/icons/FormatListBulleted"
+import EditOutlinedIcon from "@material-ui/icons/EditOutlined"
+import { useDispatch } from "react-redux"
+import DeleteOutlineOutlinedIcon from "@material-ui/icons/DeleteOutlineOutlined"
+import AlertDialog from "../../../common/alert"
+import { deleteBoard } from "../../../../state/actions/board.action"
 
 const useStyles = makeStyles({
   table: {
@@ -23,6 +28,7 @@ export default function BoardTable({ rows }) {
   const classes = useStyles()
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(5)
+  const dispatch = useDispatch()
 
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage)
@@ -36,27 +42,41 @@ export default function BoardTable({ rows }) {
     setPage(0)
   }
 
+  const deleteBoardCallback =
+    (event, boardId) => {
+      event?.stopPropagation?.()
+      event?.preventDefault?.()
+
+      dispatch(deleteBoard({ boardId }))
+    }
+
+
   return (
     <TableContainer component={Paper}>
-      <Table className={classes.table} aria-label="custom pagination table">
-        <TableBody>
+      <Table
+        component="div"
+        className={classes.table}
+        aria-label="custom pagination table"
+      >
+        <TableBody component="div">
           {(rowsPerPage > 0
             ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             : rows
           ).map((row, index) => (
             <TableRow
+              component={Link}
+              to={"/boards/" + row.boardId}
               key={row.boardId}
-              style={
-                index % 2 ? { background: "#fdffe0" } : { background: "white" }
-              }
+              style={{
+                background: index % 2 ? "#fdffe0" : "white",
+                textDecoration: "none",
+              }}
             >
-              <TableCell component="th" scope="row">
+              <TableCell component="div" scope="row">
                 <div className="single-board">
                   <FormatListBulletedIcon className="icon" />
-                  <Link style={{ color: "#000" }} to={"/boards/" + row.boardId}>
-                    <span className="board-title"> {row.title} </span>
-                  </Link>
 
+                  <span className="board-title"> {row.title} </span>
                 </div>
                 <div className="single-board-details">
                   <FormatListBulletedIcon
@@ -77,18 +97,38 @@ export default function BoardTable({ rows }) {
                 </div>
               </TableCell>
 
+              <TableCell
+                component="div"
+                style={{ minWidth: 200 }}
+                align="right"
+              >
+                <div className="board-control">
+                  <EditOutlinedIcon />
+                  <AlertDialog
+                    message="Are you sure you want to delete this board?"
+                    title="Delete"
+                    handleYes={ event=>deleteBoardCallback(event, row.boardId)}
+                    handleNo={() => {}}
+                  >
+                    {({ handleClickOpen }) => (
+                      <DeleteOutlineOutlinedIcon onClick={handleClickOpen} />
+                    )}
+                  </AlertDialog>
+                </div>
+              </TableCell>
             </TableRow>
           ))}
 
           {emptyRows > 0 && (
-            <TableRow style={{ height: 53 * emptyRows }}>
-              <TableCell colSpan={6} />
+            <TableRow component="div" style={{ height: 53 * emptyRows }}>
+              <TableCell colSpan={6} component="div" style={{ border: 0 }} />
             </TableRow>
           )}
         </TableBody>
-        <TableFooter>
-          <TableRow>
+        <TableFooter component="div">
+          <TableRow component="div">
             <TablePagination
+              component="div"
               rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
               colSpan={3}
               count={rows.length}
@@ -102,7 +142,6 @@ export default function BoardTable({ rows }) {
               onChangeRowsPerPage={handleChangeRowsPerPage}
               ActionsComponent={TablePaginationActions}
             />
-
           </TableRow>
         </TableFooter>
       </Table>

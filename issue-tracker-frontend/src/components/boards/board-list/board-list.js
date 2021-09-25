@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react"
+import React, { useEffect,useState } from "react"
+
 import Card from "@material-ui/core/Card"
 import "./board-list.scss"
 import {
@@ -10,13 +11,19 @@ import { useSelector, useDispatch } from "react-redux"
 import { Link } from "react-router-dom"
 import Button from "@material-ui/core/Button"
 import BoardTable from "./table/board-table"
+import { useSnackbar } from "notistack"
 
 const BoardList = () => {
   const dispatch = useDispatch()
   const onGetAllBoard = useSelector((state) => state.board.onGetAllBoard)
   const allBoardResponse = useSelector((state) => state.board.allBoardResponse)
   const [allBoards, setAllBoards] = useState([])
+  const { enqueueSnackbar } = useSnackbar()
 
+  const onDeleteBoard = useSelector((state) => state.board.onDeleteBoard)
+  const onDeleteBoardResponse = useSelector(
+    (state) => state.board.onDeleteBoardResponse
+  )
   useEffect(() => {
     dispatch(getAllBoards())
   }, [dispatch])
@@ -28,6 +35,24 @@ const BoardList = () => {
       }
     }
   }, [onGetAllBoard, allBoardResponse])
+
+
+  useEffect(() => {
+    if (!onDeleteBoard && onDeleteBoardResponse) {
+      if (onDeleteBoardResponse?.error && onDeleteBoardResponse?.message) {
+        enqueueSnackbar("Something went wrong!", { variant: "error" })
+      } else if (onDeleteBoardResponse?.data) {
+        enqueueSnackbar("Board Deleted!", { variant: "success" })
+        dispatch(getAllBoards())
+      }
+    }
+  }, [
+    onDeleteBoard,
+    onDeleteBoardResponse,
+    enqueueSnackbar,
+    dispatch
+  ])
+
 
   useEffect(() => {
     document.title = "IssueTracker | All Boards"

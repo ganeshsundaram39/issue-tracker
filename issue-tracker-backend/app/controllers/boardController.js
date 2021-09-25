@@ -224,9 +224,39 @@ const editBoardFunction = (req, res) => {
 }
 
 
+const deleteBoardFunction = async (req, res) => {
+  try {
+    if (!req.body.boardId) {
+      throw new Error("boardId cannot be invalid!")
+    }
+
+    await BoardModel.deleteOne({ boardId: req.body.boardId }).lean()
+
+
+    let apiResponse = response.generate(
+      false,
+      "Board Deleted Successfully!",
+      200,
+      {}
+    )
+    return res.json(apiResponse)
+  } catch (e) {
+    console.log({ e })
+    let apiResponse = response.generate(
+      true,
+      "Failed to delete board!",
+      422,
+      e
+    )
+    return res.status(422).send(apiResponse)
+  }
+}
+
+
 module.exports = {
   createBoardFunction,
   getBoardsFunction,
   updateLanesFunction,
-  editBoardFunction
+  editBoardFunction,
+  deleteBoardFunction
 } // end exports
