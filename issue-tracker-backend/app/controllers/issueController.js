@@ -281,6 +281,33 @@ const destroyImages = async (req, res) => {
   }
 }
 
+const deleteIssueFunction = async (req, res) => {
+  try {
+    if (!req.body.issueId) {
+      throw new Error("issueId cannot be invalid!")
+    }
+    if (!req.body.userId) {
+      throw new Error("userId cannot be invalid!")
+    }
+    await IssueModel.deleteOne({
+      issueId: req.body.issueId,
+      userId: req.body.userId,
+    }).lean()
+
+    let apiResponse = response.generate(
+      false,
+      "Issue Deleted Successfully!",
+      200,
+      true
+    )
+    return res.json(apiResponse)
+  } catch (e) {
+    console.log({ e })
+    let apiResponse = response.generate(true, "Failed to delete Issue!", 422, e)
+    return res.status(422).send(apiResponse)
+  }
+}
+
 module.exports = {
   createIssueFunction,
   getIssuesFunction,
@@ -288,4 +315,5 @@ module.exports = {
   destroyImages,
   updateCommentsFunction,
   updateIssueStatusFunction,
+  deleteIssueFunction,
 } // end exports

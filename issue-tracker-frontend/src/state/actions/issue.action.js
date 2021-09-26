@@ -9,6 +9,8 @@ import {
   ON_ISSUE_SEARCH,
   ON_ISSUE_SEARCH_RESPONSE,
   SET_ISSUE_HEADER_TITLE,
+  ON_DELETE_ISSUE,
+  ON_DELETE_ISSUE_RESPONSE
 } from "../types/issue.types"
 import axios from "./axios"
 
@@ -181,4 +183,26 @@ export const resetIssue = () => (dispatch) => {
 
 export const setIssueHeaderTitle = (title) => (dispatch) => {
   dispatch({ type: SET_ISSUE_HEADER_TITLE, payload: title })
+}
+
+
+
+export const deleteIssue = ({ issueId }) => (dispatch) => {
+  dispatch({ type: ON_DELETE_ISSUE })
+  let userData = localStorage.getItem("userData")
+
+  if (userData) {
+    userData = JSON.parse(userData)
+  }
+  axios
+    .post(`${baseUrl}/delete/issue`, {
+      issueId,
+      userId: userData?.userDetails?.userId,
+    })
+    .then(function (response) {
+      dispatch({ type: ON_DELETE_ISSUE_RESPONSE, payload: response?.data })
+    })
+    .catch(function (error) {
+      dispatch({ type: ON_DELETE_ISSUE_RESPONSE, payload: error?.data })
+    })
 }

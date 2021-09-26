@@ -14,6 +14,12 @@ import { TablePaginationActions } from "./issue-table-paginate/issue-table-pagin
 import { Link } from "react-router-dom"
 import ErrorOutlineOutlinedIcon from "@material-ui/icons/ErrorOutlineOutlined"
 import { useSelector } from "react-redux"
+import AlertDialog from "../../../common/alert"
+import DeleteOutlineOutlinedIcon from "@material-ui/icons/DeleteOutlineOutlined"
+import EditOutlinedIcon from "@material-ui/icons/EditOutlined"
+import { deleteIssue } from "../../../../state/actions/issue.action"
+
+import { useDispatch } from "react-redux"
 
 const useStyles = makeStyles({
   table: {
@@ -26,6 +32,7 @@ export default function IssueTable({ rows }) {
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(5)
   const primaryColorHash = useSelector((state) => state.app.primaryColorHash)
+  const dispatch = useDispatch()
 
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage)
@@ -38,17 +45,21 @@ export default function IssueTable({ rows }) {
     setRowsPerPage(parseInt(event.target.value, 10))
     setPage(0)
   }
+  const deleteIssueCallback = (event, issueId) => {
+    event?.stopPropagation?.()
+    event?.preventDefault?.()
+
+    dispatch(deleteIssue({ issueId }))
+  }
 
   return (
     <TableContainer component={Paper}>
-      <Table className={classes.table} aria-label="custom pagination table"
+      <Table
+        className={classes.table}
+        aria-label="custom pagination table"
         component="div"
-
       >
-        <TableBody
-        component="div"
-
-        >
+        <TableBody component="div">
           {(rowsPerPage > 0
             ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             : rows
@@ -98,11 +109,8 @@ export default function IssueTable({ rows }) {
                   </span>
                 </div>
               </TableCell>
-
-              <TableCell style={{ width: 160 }} align="right"
-              component="div"
-              >
-                {row.comments && row.comments.length > 1 ? (
+              {row.comments && row.comments.length > 1 ? (
+                <TableCell style={{ width: 160 }} align="right" component="div">
                   <div className="issue-comment-count">
                     <CommentOutlinedIcon
                       style={{
@@ -112,23 +120,41 @@ export default function IssueTable({ rows }) {
                     />{" "}
                     {row.comments.length - 1}
                   </div>
-                ) : null}
+                </TableCell>
+              ) : null}
+              <TableCell style={{ width: 160 }} align="right" component="div">
+                <div className="issue-control">
+                  <EditOutlinedIcon />
+
+                  <AlertDialog
+                    message="Are you sure you want to delete this issue?"
+                    title="Delete"
+                    handleYes={(event) =>
+                      deleteIssueCallback(event, row.issueId)
+                    }
+                    handleNo={() => {}}
+                  >
+                    {({ handleClickOpen }) => (
+                      <DeleteOutlineOutlinedIcon onClick={handleClickOpen} />
+                    )}
+                  </AlertDialog>
+                </div>
               </TableCell>
             </TableRow>
           ))}
 
           {emptyRows > 0 && (
-            <TableRow style={{ height: 53 * emptyRows }}
-            component="div" >
-              <TableCell colSpan={6} component="div"  style={{ border: 0 }} />
+            <TableRow style={{ height: 53 * emptyRows }} component="div">
+              <TableCell colSpan={6} component="div" style={{ border: 0 }} />
             </TableRow>
           )}
         </TableBody>
-        <TableFooter component="div">
-          <TableRow component="div">
-            <TablePagination component="div"
+        <TableFooter component="div" colSpan={6}>
+          <TableRow component="div" colSpan={6}>
+            <TablePagination
+              component="div"
               rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
-              colSpan={3}
+              colSpan={6}
               count={rows.length}
               rowsPerPage={rowsPerPage}
               page={page}

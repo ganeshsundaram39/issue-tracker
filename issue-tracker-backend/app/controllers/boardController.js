@@ -28,7 +28,7 @@ const createBoardFunction = (req, res) => {
           reject(apiResponse)
         } else {
           let newBoardObj = newBoard.toObject()
-          console.log({newBoardObj})
+          console.log({ newBoardObj })
           resolve(newBoardObj)
         }
       })
@@ -68,7 +68,7 @@ const getBoardsFunction = (req, res) => {
         {
           __v: 0,
           _id: 0,
-          ...(req.query.boardId||req.body.boardId ?{}:{lanes:0})
+          ...(req.query.boardId || req.body.boardId ? {} : { lanes: 0 }),
         }
       )
         .sort({ boardGenerationTime: -1 })
@@ -111,9 +111,6 @@ const getBoardsFunction = (req, res) => {
     })
 }
 
-
-
-
 const updateLanesFunction = (req, res) => {
   const updateLanes = () => {
     return new Promise((resolve, reject) => {
@@ -155,7 +152,6 @@ const updateLanesFunction = (req, res) => {
           }
         }
       )
-
     })
   }
 
@@ -193,11 +189,7 @@ const editBoardFunction = (req, res) => {
         (error, success) => {
           if (error) {
             console.log(error)
-            logger.error(
-              err.message,
-              "boardController: editBoardFunction",
-              10
-            )
+            logger.error(err.message, "boardController: editBoardFunction", 10)
             let apiResponse = response.generate(
               true,
               "Failed to edit board",
@@ -223,40 +215,39 @@ const editBoardFunction = (req, res) => {
     })
 }
 
-
 const deleteBoardFunction = async (req, res) => {
   try {
     if (!req.body.boardId) {
       throw new Error("boardId cannot be invalid!")
     }
 
-    await BoardModel.deleteOne({ boardId: req.body.boardId }).lean()
+    if (!req.body.userId) {
+      throw new Error("userId cannot be invalid!")
+    }
 
+    await BoardModel.deleteOne({
+      boardId: req.body.boardId,
+      userId: req.body.userId,
+    }).lean()
 
     let apiResponse = response.generate(
       false,
       "Board Deleted Successfully!",
       200,
-      {}
+      true
     )
     return res.json(apiResponse)
   } catch (e) {
     console.log({ e })
-    let apiResponse = response.generate(
-      true,
-      "Failed to delete board!",
-      422,
-      e
-    )
+    let apiResponse = response.generate(true, "Failed to delete board!", 422, e)
     return res.status(422).send(apiResponse)
   }
 }
-
 
 module.exports = {
   createBoardFunction,
   getBoardsFunction,
   updateLanesFunction,
   editBoardFunction,
-  deleteBoardFunction
+  deleteBoardFunction,
 } // end exports

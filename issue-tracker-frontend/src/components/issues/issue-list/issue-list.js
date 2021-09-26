@@ -9,14 +9,21 @@ import IssueTable from "./table/issue-table"
 import { Link } from "react-router-dom"
 import Paper from "@material-ui/core/Paper"
 import Button from "@material-ui/core/Button"
+import { useSnackbar } from "notistack"
 
 const IssueList = () => {
   const [value, setValue] = useState(0)
   const dispatch = useDispatch()
+const { enqueueSnackbar } = useSnackbar()
+
   const onGetAllIssue = useSelector((state) => state.issue.onGetAllIssue)
   const allIssueResponse = useSelector((state) => state.issue.allIssueResponse)
   const [openIssues, setOpenIssues] = useState([])
   const [closedIssues, setCloseIssues] = useState([])
+  const onDeleteIssue = useSelector((state) => state.issue.onDeleteIssue)
+  const onDeleteIssueResponse = useSelector(
+    (state) => state.issue.onDeleteIssueResponse
+  )
 
   const handleChange = (event, newValue) => {
     setValue(newValue)
@@ -24,6 +31,22 @@ const IssueList = () => {
   useEffect(() => {
     dispatch(getAllIssues())
   }, [dispatch])
+
+  useEffect(() => {
+    if (!onDeleteIssue && onDeleteIssueResponse) {
+      if (onDeleteIssueResponse?.error && onDeleteIssueResponse?.message) {
+        enqueueSnackbar("Something went wrong!", { variant: "error" })
+      } else if (onDeleteIssueResponse?.data) {
+        enqueueSnackbar("Issue Deleted!", { variant: "success" })
+        dispatch(getAllIssues())
+      }
+    }
+  }, [
+    onDeleteIssue,
+    onDeleteIssueResponse,
+    enqueueSnackbar,
+    dispatch
+  ])
 
   useEffect(() => {
     if (!onGetAllIssue && allIssueResponse) {

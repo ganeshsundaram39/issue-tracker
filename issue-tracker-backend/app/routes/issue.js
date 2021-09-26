@@ -38,4 +38,10 @@ module.exports.setRouter = ({ app }) => {
     authorizeMiddleware,
     issueController.updateIssueStatusFunction
   )
+
+  app.post(
+    `${baseUrl}/delete/issue`,
+    authorizeMiddleware,
+    issueController.deleteIssueFunction
+  )
 }

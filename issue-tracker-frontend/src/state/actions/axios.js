@@ -12,10 +12,10 @@ axios.interceptors.request.use(
     if (request.url.includes("issues") || request.url.includes("profile")
     || request.url.includes("boards")
     ) {
-      let local = localStorage.getItem("userData")
-      if (local) {
-        local = JSON.parse(local)
-        request.headers["authorization"] = local?.authToken
+      let user = localStorage.getItem("userData")
+      if (user) {
+        user = JSON.parse(user)
+        request.headers["authorization"] = user?.authToken
       }
     }
     return request

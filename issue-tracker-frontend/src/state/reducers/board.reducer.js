@@ -10,7 +10,7 @@ import {
   ON_BOARD_SEARCH_RESPONSE,
   SET_BOARD_HEADER_TITLE,
   ON_DELETE_BOARD,
-  ON_DELETE_BOARD_RESPONSE
+  ON_DELETE_BOARD_RESPONSE,
 } from "../types/board.types"
 
 const initialState = {
@@ -19,10 +19,10 @@ const initialState = {
   onGetAllBoard: false,
   allBoardResponse: null,
   onGetParticularBoardById: false,
-  particularBoardById:null,
+  particularBoardById: null,
   onSearchBoard: false,
   searchedBoards: [],
-  boardHeaderTitle: 'All Boards',
+  boardHeaderTitle: "All Boards",
   onDeleteBoard: false,
   onDeleteBoardResponse: null,
 }
@@ -71,29 +71,29 @@ const boardReducer = (state = initialState, action) => {
         onSearchBoard: true,
         searchedBoards: [],
       }
-      case SET_BOARD_HEADER_TITLE:
-        return {
-          ...state,
-          boardHeaderTitle: action.payload,
-        }
+    case SET_BOARD_HEADER_TITLE:
+      return {
+        ...state,
+        boardHeaderTitle: action.payload,
+      }
     case ON_BOARD_SEARCH_RESPONSE:
       return {
         ...state,
         onSearchBoard: false,
         searchedBoards: action.payload,
       }
-      case ON_DELETE_BOARD:
-        return {
-          ...state,
-          onDeleteBoard: true,
-          onDeleteBoardResponse: null,
-        }
-      case ON_DELETE_BOARD_RESPONSE:
-        return {
-          ...state,
-          onDeleteBoard: false,
-          onDeleteBoardResponse: action.payload,
-        }
+    case ON_DELETE_BOARD:
+      return {
+        ...state,
+        onDeleteBoard: true,
+        onDeleteBoardResponse: null,
+      }
+    case ON_DELETE_BOARD_RESPONSE:
+      return {
+        ...state,
+        onDeleteBoard: false,
+        onDeleteBoardResponse: action.payload,
+      }
     case RESET_BOARD:
       return {
         ...initialState,

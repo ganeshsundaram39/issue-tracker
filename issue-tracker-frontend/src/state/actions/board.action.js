@@ -123,15 +123,11 @@ export const updateLanes = ({ boardId, lanes }) => (dispatch) => {
     })
     .then(function (response) {
       if (!response?.data?.error) {
-        // dispatch({
-        //   type: GET_BOARD_BY_ID_RESPONSE,
-        //   payload: response?.data?.data?.[0],
-        // })
+
       }
     })
     .catch(function (error) {
       console.log({error})
-      // dispatch({ type: GET_BOARD_BY_ID_RESPONSE, payload: error?.data })
     })
 }
 
@@ -145,10 +141,15 @@ export const setBoardHeaderTitle = (title) => (dispatch) => {
 
 export const deleteBoard = ({ boardId }) => (dispatch) => {
   dispatch({ type: ON_DELETE_BOARD })
+  let userData = localStorage.getItem("userData")
 
+  if (userData) {
+    userData = JSON.parse(userData)
+  }
   axios
     .post(`${baseUrl}/delete/board`, {
       boardId,
+      userId: userData?.userDetails?.userId,
     })
     .then(function (response) {
       dispatch({ type: ON_DELETE_BOARD_RESPONSE, payload: response?.data })
