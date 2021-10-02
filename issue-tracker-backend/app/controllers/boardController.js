@@ -180,7 +180,6 @@ const editBoardFunction = (req, res) => {
         { boardId: req.body.boardId, userId: req.body.userId },
         {
           $set: {
-            lanes: req.body.lanes,
             title: req.body.title,
             boardBackgroundImg: req.body.boardBackgroundImg,
             boardGenerationTime: new Date(),

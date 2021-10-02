@@ -35,10 +35,7 @@ const BoardView = () => {
   useEffect(() => {
     dispatch(getBoardById(boardId))
   }, [dispatch, boardId])
-  // useLayoutEffect(()=> {
-  //     console.log('I am about to render!');
-  //     dispatch(getBoardById(boardId))
-  // },[dispatch,boardId]);
+
   useEffect(() => {
     if (!onGetParticularBoardById && particularBoardById) {
       if(particularBoardById.title && particularBoardById.boardBackgroundImg  ){

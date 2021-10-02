@@ -53,11 +53,11 @@ const NewBoard = () => {
     if (!onNewBoard && newBoardResponse) {
       if (newBoardResponse?.error && newBoardResponse?.message) {
         enqueueSnackbar(newBoardResponse?.message, { variant: "error" })
-        dispatch(resetBoard())
+
       } else if (newBoardResponse?.data) {
         enqueueSnackbar("Board Created!", { variant: "success" })
         dispatch(resetBoard())
-        history.push("/boards")
+        history.push("/boards/"+newBoardResponse?.data?.boardId)
       }
     }
   }, [onNewBoard, newBoardResponse, enqueueSnackbar, dispatch, history])

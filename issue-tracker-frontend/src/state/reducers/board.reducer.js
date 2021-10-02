@@ -1,6 +1,8 @@
 import {
   ON_NEW_BOARD,
   ON_NEW_BOARD_RESPONSE,
+  ON_EDIT_BOARD,
+  ON_EDIT_BOARD_RESPONSE,
   RESET_BOARD,
   ON_GET_ALL_BOARD,
   ON_GET_ALL_BOARD_RESPONSE,
@@ -16,6 +18,8 @@ import {
 const initialState = {
   onNewBoard: false,
   onNewBoardResponse: null,
+  onEditBoard: false,
+  editBoardResponse: null,
   onGetAllBoard: false,
   allBoardResponse: null,
   onGetParticularBoardById: false,
@@ -40,6 +44,18 @@ const boardReducer = (state = initialState, action) => {
         ...state,
         onNewBoard: false,
         newBoardResponse: action.payload,
+      }
+    case ON_EDIT_BOARD:
+      return {
+        ...state,
+        onEditBoard: true,
+        editBoardResponse: null,
+      }
+    case ON_EDIT_BOARD_RESPONSE:
+      return {
+        ...state,
+        onEditBoard: false,
+        editBoardResponse: action.payload,
       }
     case ON_GET_ALL_BOARD:
       return {

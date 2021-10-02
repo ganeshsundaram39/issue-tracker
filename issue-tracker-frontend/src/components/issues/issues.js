@@ -11,7 +11,7 @@ const Issues = () => {
   const issueHeaderTitle = useSelector((state) => state.issue.issueHeaderTitle)
 
   return (
-    <Wrapper pageName={issueHeaderTitle}>
+    <Wrapper pageName={issueHeaderTitle} isIssue>
       <Switch>
         <Route exact path="/issues" component={IssueList} />
         <Route exact path="/issues/new" component={NewIssue} />

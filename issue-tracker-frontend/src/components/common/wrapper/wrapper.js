@@ -6,9 +6,9 @@ import "./wrapper.scss"
 import { useSelector } from "react-redux"
 import { images } from "./images"
 
-const Wrapper = ({ children, pageName }) => {
+const Wrapper = ({ children, pageName ,isIssue=false}) => {
   const backgroundImg = useSelector((state) => state.app.backgroundImg)
-  const isIssue = pageName?.toLowerCase()?.includes('issue')
+
   return (
     <div
       className="container"

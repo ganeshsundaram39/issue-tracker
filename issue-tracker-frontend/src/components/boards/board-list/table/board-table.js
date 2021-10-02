@@ -17,6 +17,7 @@ import DeleteOutlineOutlinedIcon from "@material-ui/icons/DeleteOutlineOutlined"
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined"
 import AlertDialog from "../../../common/alert"
 import { deleteBoard } from "../../../../state/actions/board.action"
+import { useHistory } from "react-router-dom"
 
 const useStyles = makeStyles({
   table: {
@@ -29,6 +30,7 @@ export default function BoardTable({ rows }) {
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(5)
   const dispatch = useDispatch()
+  let history = useHistory()
 
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage)
@@ -42,14 +44,18 @@ export default function BoardTable({ rows }) {
     setPage(0)
   }
 
-  const deleteBoardCallback =
-    (event, boardId) => {
-      event?.stopPropagation?.()
-      event?.preventDefault?.()
+  const deleteBoardCallback = (event, boardId) => {
+    event?.stopPropagation?.()
+    event?.preventDefault?.()
 
-      dispatch(deleteBoard({ boardId }))
-    }
+    dispatch(deleteBoard({ boardId }))
+  }
 
+  const redirectToBoardView = (event, boardId) => {
+    event?.stopPropagation?.()
+    event?.preventDefault?.()
+    history.push("/boards/edit/" + boardId)
+  }
 
   return (
     <TableContainer component={Paper}>
@@ -103,18 +109,23 @@ export default function BoardTable({ rows }) {
                 align="right"
               >
                 <div className="board-control">
-                  <EditOutlinedIcon title={'Edit '+row.title}/>
+                  <EditOutlinedIcon
+                    onClick={(event) => redirectToBoardView(event, row.boardId)}
+                    title={"Edit " + row.title}
+                  />
                   <AlertDialog
                     message="Are you sure you want to delete this board?"
                     title="Delete"
-                    handleYes={ event=>deleteBoardCallback(event, row.boardId)}
+                    handleYes={(event) =>
+                      deleteBoardCallback(event, row.boardId)
+                    }
                     handleNo={() => {}}
                   >
                     {({ handleClickOpen }) => (
-                      <DeleteOutlineOutlinedIcon o
-
-                      title={'Delete '+row.title}
-                      nClick={handleClickOpen} />
+                      <DeleteOutlineOutlinedIcon
+                        title={"Delete " + row.title}
+                        onClick={handleClickOpen}
+                      />
                     )}
                   </AlertDialog>
                 </div>
