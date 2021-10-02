@@ -113,6 +113,11 @@ export default function IssueTable({ rows }) {
                 <TableCell style={{ width: 160 }} align="right" component="div">
                   <div className="issue-comment-count">
                     <CommentOutlinedIcon
+                      title={
+                        row.comments.length === 1
+                          ? row.comments.length + " comment"
+                          : row.comments.length + " comments"
+                      }
                       style={{
                         marginRight: "5px",
                         fontSize: "20px",
@@ -124,7 +129,7 @@ export default function IssueTable({ rows }) {
               ) : null}
               <TableCell style={{ width: 160 }} align="right" component="div">
                 <div className="issue-control">
-                  <EditOutlinedIcon />
+                  <EditOutlinedIcon title={"Edit " + row.title} />
 
                   <AlertDialog
                     message="Are you sure you want to delete this issue?"
@@ -135,7 +140,10 @@ export default function IssueTable({ rows }) {
                     handleNo={() => {}}
                   >
                     {({ handleClickOpen }) => (
-                      <DeleteOutlineOutlinedIcon onClick={handleClickOpen} />
+                      <DeleteOutlineOutlinedIcon
+                        title={"Delete " + row.title}
+                        onClick={handleClickOpen}
+                      />
                     )}
                   </AlertDialog>
                 </div>

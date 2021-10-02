@@ -103,7 +103,7 @@ export default function BoardTable({ rows }) {
                 align="right"
               >
                 <div className="board-control">
-                  <EditOutlinedIcon />
+                  <EditOutlinedIcon title={'Edit '+row.title}/>
                   <AlertDialog
                     message="Are you sure you want to delete this board?"
                     title="Delete"
@@ -111,7 +111,10 @@ export default function BoardTable({ rows }) {
                     handleNo={() => {}}
                   >
                     {({ handleClickOpen }) => (
-                      <DeleteOutlineOutlinedIcon onClick={handleClickOpen} />
+                      <DeleteOutlineOutlinedIcon o
+
+                      title={'Delete '+row.title}
+                      nClick={handleClickOpen} />
                     )}
                   </AlertDialog>
                 </div>
