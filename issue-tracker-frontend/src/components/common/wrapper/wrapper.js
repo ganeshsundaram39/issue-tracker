@@ -6,7 +6,7 @@ import "./wrapper.scss"
 import { useSelector } from "react-redux"
 import { images } from "./images"
 
-const Wrapper = ({ children, pageName ,isIssue=false}) => {
+const Wrapper = ({ children, pageName ,isIssue=false,isBoard=false}) => {
   const backgroundImg = useSelector((state) => state.app.backgroundImg)
 
   return (
@@ -14,7 +14,7 @@ const Wrapper = ({ children, pageName ,isIssue=false}) => {
       className="container"
       style={{ backgroundImage: `url(${images[backgroundImg]})` }}
     >
-      <SearchAppBar pageName={pageName} isIssue={isIssue} />
+      <SearchAppBar pageName={pageName} isIssue={isIssue} isBoard={isBoard} />
       <Drawer />
       {children}
     </div>

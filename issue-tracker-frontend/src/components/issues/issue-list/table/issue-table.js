@@ -16,7 +16,6 @@ import ErrorOutlineOutlinedIcon from "@material-ui/icons/ErrorOutlineOutlined"
 import { useSelector } from "react-redux"
 import AlertDialog from "../../../common/alert"
 import DeleteOutlineOutlinedIcon from "@material-ui/icons/DeleteOutlineOutlined"
-import EditOutlinedIcon from "@material-ui/icons/EditOutlined"
 import { deleteIssue } from "../../../../state/actions/issue.action"
 
 import { useDispatch } from "react-redux"
@@ -129,7 +128,7 @@ export default function IssueTable({ rows }) {
               ) : null}
               <TableCell style={{ width: 160 }} align="right" component="div">
                 <div className="issue-control">
-                  <EditOutlinedIcon title={"Edit " + row.title} />
+
 
                   <AlertDialog
                     message="Are you sure you want to delete this issue?"

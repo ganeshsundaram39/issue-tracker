@@ -11,7 +11,7 @@ const Boards = () => {
   const boardHeaderTitle = useSelector((state) => state.board.boardHeaderTitle)
 
   return (
-    <Wrapper pageName={boardHeaderTitle} >
+    <Wrapper pageName={boardHeaderTitle} isBoard={true}>
       <Switch>
         <Route exact path="/boards" component={BoardList} />
         <Route exact path="/boards/new" component={NewBoard} />

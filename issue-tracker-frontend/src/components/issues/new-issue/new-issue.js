@@ -59,7 +59,7 @@ const NewIssue = () => {
       } else if (newIssueResponse?.data) {
         enqueueSnackbar("Issue Created!", { variant: "success" })
         dispatch(resetIssue())
-        history.push("/issues")
+        history.push("/issues/"+newIssueResponse?.data?.issueId)
       }
     }
   }, [onNewIssue, newIssueResponse, enqueueSnackbar, dispatch, history])

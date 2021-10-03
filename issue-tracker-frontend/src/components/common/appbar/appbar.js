@@ -22,7 +22,11 @@ import {
   onSearchBoardLoader,
 } from "../../../state/actions/board.action"
 
-export default function SearchAppBar({ pageName, isIssue }) {
+export default function SearchAppBar({
+  pageName,
+  isIssue = false,
+  isBoard = false,
+}) {
   const classes = useSearchBarStyles()
   const dispatch = useDispatch()
   const [search, setSearch] = useState("")
@@ -84,85 +88,87 @@ export default function SearchAppBar({ pageName, isIssue }) {
           <Typography className={classes.title} variant="h6" noWrap>
             {pageName}
           </Typography>
-          <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
-            <InputBase
-              placeholder={placeHolderText}
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              onChange={handleChange}
-              value={search}
-              inputProps={{ "aria-label": placeHolderText }}
-            />
-            {search && (
-              <div className={classes.clearIcon} onClick={clearSearch}>
-                <CloseSharpIcon />
+          {isIssue || isBoard ? (
+            <div className={classes.search}>
+              <div className={classes.searchIcon}>
+                <SearchIcon />
               </div>
-            )}
-            {showSearchSelect && (
-              <div className={classes.searchResults}>
-                {(onSearchIssue || onSearchBoard) && (
-                  <div style={{ marginBottom: "10px" }}>Loading...</div>
-                )}
+              <InputBase
+                placeholder={placeHolderText}
+                classes={{
+                  root: classes.inputRoot,
+                  input: classes.inputInput,
+                }}
+                onChange={handleChange}
+                value={search}
+                inputProps={{ "aria-label": placeHolderText }}
+              />
+              {search && (
+                <div className={classes.clearIcon} onClick={clearSearch}>
+                  <CloseSharpIcon />
+                </div>
+              )}
+              {showSearchSelect && (
+                <div className={classes.searchResults}>
+                  {(onSearchIssue || onSearchBoard) && (
+                    <div style={{ marginBottom: "10px" }}>Loading...</div>
+                  )}
 
-                {isIssue ? (
-                  <>
-                    {searchedIssues && searchedIssues.length
-                      ? searchedIssues.map((issue) => (
-                          <Fragment key={issue.issueId}>
-                            <Link
-                              className={classes.searchResult}
-                              to={"/issues/" + issue.issueId}
-                            >
-                              <span className="issue-title">
-                                {" "}
-                                {issue.title}{" "}
-                              </span>
-                            </Link>
-                          </Fragment>
-                        ))
-                      : null}
-                    {!onSearchIssue &&
-                    searchedIssues &&
-                    searchedIssues.length === 0 ? (
-                      <div style={{ marginBottom: "10px" }}>
-                        No Issues Found!
-                      </div>
-                    ) : null}
-                  </>
-                ) : (
-                  <>
-                    {searchedBoards && searchedBoards.length
-                      ? searchedBoards.map((board) => (
-                          <Fragment key={board.boardId}>
-                            <Link
-                              className={classes.searchResult}
-                              to={"/boards/" + board.boardId}
-                            >
-                              <span className="board-title">
-                                {" "}
-                                {board.title}{" "}
-                              </span>
-                            </Link>
-                          </Fragment>
-                        ))
-                      : null}
-                    {!onSearchBoard &&
-                    searchedBoards &&
-                    searchedBoards.length === 0 ? (
-                      <div style={{ marginBottom: "10px" }}>
-                        No Boards Found!
-                      </div>
-                    ) : null}
-                  </>
-                )}
-              </div>
-            )}
-          </div>
+                  {isIssue ? (
+                    <>
+                      {searchedIssues && searchedIssues.length
+                        ? searchedIssues.map((issue) => (
+                            <Fragment key={issue.issueId}>
+                              <Link
+                                className={classes.searchResult}
+                                to={"/issues/" + issue.issueId}
+                              >
+                                <span className="issue-title">
+                                  {" "}
+                                  {issue.title}{" "}
+                                </span>
+                              </Link>
+                            </Fragment>
+                          ))
+                        : null}
+                      {!onSearchIssue &&
+                      searchedIssues &&
+                      searchedIssues.length === 0 ? (
+                        <div style={{ marginBottom: "10px" }}>
+                          No Issues Found!
+                        </div>
+                      ) : null}
+                    </>
+                  ) : (
+                    <>
+                      {searchedBoards && searchedBoards.length
+                        ? searchedBoards.map((board) => (
+                            <Fragment key={board.boardId}>
+                              <Link
+                                className={classes.searchResult}
+                                to={"/boards/" + board.boardId}
+                              >
+                                <span className="board-title">
+                                  {" "}
+                                  {board.title}{" "}
+                                </span>
+                              </Link>
+                            </Fragment>
+                          ))
+                        : null}
+                      {!onSearchBoard &&
+                      searchedBoards &&
+                      searchedBoards.length === 0 ? (
+                        <div style={{ marginBottom: "10px" }}>
+                          No Boards Found!
+                        </div>
+                      ) : null}
+                    </>
+                  )}
+                </div>
+              )}
+            </div>
+          ) : null}
         </Toolbar>
       </AppBar>
     </div>
