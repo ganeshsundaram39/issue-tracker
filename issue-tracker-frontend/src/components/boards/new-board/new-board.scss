@@ -1,0 +1,70 @@
+.new-board-container {
+  display: flex;
+  justify-content: center;
+  padding: 10% 0;
+  .new-board-card {
+    min-height: 80vh;
+    width: 100vh;
+    padding: 40px 25px;
+    h2 {
+      margin-bottom: 20px;
+      text-transform: uppercase;
+    }
+  }
+  .new-board-form-wrapper {
+    display: flex;
+    flex-direction: column-reverse;
+    .first {
+      flex-basis: 40%;
+    }
+    .second {
+      flex-basis: 60%;
+    }
+    .first {
+      display: flex;
+      justify-content: center;
+      svg {
+        width: 300px;
+        height: 300px;
+      }
+    }
+  }
+  .board-label {
+    margin-bottom: 10px;
+    color: rgba(0, 0, 0, 0.87);
+  }
+  .board-images {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: -5px;
+    .board-image {
+      cursor: pointer;
+      width: 100px;
+      height: 100px;
+      background-position: center;
+      background-size: cover;
+      margin: 5px;
+      border-radius: 6px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-repeat: no-repeat;
+      .check-icon {
+        color: white;
+        font-size: 3em;
+      }
+    }
+  }
+}
+
+// Large devices (desktops, 992px and up)
+@media (min-width: 992px) {
+  .new-board-container {
+    .new-board-card {
+      width: 80vw;
+    }
+    .new-board-form-wrapper {
+      flex-direction: row;
+    }
+  }
+}

@@ -1,0 +1,19 @@
+.my404 {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-color: var(--bgColor);
+
+  svg {
+    width: 300px;
+    height: 300px;
+
+  }
+
+  // button {
+  //   margin-top: 4%;
+  // }
+}

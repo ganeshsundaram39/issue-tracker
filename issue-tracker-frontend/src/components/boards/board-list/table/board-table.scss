@@ -1,0 +1,42 @@
+.single-board {
+  display: flex;
+  align-items: center;
+  height: 25px;
+  .board-title {
+    text-transform: capitalize;
+    display: inline-block;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-left: 7px;
+    &::first-letter {
+      text-transform: uppercase;
+    }
+  }
+  .icon {
+    font-size: 20px;
+  }
+
+  .label-style {
+    border: 1px solid #3f51b5;
+    padding: 1px 10px;
+    border-radius: 25px;
+    text-transform: lowercase;
+    font-size: 13px;
+    background: #3f51b5;
+    margin-left: 5px;
+    color: white;
+  }
+
+}
+
+.board-control {
+  display: flex;
+  justify-content: flex-end;
+  svg{
+    margin-right: 30px;
+  font-size: 25px;
+  cursor: pointer;
+
+  }
+}

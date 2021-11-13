@@ -1,0 +1,61 @@
+.auth {
+  width: 100vw;
+  min-height: 100vh;
+  padding: 10px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  background-color: var(--bgColor);
+  img.side-image {
+    width: 34vw;
+    display: none;
+  }
+
+  .card-style {
+    min-width: 275px;
+    min-height: 400px;
+    padding: 6%;
+  }
+  .login-section {
+    width: 90%;
+  }
+
+  .logo {
+    margin-bottom: 4%;
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+
+    .logo-title {
+      font-weight: 500;
+      color: #fff;
+    }
+
+    .logo-underline {
+      border: 2px solid #1ba94c;
+      width: 27px;
+    }
+  }
+}
+
+//  Medium devices (tablets, 768px and up)
+@media (min-width: 768px) {
+  .auth {
+    .login-section {
+      width: 50%;
+    }
+    img.side-image {
+      width: 34vw;
+      display: block;
+    }
+  }
+}
+
+// Large devices (desktops, 992px and up)
+@media (min-width: 992px) {
+  .auth {
+    .login-section {
+      width: 30%;
+    }
+  }
+}

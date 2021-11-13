@@ -1,0 +1,108 @@
+.new-issue-container {
+  display: flex;
+  justify-content: center;
+  padding: 10% 0;
+  .new-issue-card {
+    min-height: 80vh;
+    width: 100vh;
+    padding: 40px 25px;
+    h2 {
+      margin-bottom: 20px;
+      text-transform: uppercase;
+    }
+  }
+  .new-issue-form-wrapper {
+    display: flex;
+    flex-direction: column-reverse;
+    .first {
+      flex-basis: 40%;
+    }
+    .second {
+      flex-basis: 60%;
+    }
+    .first {
+      display: flex;
+      justify-content: center;
+      svg {
+        width: 300px;
+        height: 300px;
+      }
+    }
+  }
+  input[type="file"] {
+    visibility: hidden;
+  }
+
+  .wrapper-class {
+    padding: 1rem;
+    border: 1px solid #ccc;
+  }
+  .editor-class {
+    background-color: lightgray;
+    padding: 1rem;
+    border: 1px solid #ccc;
+  }
+  .toolbar-class {
+    border: 1px solid #ccc;
+  }
+  .screenshots {
+    margin: 15px 0;
+  }
+
+  .image-preview {
+    margin: 1rem 0;
+    display: flex;
+    flex-wrap: wrap;
+    .image-wrapper {
+      cursor: pointer;
+      height: 80px;
+      width: 110px;
+      margin-right: 10px;
+      margin-bottom: 5px;
+      svg {
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+  .image-wrapper {
+    position: relative;
+
+    .remove-image {
+      opacity: 0;
+      transition: opacity 0.2s ease-in;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        rgba(255, 255, 255, 0.6),
+        rgba(255, 255, 255, 0.6)
+      );
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      mat-icon {
+        font-size: 35px;
+        width: 35px;
+      }
+    }
+
+    &:hover .remove-image {
+      opacity: 1;
+    }
+  }
+}
+
+// Large devices (desktops, 992px and up)
+@media (min-width: 992px) {
+  .new-issue-container {
+    .new-issue-card {
+      width: 80vw;
+    }
+    .new-issue-form-wrapper {
+      flex-direction: row;
+    }
+  }
+}

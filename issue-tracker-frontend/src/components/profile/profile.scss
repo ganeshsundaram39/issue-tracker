@@ -1,0 +1,30 @@
+.profile-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20vh 0;
+  .card-style {
+    width: 90vw;
+    min-height: 70vh;
+    padding: 3% 4%;
+  }
+}
+
+//  Small devices (landscape phones, 576px and up)
+@media (min-width: 576px) {
+  .profile-wrapper {
+    .card-style {
+      width: 85vw;
+    }
+  }
+}
+
+//   Medium devices (tablets, 768px and up)
+@media (min-width: 768px) {
+  .profile-wrapper {
+    .card-style {
+      width: 80vw;
+    }
+  }
+}

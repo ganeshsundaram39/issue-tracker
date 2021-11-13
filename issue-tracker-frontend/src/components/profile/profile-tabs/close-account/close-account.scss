@@ -1,0 +1,32 @@
+.close-account {
+  p {
+    margin-bottom: 15px;
+    font-size: 15px;
+  }
+  .buttons {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-basis: 100%;
+  }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+  .close-account {
+    .buttons {
+      display: flex;
+      justify-content: center;
+    }
+  }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+  .close-account {
+    .buttons {
+      display: flex;
+      justify-content: flex-start;
+    }
+  }
+}
